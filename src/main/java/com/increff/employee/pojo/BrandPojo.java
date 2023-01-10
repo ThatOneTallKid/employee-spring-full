@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @Setter
-public class BrandPojo {
+public class BrandPojo extends AbstractPojo{
 
     // TODO about generation types
     @Id

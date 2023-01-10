@@ -15,7 +15,7 @@
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
-            <form class="" id="product-form">
+            <form class="form" id="product-form">
                 <div class="form-group">
                     <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
                     <div class="col-sm-10">
@@ -23,12 +23,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputBrandCategory" class="col-sm-2 col-form-label">Brand_Category</label>
+                    <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="brand_category" id="inputBrandCategory" placeholder="enter brand_category">
+                        <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="enter brand">
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="category" id="inputCategory" placeholder="enter category">
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-10">
@@ -62,37 +67,29 @@
             <table class="table table-striped" id="Product-table">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Barcode</th>
-                    <th scope="col">Brand_Category</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Mrp</th>
+                    <th scope="col">MRP</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>Romil Jain</td>
-                    <td>30</td>
-                    <td>30</td>
-                    <td>30</td>
+                    <td>Barcode1</td>
+                    <td>Name1</td>
+                    <td>20</td>
                     <td>Edit | Delete</td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>Rajul Jain</td>
-                    <td>31</td>
-                    <td>31</td>
-                    <td>31</td>
+                    <td>Barcode2</td>
+                    <td>Name2</td>
+                    <td>21</td>
                     <td>Edit | Delete</td>
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>Anaisha Jain</td>
-                    <td>7</td>
-                    <td>7</td>
-                    <td>7</td>
+                    <td>Barcode3</td>
+                    <td>Name3</td>
+                    <td>22</td>
                     <td>Edit | Delete</td>
                 </tr>
                 </tbody>
@@ -101,7 +98,7 @@
         </div>
     </div>
 
-    <!-- Brand Edit Modal -->
+    <!-- Product Edit Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="edit-product-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -116,13 +113,7 @@
                         <div class="form-group">
                             <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="barcode" placeholder="enter barcode">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputBrandCategory" class="col-sm-2 col-form-label">Brand_Category</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="brand_category" placeholder="enter brand_category">
+                                <input type="text" class="form-control" name="barcode" placeholder="enter barcode" readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -149,7 +140,7 @@
     </div>
 
 
-    <!-- Brand Edit Modal -->
+    <!-- Product Upload Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="upload-product-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -166,7 +157,7 @@
                         <input type="file" class="custom-file-input" id="productFile">
                         <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
                     </div>
-                    <a th:href="@{/sample/brand.tsv}" target="_blank">Download Sample</a>
+                    <a th:href="@{/sample/product.tsv}" target="_blank">Download Sample</a>
                     <br>
                     Rows: <span id="rowCount">0</span>,
                     Processed: <span id="processCount">0</span>,
