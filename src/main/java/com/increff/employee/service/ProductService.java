@@ -38,7 +38,7 @@ public class ProductService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id, ProductPojo p) throws ApiException {
-        ProductPojo px = getCheck(id);
+        ProductPojo px = get(id);
         if(checkBarcode(p.getBarcode()) == false) {
             px.setBarcode(p.getBarcode());
             px.setBrand_category(p.getBrand_category());

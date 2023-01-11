@@ -1,15 +1,9 @@
 package com.increff.employee.util;
 
 import com.increff.employee.dao.ProductDao;
-import com.increff.employee.model.data.BrandData;
-import com.increff.employee.model.data.InventoryData;
-import com.increff.employee.model.data.ProductData;
-import com.increff.employee.model.form.BrandForm;
-import com.increff.employee.model.form.InventoryForm;
-import com.increff.employee.model.form.ProductForm;
-import com.increff.employee.pojo.BrandPojo;
-import com.increff.employee.pojo.InventoryPojo;
-import com.increff.employee.pojo.ProductPojo;
+import com.increff.employee.model.data.*;
+import com.increff.employee.model.form.*;
+import com.increff.employee.pojo.*;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,14 +63,42 @@ public class ConvertUtil {
 
     public static InventoryData convertInventoryPojoToData(InventoryPojo i, String barcode) throws ApiException {
         InventoryData d = new InventoryData();
-        System.out.println("COnversion");
         d.setId(i.getId());
         d.setQty(i.getQty());
         d.setBarcode(barcode);
         return d;
     }
 
+    public static OrderItemPojo convertOrderItemFormToPojo(OrderItemForm form, int productId) {
+        OrderItemPojo o = new OrderItemPojo();
+        o.setSellingPrice(form.getSellingPrice());
+        o.setProductId(productId);
+        o.setQty(form.getQty());
+        return  o;
+    }
 
+    public static OrderItemData convertOrderItemPojoToData(OrderItemPojo p, String barcode){
+        OrderItemData d = new OrderItemData();
+        d.setId(p.getId());
+        d.setProductId(p.getProductId());
+        d.setBarcode(barcode);
+        d.setQty(p.getQty());
+        d.setOrderId(p.getOrderId());
+        d.setSellingPrice(p.getSellingPrice());
+        return d;
+    }
 
+    public static OrderPojo convertOrderFormToPojo(OrderForm f) {
+        OrderPojo o = new OrderPojo();
+        return  o;
+    }
+
+    public static OrderData convertOrderPojoToData(OrderPojo p) {
+        OrderData d = new OrderData();
+        d.setId(p.getId());
+
+        d.setOrderDate(p.getCreatedAt());
+        return d;
+    }
 
 }

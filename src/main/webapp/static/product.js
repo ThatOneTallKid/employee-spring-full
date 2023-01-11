@@ -1,7 +1,19 @@
+var brandData = {};
+
+function getBrandUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/brand";
+}
 
 function getProductUrl(){
    var baseUrl = $("meta[name=baseUrl]").attr("content")
    return baseUrl + "/api/product";
+}
+
+function getBrandOption() {
+        selectElement = document.querySelector('#inputBrand');
+        output = selectElement.options[selectElement.selectedIndex].value;
+        return output;
 }
 
 //BUTTON ACTIONS
@@ -197,6 +209,64 @@ function displayProduct(data){
    $('#edit-product-modal').modal('toggle');
 }
 
+function getBrandList()
+{
+    var url = getBrandUrl();
+       $.ajax({
+          url: url,
+          type: 'GET',
+          success: function(data) {
+                displayBrandOptions(data);
+          },
+          error: handleAjaxError
+       });
+}
+
+function displayBrandOptions(data)
+{
+    console.log(data);
+    for(var i in data)
+        {
+            var a = data[i].brand;
+            var b = data[i].category;
+            if(!brandData.hasOwnProperty(a))
+                Object.assign(brandData, {[a]:[]});
+            brandData[a].push(b);
+        }
+console.log(brandData);
+        var $elB = $("#inputBrand");
+
+        $elB.empty();
+
+        $.each(brandData, function(key,value) {
+                  $elB.append($("<option></option>")
+                     .attr("value", key).text(key));
+
+                });
+
+        displayCategoryOptions();
+
+}
+
+
+function displayCategoryOptions()
+{
+    var $elC = $("#inputCategory");
+
+    $elC.empty();
+
+    var a = getBrandOption();
+    console.log(brandData[a]);
+    console.log(brandData[a].length);
+    var len = brandData[a].length;
+    for(var i=0; i<len; i++)
+        {
+            $elC.append($("<option></option>")
+                .attr("value", brandData[a][i]).text(brandData[a][i]));
+
+        }
+}
+
 
 //INITIALIZATION CODE
 function init(){
@@ -207,7 +277,10 @@ function init(){
    $('#process-data').click(processData);
    $('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName)
+    $('#inputBrand').change(displayCategoryOptions);
 }
 
 $(document).ready(init);
 $(document).ready(getProductList);
+
+$(document).ready(getBrandList);

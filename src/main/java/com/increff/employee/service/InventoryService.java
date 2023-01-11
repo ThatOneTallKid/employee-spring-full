@@ -1,7 +1,6 @@
 package com.increff.employee.service;
 
 import com.increff.employee.dao.InventoryDao;
-import com.increff.employee.dao.ProductDao;
 import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +52,15 @@ public class InventoryService {
     public InventoryPojo CheckIdInventory(int id) throws ApiException {
         InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class, "InventoryPojo");
         return i;
+    }
+
+    @Transactional
+    public Integer getQtyById(int id) throws ApiException {
+        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class, "InventoryPojo");
+        if(ValidationUtil.checkNull(i)) {
+            throw new ApiException("The product is not in the inventory");
+        }
+        return i.getQty();
     }
 
 }

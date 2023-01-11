@@ -1,6 +1,8 @@
 package com.increff.employee.util;
 
+import com.increff.employee.model.form.OrderItemForm;
 import com.increff.employee.pojo.BrandPojo;
+import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.ProductPojo;
 
 public class StringUtil {
@@ -23,4 +25,7 @@ public class StringUtil {
         p.setName(StringUtil.toLowerCase(p.getName()));
     }
 
+    public static void normalizeOrderItemForm(OrderItemForm o) {
+        o.setBarcode(StringUtil.toLowerCase(o.getBarcode()));
+    }
 }
