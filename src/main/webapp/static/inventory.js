@@ -19,6 +19,7 @@ function addInventory(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+	        console.log(response)
 	   		getInventoryList();
 	   },
 	   error: handleAjaxError

@@ -96,7 +96,6 @@ public class ConvertUtil {
     public static OrderData convertOrderPojoToData(OrderPojo p) {
         OrderData d = new OrderData();
         d.setId(p.getId());
-
         d.setOrderDate(p.getCreatedAt());
         return d;
     }

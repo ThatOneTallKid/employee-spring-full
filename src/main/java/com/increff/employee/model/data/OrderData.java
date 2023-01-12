@@ -4,11 +4,12 @@ import com.increff.employee.model.form.OrderForm;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
 @Setter
 public class OrderData {
     private int id;
-    private Date orderDate;
+    private Timestamp orderDate;
 }
