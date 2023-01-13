@@ -35,12 +35,9 @@ public class OrderItemDto {
 
 
     public void add(List<OrderItemForm> forms) throws ApiException {
-        OrderPojo orderPojo = new OrderPojo();
-        System.out.println("addabove");
-        orderService.add(orderPojo);
-        System.out.println("addbelow");
         for (OrderItemForm f : forms) {
             StringUtil.normalizeOrderItemForm(f);
+
 
             // Check if Barcode exists in product db
             int id = productService.getIDByBarcode(f.getBarcode());
@@ -63,8 +60,24 @@ public class OrderItemDto {
                 throw new ApiException("Quantity cannot be Empty, zero or negative");
             }
 
-            // Check If there is suffuicient item in the inventory
+            // Check If there is sufficient item in the inventory
+            // edit th
             checkInventory(id, f);
+
+        }
+
+        OrderPojo orderPojo = new OrderPojo();
+        System.out.println("addabove");
+        orderService.add(orderPojo);
+        System.out.println("addbelow");
+
+        for (OrderItemForm f : forms) {
+
+            StringUtil.normalizeOrderItemForm(f);
+
+            // Check if Barcode exists in product db
+            int id = productService.getIDByBarcode(f.getBarcode());
+            ProductPojo p = productService.get(id);
 
             OrderItemPojo o = convertOrderItemFormToPojo(f, p.getId());
             o.setOrderId(orderPojo.getId());

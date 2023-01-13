@@ -211,40 +211,40 @@ function displayProduct(data){
 
 function getBrandList()
 {
-    var url = getBrandUrl();
-       $.ajax({
-          url: url,
-          type: 'GET',
-          success: function(data) {
-                displayBrandOptions(data);
-          },
-          error: handleAjaxError
-       });
+   var url = getBrandUrl();
+   $.ajax({
+      url: url,
+      type: 'GET',
+      success: function(data) {
+            displayBrandOptions(data);
+      },
+      error: handleAjaxError
+   });
 }
 
 function displayBrandOptions(data)
 {
-    console.log(data);
-    for(var i in data)
-        {
-            var a = data[i].brand;
-            var b = data[i].category;
-            if(!brandData.hasOwnProperty(a))
-                Object.assign(brandData, {[a]:[]});
-            brandData[a].push(b);
-        }
-console.log(brandData);
-        var $elB = $("#inputBrand");
+   console.log(data);
+   for(var i in data)
+      {
+         var a = data[i].brand;
+         var b = data[i].category;
+         if(!brandData.hasOwnProperty(a))
+               Object.assign(brandData, {[a]:[]});
+         brandData[a].push(b);
+      }
+   console.log(brandData);
+   var $elB = $("#inputBrand");
 
-        $elB.empty();
+   $elB.empty();
 
-        $.each(brandData, function(key,value) {
-                  $elB.append($("<option></option>")
-                     .attr("value", key).text(key));
+   $.each(brandData, function(key,value) {
+            $elB.append($("<option></option>")
+               .attr("value", key).text(key));
 
-                });
+            });
 
-        displayCategoryOptions();
+   displayCategoryOptions();
 
 }
 

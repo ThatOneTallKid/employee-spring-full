@@ -10,6 +10,11 @@ function getOrderUrl() {
     return baseUrl + "/api/order";
 }
 
+function getProductUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/product";
+}
+
 function resetForm() {
     var element = document.getElementById("order-item-form");
     element.reset()
@@ -22,13 +27,14 @@ function displayOrderItemList(data){
 
 	// logic is flawedshould be in a loop
 	for(var i in wholeOrder) {
-	var e = wholeOrder[i];
-	var row = '<tr>'
-		+ '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
-		+ '<td>'  + JSON.parse(wholeOrder[i]).qty + '</td>'
-		+ '<td>'  + JSON.parse(wholeOrder[i]).sellingPrice + '</td>'
-		+ '<td>'  + JSON.parse(wholeOrder[i]).sellingPrice + '</td>'
-		+ '</tr>';
+        var e = wholeOrder[i];  
+        var buttonHtml = '<button class="btn"><i class="fa-regular fa-circle-xmark"></i></button>';
+        var row = '<tr>'
+            + '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
+            + '<td>'  + JSON.parse(wholeOrder[i]).qty + '</td>'
+            + '<td>'  + JSON.parse(wholeOrder[i]).sellingPrice + '</td>'
+            + '<td>'  + buttonHtml + '</td>'
+            + '</tr>';
 
         $tbody.append(row);
     }
@@ -54,43 +60,110 @@ function changeQty(vars) {
     var barcode = vars[0];
     console.log(barcode);
     var qty = parseInt(vars[1]);
-    console.log(qty);
-    console.log(wholeOrder);
+    //console.log(qty);
+    // console.log(wholeOrder);
     for(i in wholeOrder) {
         let data = {}
-            var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
-            if(temp_barcode == barcode) {
-                var prev = parseInt(JSON.parse(wholeOrder[i]).qty);
-                var new_qty = prev + qty;
-                console.log(new_qty);
-                var string1 = new_qty.toString();
-                console.log(string1);
-                data["barcode"]=JSON.parse(wholeOrder[i]).barcode;
-                data["qty"]=string1;
-                data["sellingPrice"]=JSON.parse(wholeOrder[i]).sellingPrice;
-                console.log(data);
-                var new_data = JSON.stringify(data);
-                wholeOrder[i] = new_data;
-            }
+        var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
+        if(temp_barcode == barcode) {
+            var prev = parseInt(JSON.parse(wholeOrder[i]).qty);
+            var new_qty = prev + qty;
+            //console.log(new_qty);
+            //var string1 = new_qty.toString();
+            console.log(string1);
+            data["barcode"]=JSON.parse(wholeOrder[i]).barcode;
+            data["qty"]=string1;
+            data["sellingPrice"]=JSON.parse(wholeOrder[i]).sellingPrice;
+            console.log(data);
+            var new_data = JSON.stringify(data);
+            wholeOrder[i] = new_data;
+        }
     }
     console.log(wholeOrder);
+}
+
+function checkSellingPrice(vars) {
+    var barcode = vars[0];
+    var sp = vars[2];
+    for (i in wholeOrder) {
+        var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
+        if (temp_barcode == barcode) {
+            var cur_sp = parseInt(JSON.parse(wholeOrder[i]).sellingPrice);
+            if (cur_sp == sp) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+var barcode = []
+function getBarcode(data) {
+    for (i in data) {
+        var b = data[i].barcode;
+        barcode.push(b);
+    }
+    //console.log(barcode);
+}
+
+function getProductList() {
+    var url = getProductUrl();
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            barcode = []
+            getBarcode(data);
+            
+        },
+        error: handleAjaxError
+     });
+}
+
+function checkBarcode(data) {
+    //console.log(data);
+    for (i in barcode) {
+        if (barcode[i] == data) {
+            //console.log(barcode[i]);
+            //console.log(data);
+            
+            return true;
+        }
+
+    }
+    return false;
 }
 
 function addOrderItem(event) {
     var $form = $("#order-item-form");
     var json = toJson($form);
     var jsonObj = $.parseJSON(json);
-    if(checkOrderItemExist()) {
+    var barcode1 = $("#order-item-form input[name=barcode]").val();
+
+    if(checkOrderItemExist() ) {
         console.log("inside check");
         let vars = []
+        
         var barcode = $("#order-item-form input[name=barcode]").val();
         var qty = $("#order-item-form input[name=qty]").val();
+        var sp = $("#order-item-form input[name=sellingPrice]").val();
+        
         vars.push(barcode);
         vars.push(qty);
-        changeQty(vars);
+        vars.push(sp);
+        if (checkSellingPrice(vars) == false) {
+            alert("Selling price cannot be different");
+        }
+        else {
+            changeQty(vars);
+        }
     }
     else {
-        wholeOrder.push(json)
+        if (checkBarcode(barcode1) == false) {
+            alert("Barcode does not exist in the inventory");
+        }
+        else {
+            wholeOrder.push(json)
+        }
     }
     resetForm();
 
@@ -111,10 +184,12 @@ function getOrderItemList() {
 }
 
 function displayOrderList(data) {
+    
     var $tbody = $('#Order-table').find('tbody');
     $tbody.empty();
     for(var i in data){
-   		var e = data[i];
+        var e = data[i];
+        console.log(data[i].orderDate); 
    		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>'
    		var row = '<tr>'
    		+ '<td>' + e.id + '</td>'
@@ -131,7 +206,8 @@ function getOrderList() {
     $.ajax({
     	   url: url,
     	   type: 'GET',
-    	   success: function(data) {
+        success: function (data) {
+            console.log(data);
     	   		displayOrderList(data);
     	   },
     	   error: handleAjaxError
@@ -189,4 +265,5 @@ function init(){
 $(document).ready(init);
 $(document).ready(getOrderItemList)
 $(document).ready(getOrderList)
+$(document).ready(getProductList)
 //$(document).ready(getInventoryList);
