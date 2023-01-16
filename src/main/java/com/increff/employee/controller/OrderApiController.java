@@ -1,7 +1,6 @@
 package com.increff.employee.controller;
 
 import com.increff.employee.dto.OrderDto;
-import com.increff.employee.dto.OrderItemDto;
 import com.increff.employee.model.data.OrderData;
 import com.increff.employee.model.data.OrderItemData;
 import com.increff.employee.model.form.OrderItemForm;
@@ -18,27 +17,24 @@ import java.util.List;
 public class OrderApiController {
 
     @Autowired
-    private OrderItemDto orderItemDto;
-
-    @Autowired
-    private OrderDto orderDto;
+    private OrderDto orderItem;
 
     @ApiOperation(value = "Adds an Order Item")
     @RequestMapping(path = "/api/orderitem", method = RequestMethod.POST)
     public void add(@RequestBody List<OrderItemForm> form) throws ApiException {
-        orderItemDto.add(form);
+        orderItem.add(form);
     }
 
     @ApiOperation(value ="Gets all orders")
     @RequestMapping(path = "/api/order", method = RequestMethod.GET)
     public List<OrderData> getAll() throws ApiException {
-        return orderDto.getAll();
+        return orderItem.getAll();
     }
 
     @ApiOperation(value ="Gets all order items by order ID")
     @RequestMapping(path = "/api/orderview/{id}", method = RequestMethod.GET)
     public List<OrderItemData> getOrderByID(@PathVariable int id) throws ApiException {
-        List<OrderItemData> list = orderItemDto.getOrderByID(id);
+        List<OrderItemData> list = orderItem.getOrderByID(id);
         return list;
     }
 
