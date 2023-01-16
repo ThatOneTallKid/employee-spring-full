@@ -1,14 +1,16 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.helper.OrderItemFormValidator;
 import com.increff.employee.model.data.OrderItemData;
-import com.increff.employee.model.form.OrderForm;
 import com.increff.employee.model.form.OrderItemForm;
-import com.increff.employee.pojo.*;
+import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.pojo.OrderItemPojo;
+import com.increff.employee.pojo.OrderPojo;
+import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.*;
 import com.increff.employee.util.ConvertUtil;
 import com.increff.employee.util.StringUtil;
 import com.increff.employee.util.ValidationUtil;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,7 +35,6 @@ public class OrderItemDto {
     OrderService orderService;
 
 
-
     public void add(List<OrderItemForm> forms) throws ApiException {
         for (OrderItemForm f : forms) {
             StringUtil.normalizeOrderItemForm(f);
@@ -50,26 +51,15 @@ public class OrderItemDto {
             }
 
             // validate the form
-            if (StringUtil.isEmpty(f.getBarcode())) {
-                throw new ApiException("Barcode cannot be empty");
-            }
-            if (f.getSellingPrice() == 0) {
-                throw new ApiException("Selling price cannot be Empty or Zero");
-            }
-            if (f.getQty() <= 0) {
-                throw new ApiException("Quantity cannot be Empty, zero or negative");
-            }
+            OrderItemFormValidator.validate(f);
 
             // Check If there is sufficient item in the inventory
             // edit th
             checkInventory(id, f);
-
         }
 
         OrderPojo orderPojo = new OrderPojo();
-        System.out.println("addabove");
         orderService.add(orderPojo);
-        System.out.println("addbelow");
 
         for (OrderItemForm f : forms) {
 
@@ -85,8 +75,7 @@ public class OrderItemDto {
             OrderItemPojo checkExist = orderItemService.getOrderItemByOrderIdProductId(o.getOrderId(), o.getProductId());
             if (ValidationUtil.checkNull(checkExist)) {
                 reduceInventory(o, id, f);
-            }
-            else {
+            } else {
                 f.setQty(f.getQty() + checkExist.getQty());
                 update(checkExist.getId(), f);
             }
@@ -96,20 +85,33 @@ public class OrderItemDto {
     public OrderItemData get(int id) throws ApiException {
         OrderItemPojo o = orderItemService.get(id);
         ProductPojo p = productService.get(o.getProductId());
-        return ConvertUtil.convertOrderItemPojoToData(o,p.getBarcode());
+        return ConvertUtil.convertOrderItemPojoToData(o, p.getBarcode());
     }
 
     public List<OrderItemData> getAll() throws ApiException {
         List<OrderItemPojo> list = orderItemService.getAll();
         List<OrderItemData> list2 = new ArrayList<>();
-        for(OrderItemPojo o : list) {
+        for (OrderItemPojo o : list) {
             ProductPojo px = productService.get(o.getProductId());
             list2.add(ConvertUtil.convertOrderItemPojoToData(o, px.getBarcode()));
         }
         return list2;
     }
 
-    public void update(int id, OrderItemForm form) throws ApiException{
+    public List<OrderItemData> getOrderByID(int id) throws ApiException {
+        List<OrderItemPojo> list = orderItemService.getOrderItemByOrderItem(id);
+        List<OrderItemData> list2 = new ArrayList<>();
+        for (OrderItemPojo o : list) {
+            ProductPojo px = productService.get(o.getProductId());
+            list2.add(ConvertUtil.convertOrderItemPojoToData(o, px.getBarcode()));
+        }
+        return list2;
+    }
+
+    public void update(int id, OrderItemForm form) throws ApiException {
+        if(form.getQty() <= 0) {
+            throw new ApiException("Quantity cannot be zero or negative");
+        }
         StringUtil.normalizeOrderItemForm(form);
         int pid = productService.getIDByBarcode(form.getBarcode());
         ProductPojo p = productService.get(pid);
@@ -118,10 +120,10 @@ public class OrderItemDto {
         int prev_qty = inventoryService.getQtyById(pid);
         int cur_qty = orderItemService.get(id).getQty();
         int new_qty = prev_qty + cur_qty;
-        if(new_qty < form.getQty()) {
+        if (new_qty < form.getQty()) {
             throw new ApiException("Not enough quantity present in the inventory");
         }
-        int rem_qty = new_qty- form.getQty();
+        int rem_qty = new_qty - form.getQty();
         InventoryPojo i = new InventoryPojo();
         i.setQty(rem_qty);
         OrderItemPojo o = convertOrderItemFormToPojo(form, p.getId());
@@ -130,7 +132,7 @@ public class OrderItemDto {
         inventoryService.update(pid, i);
     }
 
-    private void reduceInventory(OrderItemPojo o,  int id, OrderItemForm f) throws ApiException {
+    private void reduceInventory(OrderItemPojo o, int id, OrderItemForm f) throws ApiException {
         int prev_qty = inventoryService.getQtyById(id);
         int remaining_qty = prev_qty - f.getQty();
         InventoryPojo i = new InventoryPojo();

@@ -35,6 +35,12 @@ public class OrderItemApiController {
     public List<OrderItemData> getAll() throws ApiException {
         return orderItemDto.getAll();
     }
+    @ApiOperation(value ="Gets all order items")
+    @RequestMapping(path = "/api/orderview/{id}", method = RequestMethod.GET)
+    public List<OrderItemData> getOrderByID(@PathVariable int id) throws ApiException {
+        List<OrderItemData> list = orderItemDto.getOrderByID(id);
+        return list;
+    }
 
     @ApiOperation(value = "Updates a brand")
     @RequestMapping(path = "/api/orderitem/{id}", method = RequestMethod.PUT)

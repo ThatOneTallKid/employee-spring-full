@@ -41,7 +41,7 @@ public class ProductService {
         ProductPojo px = get(id);
         if(checkBarcode(p.getBarcode()) == false) {
             px.setBarcode(p.getBarcode());
-            px.setBrand_category(p.getBrand_category());
+            px.setBrandCategory(p.getBrandCategory());
             px.setName(p.getName());
             px.setMrp(p.getMrp());
             productDao.update();
@@ -81,7 +81,6 @@ public class ProductService {
     @Transactional
     public String getBarcodeByID(int id) throws ApiException {
         ProductPojo p = productDao.selectByID(id, ProductPojo.class, "ProductPojo");
-        System.out.println(p.getId());
         if(ValidationUtil.checkNull(p)) {
             throw new ApiException("Barcode Not found in Product Database!");
         }

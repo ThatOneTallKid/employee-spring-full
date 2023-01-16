@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class OrderItemDao extends AbstractDao{
@@ -38,6 +39,12 @@ public class OrderItemDao extends AbstractDao{
         TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
         query.setParameter("orderId", orderId);
         return getSingle(query);
+    }
+
+    public List<OrderItemPojo> selectOrderByOrderId(int orderId) {
+        TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
+        query.setParameter("orderId", orderId);
+        return query.getResultList();
     }
 
     public OrderItemPojo selectByProductId(int productId) {

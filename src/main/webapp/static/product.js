@@ -16,6 +16,11 @@ function getBrandOption() {
         return output;
 }
 
+function resetForm() {
+   var element = document.getElementById("product-form");
+   element.reset()
+}
+
 //BUTTON ACTIONS
 function addProduct(event){
    //Set the values to update
@@ -30,8 +35,10 @@ function addProduct(event){
       headers: {
            'Content-Type': 'application/json'
        },
-      success: function(response) {
-             getProductList();
+      success: function (response) {
+         toastr.success("Product Added Successfully", "Success : ");
+         resetForm();
+         getProductList();
       },
       error: handleAjaxError
    });
@@ -58,8 +65,9 @@ function updateProduct(event){
       headers: {
            'Content-Type': 'application/json'
        },
-      success: function(response) {
-             getProductList();
+      success: function (response) {
+         toastr.success("Product Updated Successfully", "Success : ");
+         getProductList();
       },
       error: handleAjaxError
    });

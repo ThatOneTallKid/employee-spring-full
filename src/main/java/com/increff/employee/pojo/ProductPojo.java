@@ -22,7 +22,7 @@ public class ProductPojo extends AbstractPojo{
     private String barcode;
     //TODO use camelCase
     @NotNull
-    private int brand_category;
+    private int brandCategory;
     @NotNull
     private String name;
     @NotNull

@@ -1,5 +1,6 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.helper.ProductFormValidator;
 import com.increff.employee.model.data.ProductData;
 import com.increff.employee.model.form.ProductForm;
 import com.increff.employee.pojo.BrandPojo;
@@ -28,25 +29,11 @@ public class ProductDto {
 
 
     public void add(ProductForm f) throws ApiException{
+        ProductFormValidator.validate(f);
         BrandPojo b  = brandService.getBrandPojofromBrandCategory(f.getBrand(),  f.getCategory());
         int b_id = b.getId();
         ProductPojo p = convertProductFormToPojo(f, b_id);
         StringUtil.normalizeProduct(p);
-        if(StringUtil.isEmpty(p.getBarcode())){
-            throw  new ApiException("Barcode cannot be empty");
-        }
-        if(p.getBrand_category() == 0){
-            throw  new ApiException("Brand_Category cannot be empty");
-        }
-        if(StringUtil.isEmpty(p.getName())){
-            throw  new ApiException("Name cannot be empty");
-        }
-        if(p.getMrp() == 0.0d){
-            throw  new ApiException("Mrp cannot be empty");
-        }
-        if (p.getMrp() < 0){
-            throw new ApiException("Mrp cannot be negative.");
-        }
         productService.add(p);
     }
 
@@ -60,13 +47,14 @@ public class ProductDto {
         List<ProductPojo> list = productService.getAll();
         List<ProductData> list2 = new ArrayList<>();
         for(ProductPojo b : list) {
-            BrandPojo bx= brandService.get(b.getBrand_category());
+            BrandPojo bx= brandService.get(b.getBrandCategory());
             list2.add(convertProductPojoToData(b, bx));
         }
         return list2;
     }
 
     public void update(int id, ProductForm f) throws ApiException {
+        ProductFormValidator.validate(f);
         ProductPojo p = convertProductFormToPojo(f, id);
         StringUtil.normalizeProduct(p);
         productService.update(id,p);

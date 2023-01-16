@@ -60,12 +60,8 @@ public class OrderItemService {
     }
 
     @Transactional
-    public OrderItemPojo getOrderItemByProductId(int productId) throws ApiException {
-        OrderItemPojo o = orderItemDao.selectByProductId(productId);
-        if(ValidationUtil.checkNull(o)){
-            throw new ApiException("Order Item with given productID does not exists.;");
-        }
-        return o;
+    public List<OrderItemPojo> getOrderItemByOrderItem(int orderId) throws ApiException {
+        return orderItemDao.selectOrderByOrderId(orderId);
     }
 
     @Transactional

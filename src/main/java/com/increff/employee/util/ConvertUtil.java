@@ -8,13 +8,9 @@ import com.increff.employee.service.ApiException;
 import com.increff.employee.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class ConvertUtil {
 
@@ -44,7 +40,7 @@ public class ConvertUtil {
         ProductPojo p = new ProductPojo();
         p.setName(f.getName());
         p.setBarcode(f.getBarcode());
-        p.setBrand_category(id);
+        p.setBrandCategory(id);
         p.setMrp(f.getMrp());
         return p;
     }
@@ -103,7 +99,6 @@ public class ConvertUtil {
         OrderData d = new OrderData();
         d.setId(p.getId());
         Timestamp timestamp = p.getCreatedAt();
-
         d.setOrderDate(LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHoursMinutes(5, 30)));
         return d;
     }

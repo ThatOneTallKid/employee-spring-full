@@ -1,6 +1,6 @@
 package com.increff.employee.dto;
 
-import com.increff.employee.dao.BrandDao;
+import com.increff.employee.helper.BrandFormValidator;
 import com.increff.employee.model.data.BrandData;
 import com.increff.employee.model.form.BrandForm;
 import com.increff.employee.pojo.BrandPojo;
@@ -14,7 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.increff.employee.util.ConvertUtil.*;
+import static com.increff.employee.util.ConvertUtil.convertBrandFormToPojo;
+import static com.increff.employee.util.ConvertUtil.convertBrandPojoToData;
 
 @Configuration
 public class BrandDto {
@@ -22,9 +23,7 @@ public class BrandDto {
     BrandService brandService;
 
     public void add(BrandForm f) throws ApiException {
-        if (StringUtil.isEmpty(f.getCategory()) || StringUtil.isEmpty((f.getBrand()))) {
-            throw  new ApiException("Brand or Category cannot be empty");
-        }
+        BrandFormValidator.validate(f);
         BrandPojo b = convertBrandFormToPojo(f);
         StringUtil.normalizeBrand(b);
         if(ValidationUtil.checkNull(brandService.getBrandPojofromBrandCategory(b.getBrand(), b.getCategory()))){
@@ -50,6 +49,7 @@ public class BrandDto {
     }
 
     public void update(int id, BrandForm f) throws ApiException {
+        BrandFormValidator.validate(f);
         BrandPojo p = convertBrandFormToPojo(f);
         StringUtil.normalizeBrand(p);
         brandService.update(id,p);

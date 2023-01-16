@@ -15,11 +15,20 @@ function getProductUrl() {
     return baseUrl + "/api/product";
 }
 
+function OrderViewUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/orderview";
+}
+
 function resetForm() {
     var element = document.getElementById("order-item-form");
     element.reset()
 }
 
+function deleteOrderItem(id) {
+    wholeOrder.splice(id, 1);
+    displayOrderItemList(wholeOrder);
+} 
 
 function displayOrderItemList(data){
 	var $tbody = $('#order-item-table').find('tbody');
@@ -28,7 +37,7 @@ function displayOrderItemList(data){
 	// logic is flawedshould be in a loop
 	for(var i in wholeOrder) {
         var e = wholeOrder[i];  
-        var buttonHtml = '<button class="btn"><i class="fa-regular fa-circle-xmark"></i></button>';
+        var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn"><i class="fa-regular fa-circle-xmark"></i></button>';
         var row = '<tr>'
             + '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
             + '<td>'  + JSON.parse(wholeOrder[i]).qty + '</td>'
@@ -69,7 +78,7 @@ function changeQty(vars) {
             var prev = parseInt(JSON.parse(wholeOrder[i]).qty);
             var new_qty = prev + qty;
             //console.log(new_qty);
-            //var string1 = new_qty.toString();
+            var string1 = new_qty.toString();
             console.log(string1);
             data["barcode"]=JSON.parse(wholeOrder[i]).barcode;
             data["qty"]=string1;
@@ -138,36 +147,45 @@ function addOrderItem(event) {
     var json = toJson($form);
     var jsonObj = $.parseJSON(json);
     var barcode1 = $("#order-item-form input[name=barcode]").val();
+    var qty = $("#order-item-form input[name=qty]").val();
+    var sp = $("#order-item-form input[name=sellingPrice]").val();
 
-    if(checkOrderItemExist() ) {
-        console.log("inside check");
-        let vars = []
-        
-        var barcode = $("#order-item-form input[name=barcode]").val();
-        var qty = $("#order-item-form input[name=qty]").val();
-        var sp = $("#order-item-form input[name=sellingPrice]").val();
-        
-        vars.push(barcode);
-        vars.push(qty);
-        vars.push(sp);
-        if (checkSellingPrice(vars) == false) {
-            alert("Selling price cannot be different");
-        }
-        else {
-            changeQty(vars);
-        }
+    if (sp <= 0) {
+        alert("Price cannot be negative or zero")
+    } else if (qty <= 0) {
+        alert("Quantity cannot be negative or zero")
     }
     else {
-        if (checkBarcode(barcode1) == false) {
-            alert("Barcode does not exist in the inventory");
+        if (checkOrderItemExist()) {
+            console.log("inside check");
+            let vars = []
+        
+            var barcode = $("#order-item-form input[name=barcode]").val();
+            var qty = $("#order-item-form input[name=qty]").val();
+            var sp = $("#order-item-form input[name=sellingPrice]").val();
+        
+            vars.push(barcode);
+            vars.push(qty);
+            vars.push(sp);
+            if (checkSellingPrice(vars) == false) {
+                alert("Selling price cannot be different");
+            }
+            else {
+                changeQty(vars);
+            }
         }
         else {
-            wholeOrder.push(json)
+            if (checkBarcode(barcode1) == false) {
+                alert("Barcode does not exist in the Inventory");
+            }
+            else {
+                wholeOrder.push(json)
+            }
         }
-    }
-    resetForm();
+        resetForm();
 
-    displayOrderItemList(wholeOrder)
+        displayOrderItemList(wholeOrder)
+    }
 
 }
 
@@ -183,14 +201,46 @@ function getOrderItemList() {
     console.log(jsonObj);
 }
 
+function displayOrderView(data) {
+    console.log(data);
+    var $tbody = $('#order-view-table').find('tbody');
+    $tbody.empty();
+    for(var i in data){
+        var e = data[i];
+   		var row = '<tr>'
+   		+ '<td>' + e.barcode + '</td>'
+    	+ '<td>'  + e.qty + '</td>'
+    	+ '<td>'  + e.sellingPrice + '</td>'
+   		+ '</tr>';
+   		$tbody.append(row);
+    }
+}
+
+function getOrderInfoForView(id) {
+    var url = OrderViewUrl() + "/" + id;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            displayOrderView(data);
+            
+        },
+        error: handleAjaxError
+     });
+}
+
+function OrderView(id) {
+    $('#order-view-modal').modal('toggle');
+    getOrderInfoForView(id);
+}
+
 function displayOrderList(data) {
     
     var $tbody = $('#Order-table').find('tbody');
     $tbody.empty();
     for(var i in data){
         var e = data[i];
-        console.log(data[i].orderDate); 
-   		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>'
+   		var buttonHtml = ' <button  onclick="OrderView(' + e.id + ')">view</button>'
    		var row = '<tr>'
    		+ '<td>' + e.id + '</td>'
     	+ '<td>'  + e.orderDate + '</td>'
@@ -228,23 +278,30 @@ function arrayToJson() {
 
 function placeOrder() {
     var url = getOrderItemUrl();
-
-    var jsonObj = arrayToJson();
-    console.log(jsonObj);
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: jsonObj,
-        headers: {
-       	 'Content-Type': 'application/json'
-        },
-        success: function(response) {
-            $('#add-order-item-modal').modal('toggle');
-            getOrderList();
-            wholeOrder = []
-        },
-        error: handleAjaxError
-    });
+    let len = wholeOrder.length;
+    console.log(len);
+    if (len == 0) {
+        alert("Cart empty! Order cannot be placed.");
+    }
+    else {
+        var jsonObj = arrayToJson();
+        console.log(jsonObj);
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: jsonObj,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                $('#add-order-item-modal').modal('toggle');
+                toastr.success("Order Placed Successfully", "Success : ");
+                getOrderList();
+                wholeOrder = []
+            },
+            error: handleAjaxError
+        });
+    }
 
     return false;
 }

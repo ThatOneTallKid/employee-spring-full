@@ -1,4 +1,3 @@
-
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
@@ -15,7 +14,8 @@ function toJson($form){
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-	alert(response.message);
+	//alert(response.message);
+    toastr.error(response.message, "Error : ");
 }
 
 function readFileData(file, callback){

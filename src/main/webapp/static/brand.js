@@ -4,6 +4,11 @@ function getBrandUrl(){
 	return baseUrl + "/api/brand";
 }
 
+function resetForm() {
+    var element = document.getElementById("brand-form");
+    element.reset()
+}
+
 //BUTTON ACTIONS
 function addBrand(event){
 	//Set the values to update
@@ -18,7 +23,9 @@ function addBrand(event){
 	   headers: {
        	'Content-Type': 'application/json'
        },
-	   success: function(response) {
+		success: function (response) {
+			resetForm();
+			toastr.success("Brand Added Successfully", "Success : ");
 	   		getBrandList();
 	   },
 	   error: handleAjaxError
@@ -44,7 +51,8 @@ function updateBrand(event){
 	   headers: {
        	'Content-Type': 'application/json'
        },
-	   success: function(response) {
+		success: function (response) {
+			toastr.success("Brand Updated Successfully", "Success : ");
 	   		getBrandList();
 	   },
 	   error: handleAjaxError
@@ -146,7 +154,8 @@ function displayEditBrand(id){
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayBrand(data);
+		   displayBrand(data);
+		   toastr.success("Brand Added Successfully", "Success : ");
 	   },
 	   error: handleAjaxError
 	});

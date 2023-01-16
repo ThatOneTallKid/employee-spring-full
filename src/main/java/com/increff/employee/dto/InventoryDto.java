@@ -1,5 +1,6 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.helper.InventoryFormValidator;
 import com.increff.employee.model.data.InventoryData;
 import com.increff.employee.model.form.InventoryForm;
 import com.increff.employee.pojo.InventoryPojo;
@@ -25,11 +26,9 @@ public class InventoryDto {
     ProductService productService;
 
     public void add(InventoryForm f) throws ApiException {
+        InventoryFormValidator.validate(f);
         int p_id = productService.getIDByBarcode(f.getBarcode());
         InventoryPojo b = convertInventoryFormToPojo(f, p_id);
-        if(b.getQty() == 0){
-            throw new ApiException("Quantity cannot be Empty");
-        }
         inventoryService.add(b);
     }
 
@@ -50,6 +49,7 @@ public class InventoryDto {
     }
 
     public void update(int id, InventoryForm f) throws ApiException {
+        InventoryFormValidator.validate(f);
         int p_id = productService.getIDByBarcode(f.getBarcode());
         InventoryPojo p = convertInventoryFormToPojo(f,p_id);
         inventoryService.update(id,p);

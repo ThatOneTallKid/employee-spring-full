@@ -3,6 +3,11 @@ function getInventoryUrl(){
 	return baseUrl + "/api/inventory";
 }
 
+function resetForm() {
+    var element = document.getElementById("inventory-form");
+    element.reset()
+}
+
 //BUTTON ACTIONS
 function addInventory(event){
 	//Set the values to update
@@ -18,7 +23,8 @@ function addInventory(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
-	        console.log(response)
+		   resetForm();
+		   toastr.success("Inventory Added Successfully", "Success : ");
 	   		getInventoryList();
 	   },
 	   error: handleAjaxError
@@ -32,11 +38,13 @@ function updateInventory(event){
 	//Get the ID
 	var id = $("#inventory-edit-form input[name=id]").val();
 	var url = getInventoryUrl() + "/" + id;
-
+	
 	//Set the values to update
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
-    console.log(json)
+
+	var qty = $("#inventory-edit-form input[name=qty]").val();
+	if()
 	$.ajax({
 	   url: url,
 	   type: 'PUT',
@@ -44,7 +52,8 @@ function updateInventory(event){
 	   headers: {
        	'Content-Type': 'application/json'
        },
-	   success: function(response) {
+		success: function (response) {
+			toastr.success("Inventory updated Successfully", "Success : ");
 	   		getInventoryList();
 	   },
 	   error: handleAjaxError
