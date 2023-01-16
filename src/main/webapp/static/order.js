@@ -209,6 +209,7 @@ function displayOrderView(data) {
         var e = data[i];
    		var row = '<tr>'
    		+ '<td>' + e.barcode + '</td>'
+   		+ '<td>' + e.name + '</td>'
     	+ '<td>'  + e.qty + '</td>'
     	+ '<td>'  + e.sellingPrice + '</td>'
    		+ '</tr>';

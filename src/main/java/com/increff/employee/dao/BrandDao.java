@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 @Repository
 public class BrandDao extends AbstractDao{
 
+    // check final
     private static String SELECT_BY_BRAND_CATEGORY = "select b from BrandPojo b where brand=:brand and " +
             "category=:category";
 
@@ -23,7 +24,7 @@ public class BrandDao extends AbstractDao{
         em.persist(b);
     }
 
-    public BrandPojo selectByBarcodeCategory(String brand, String category) {
+    public BrandPojo selectByBrandCategory(String brand, String category) {
         TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND_CATEGORY, BrandPojo.class);
         query.setParameter("brand", brand);
         query.setParameter("category", category);

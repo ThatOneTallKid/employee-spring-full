@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BrandService {
@@ -23,8 +24,8 @@ public class BrandService {
 
     @Transactional(rollbackOn = ApiException.class)
     public BrandPojo get(int id) throws ApiException {
-        BrandPojo p = dao.selectByID(id, BrandPojo.class, "BrandPojo");
-        if (ValidationUtil.checkNull(p)) {
+        BrandPojo p = dao.selectByID(id, BrandPojo.class);
+        if (Objects.isNull(p)) {
             throw new ApiException("Brand with given ID does not exit, id: " + id);
         }
         return p;
@@ -32,7 +33,7 @@ public class BrandService {
 
     @Transactional
     public List<BrandPojo> getAll() {
-        return dao.selectALL(BrandPojo.class, "BrandPojo");
+        return dao.selectALL(BrandPojo.class);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -48,8 +49,8 @@ public class BrandService {
 
     @Transactional
     public Boolean checkBrandExists(String brand, String category)  {
-        BrandPojo b = dao.selectByBarcodeCategory(brand, category);
-        if(ValidationUtil.checkNull(b)) {
+        BrandPojo b = dao.selectByBrandCategory(brand, category);
+        if(Objects.isNull(b)) {
             return false;
         }
         return true;
@@ -57,7 +58,7 @@ public class BrandService {
 
     @Transactional
     public BrandPojo getBrandPojofromBrandCategory(String brand, String category) throws ApiException {
-        BrandPojo b = dao.selectByBarcodeCategory(brand, category);
+        BrandPojo b = dao.selectByBrandCategory(brand, category);
         return b;
     }
 }

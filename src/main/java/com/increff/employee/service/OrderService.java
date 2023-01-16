@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderService {
@@ -24,8 +25,8 @@ public class OrderService {
 
     @Transactional(rollbackOn = ApiException.class)
     public OrderPojo get(int id) throws ApiException {
-        OrderPojo o = orderDao.selectByID(id, OrderPojo.class, "OrderPojo");
-        if(ValidationUtil.checkNull(o)) {
+        OrderPojo o = orderDao.selectByID(id, OrderPojo.class);
+        if(Objects.isNull(o)) {
             throw new ApiException("Order does not exists");
         }
         return o;
@@ -33,7 +34,7 @@ public class OrderService {
 
     @Transactional(rollbackOn = ApiException.class)
     public List<OrderPojo> getAll() {
-        return orderDao.selectALL(OrderPojo.class, "OrderPojo");
+        return orderDao.selectALL(OrderPojo.class);
     }
 
 

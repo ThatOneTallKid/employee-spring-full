@@ -1,8 +1,10 @@
 package com.increff.employee.controller;
 
 import com.increff.employee.dto.OrderDto;
+import com.increff.employee.dto.OrderItemDto;
 import com.increff.employee.model.data.OrderData;
-import com.increff.employee.model.form.OrderForm;
+import com.increff.employee.model.data.OrderItemData;
+import com.increff.employee.model.form.OrderItemForm;
 import com.increff.employee.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,24 +16,30 @@ import java.util.List;
 @Api
 @RestController
 public class OrderApiController {
+
     @Autowired
-    OrderDto orderDto;
+    private OrderItemDto orderItemDto;
+
+    @Autowired
+    private OrderDto orderDto;
 
     @ApiOperation(value = "Adds an Order Item")
-    @RequestMapping(path = "/api/order", method = RequestMethod.POST)
-    public void add(@RequestBody OrderForm form) throws ApiException {
-        orderDto.add(form);
+    @RequestMapping(path = "/api/orderitem", method = RequestMethod.POST)
+    public void add(@RequestBody List<OrderItemForm> form) throws ApiException {
+        orderItemDto.add(form);
     }
 
-    @ApiOperation(value = "Gets a Order Item by ID")
-    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.GET)
-    public OrderData get(@PathVariable int id) throws ApiException {
-        return orderDto.get(id);
-    }
-
-    @ApiOperation(value ="Gets all order items")
+    @ApiOperation(value ="Gets all orders")
     @RequestMapping(path = "/api/order", method = RequestMethod.GET)
     public List<OrderData> getAll() throws ApiException {
         return orderDto.getAll();
     }
+
+    @ApiOperation(value ="Gets all order items by order ID")
+    @RequestMapping(path = "/api/orderview/{id}", method = RequestMethod.GET)
+    public List<OrderItemData> getOrderByID(@PathVariable int id) throws ApiException {
+        List<OrderItemData> list = orderItemDto.getOrderByID(id);
+        return list;
+    }
+
 }

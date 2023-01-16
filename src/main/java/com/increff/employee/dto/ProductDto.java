@@ -1,6 +1,6 @@
 package com.increff.employee.dto;
 
-import com.increff.employee.helper.ProductFormValidator;
+import com.increff.employee.helper.ProductFormHelper;
 import com.increff.employee.model.data.ProductData;
 import com.increff.employee.model.form.ProductForm;
 import com.increff.employee.pojo.BrandPojo;
@@ -9,14 +9,16 @@ import com.increff.employee.service.ApiException;
 import com.increff.employee.service.BrandService;
 import com.increff.employee.service.ProductService;
 import com.increff.employee.util.StringUtil;
+import com.increff.employee.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static com.increff.employee.util.ConvertUtil.convertProductFormToPojo;
-import static com.increff.employee.util.ConvertUtil.convertProductPojoToData;
+import static com.increff.employee.helper.ProductFormHelper.*;
+
 
 @Configuration
 public class ProductDto {
@@ -29,11 +31,14 @@ public class ProductDto {
 
 
     public void add(ProductForm f) throws ApiException{
-        ProductFormValidator.validate(f);
+        ValidationUtil.validateForms(f);
+        // check null (get check brand )
         BrandPojo b  = brandService.getBrandPojofromBrandCategory(f.getBrand(),  f.getCategory());
-        int b_id = b.getId();
-        ProductPojo p = convertProductFormToPojo(f, b_id);
-        StringUtil.normalizeProduct(p);
+        if(Objects.isNull(b)) {
+            throw new ApiException("Brand and Category not Founc");
+        }
+        ProductPojo p = convertProductFormToPojo(f, b.getId());
+        normalizeProduct(p);
         productService.add(p);
     }
 
@@ -54,9 +59,9 @@ public class ProductDto {
     }
 
     public void update(int id, ProductForm f) throws ApiException {
-        ProductFormValidator.validate(f);
+        ValidationUtil.validateForms(f);
         ProductPojo p = convertProductFormToPojo(f, id);
-        StringUtil.normalizeProduct(p);
+        normalizeProduct(p);
         productService.update(id,p);
     }
 }

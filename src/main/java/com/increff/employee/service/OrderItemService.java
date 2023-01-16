@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderItemService {
@@ -16,22 +17,17 @@ public class OrderItemService {
     @Autowired
     private OrderItemDao orderItemDao;
 
-//    @Autowired
-//    private OrderService orderService;
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(OrderItemPojo o) throws ApiException {
-//        OrderPojo p = new OrderPojo();
-//        p = orderService.add(p);
-//        p.getId();
-//        o.setOrderId(p.getId());
+
         orderItemDao.insert(o);
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public OrderItemPojo get(int id) throws ApiException {
-        OrderItemPojo o = orderItemDao.selectByID(id, OrderItemPojo.class, "OrderItemPojo");
-        if(ValidationUtil.checkNull(o)){
+        OrderItemPojo o = orderItemDao.selectByID(id, OrderItemPojo.class);
+        if(Objects.isNull(o)){
             throw new ApiException("Order Item with given Id does not exists.;");
         }
         return o;
@@ -39,7 +35,7 @@ public class OrderItemService {
 
     @Transactional(rollbackOn = ApiException.class)
     public List<OrderItemPojo> getAll() {
-        return orderItemDao.selectALL(OrderItemPojo.class, "OrderItemPojo");
+        return orderItemDao.selectALL(OrderItemPojo.class);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -53,7 +49,7 @@ public class OrderItemService {
     @Transactional
     public OrderItemPojo getOrderItemByOrderId(int orderId) throws ApiException {
         OrderItemPojo o = orderItemDao.selectByOrderId(orderId);
-        if(ValidationUtil.checkNull(o)){
+        if(Objects.isNull(o)){
             throw new ApiException("Order Item with given orderId does not exists.;");
         }
         return o;

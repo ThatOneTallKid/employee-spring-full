@@ -1,21 +1,21 @@
 package com.increff.employee.dto;
 
-import com.increff.employee.helper.BrandFormValidator;
+import com.increff.employee.helper.BrandFormHelper;
 import com.increff.employee.model.data.BrandData;
 import com.increff.employee.model.form.BrandForm;
 import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.BrandService;
-import com.increff.employee.util.StringUtil;
 import com.increff.employee.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static com.increff.employee.util.ConvertUtil.convertBrandFormToPojo;
-import static com.increff.employee.util.ConvertUtil.convertBrandPojoToData;
+import static com.increff.employee.helper.BrandFormHelper.*;
+
 
 @Configuration
 public class BrandDto {
@@ -23,20 +23,19 @@ public class BrandDto {
     BrandService brandService;
 
     public void add(BrandForm f) throws ApiException {
-        BrandFormValidator.validate(f);
+        ValidationUtil.validateForms(f);
         BrandPojo b = convertBrandFormToPojo(f);
-        StringUtil.normalizeBrand(b);
-        if(ValidationUtil.checkNull(brandService.getBrandPojofromBrandCategory(b.getBrand(), b.getCategory()))){
+        normalizeBrand(b);
+        if(Objects.isNull(brandService.getBrandPojofromBrandCategory(b.getBrand(), b.getCategory()))){
             brandService.add(b);
         }
         else {
-            throw new ApiException("Item already exists !");
+            throw new ApiException("Brand and Category already exists !");
         }
     }
 
     public BrandData get(int id) throws ApiException{
-        BrandPojo p = brandService.get(id);
-        return convertBrandPojoToData(p);
+        return convertBrandPojoToData(brandService.get(id));
     }
 
     public List<BrandData> getAll() {
@@ -49,9 +48,9 @@ public class BrandDto {
     }
 
     public void update(int id, BrandForm f) throws ApiException {
-        BrandFormValidator.validate(f);
+        ValidationUtil.validateForms(f);
         BrandPojo p = convertBrandFormToPojo(f);
-        StringUtil.normalizeBrand(p);
+        normalizeBrand(p);
         brandService.update(id,p);
     }
 

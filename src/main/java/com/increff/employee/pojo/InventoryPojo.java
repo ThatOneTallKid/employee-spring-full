@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 
 @Entity
 @Getter
@@ -17,6 +18,7 @@ public class InventoryPojo extends AbstractPojo {
     private int id;
 
     @NotNull
+    @Min(value = 1)
     private int qty;
 
 }

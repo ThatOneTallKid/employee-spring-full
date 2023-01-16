@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//TODO "api/branc" on class level
+//TODO "api/brand" on class level
 @Api
 @RestController
 public class BrandApiController {

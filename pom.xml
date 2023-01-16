@@ -23,6 +23,8 @@
 		<junit.version>4.12</junit.version>
 		<log4j.version>1.2.17</log4j.version>
 		<h2.version>1.4.200</h2.version>
+		<javax.version>3.0.0</javax.version>
+		<hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<!-- Jetty configuration -->
@@ -166,6 +168,19 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.24</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!--VALIDATOR-->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>${javax.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

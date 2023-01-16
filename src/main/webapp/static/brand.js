@@ -155,7 +155,6 @@ function displayEditBrand(id){
 	   type: 'GET',
 	   success: function(data) {
 		   displayBrand(data);
-		   toastr.success("Brand Added Successfully", "Success : ");
 	   },
 	   error: handleAjaxError
 	});

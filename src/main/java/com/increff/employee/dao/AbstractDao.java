@@ -22,17 +22,17 @@ public abstract class AbstractDao {
 		return em;
 	}
 
-	//TODO add abstractSelectById
-	public  <T> T selectByID(int id, Class<T> clazz, String s) {
-		String dynamicQuery = "select b from " + s + " b where id=:id";
+
+	public  <T> T selectByID(int id, Class<T> clazz) {
+		String dynamicQuery = "select b from " + clazz.getName() + " b where id=:id";
 		TypedQuery<T> query = getQuery(dynamicQuery, clazz);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 
 
-	public <T> List<T> selectALL( Class<T> clazz, String class_name) {
-		String SELECT_ALL = "select b from " + class_name + " b";
+	public <T> List<T> selectALL( Class<T> clazz) {
+		String SELECT_ALL = "select b from " + clazz.getName() + " b";
 		TypedQuery<T> query = getQuery(SELECT_ALL, clazz);
 		return query.getResultList();
 	}

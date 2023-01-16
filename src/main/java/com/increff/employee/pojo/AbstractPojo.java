@@ -23,7 +23,7 @@ public abstract class AbstractPojo implements Serializable {
     @UpdateTimestamp
     @Column
     private Timestamp updatedAt;
-//
+//  Implement
 //    @Version
 //    @Column
 //    private long version;

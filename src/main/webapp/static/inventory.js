@@ -43,8 +43,7 @@ function updateInventory(event){
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
 
-	var qty = $("#inventory-edit-form input[name=qty]").val();
-	if()
+	
 	$.ajax({
 	   url: url,
 	   type: 'PUT',
@@ -142,6 +141,7 @@ function displayInventoryList(data){
 		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>'
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
+		+ '<td>' + e.name + '</td>'
 		+ '<td>'  + e.qty + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';

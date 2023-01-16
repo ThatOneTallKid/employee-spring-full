@@ -11,11 +11,11 @@ import javax.persistence.Id;
 public class OrderItemData extends OrderItemForm {
 
 
-    int id;
+    private int id;
 
+    private int orderId;
 
-    // TODO: ADD it later in the course of time.
-    int orderId;
+    private int productId;
 
-    int productId;
+    private String name;
 }

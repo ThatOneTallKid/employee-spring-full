@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -19,8 +20,8 @@ public class InventoryService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo i) throws ApiException {
-        InventoryPojo i_temp = CheckIdInventory(i.getId());
-        if(ValidationUtil.checkNull(i_temp)) {
+        InventoryPojo i_temp = getById(i.getId());
+        if(Objects.isNull(i_temp)) {
             inventoryDao.insert(i);
         }
         else {
@@ -38,7 +39,7 @@ public class InventoryService {
 
     @Transactional
     public List<InventoryPojo> getAll() {
-        return inventoryDao.selectALL(InventoryPojo.class, "InventoryPojo");
+        return inventoryDao.selectALL(InventoryPojo.class);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -49,15 +50,24 @@ public class InventoryService {
     }
 
     @Transactional
+    public InventoryPojo getById(int id) throws ApiException {
+        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
+        return i;
+    }
+
+    @Transactional
     public InventoryPojo CheckIdInventory(int id) throws ApiException {
-        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class, "InventoryPojo");
+        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
+        if(Objects.isNull(i)) {
+            throw new ApiException("Product is not there in the inventory");
+        }
         return i;
     }
 
     @Transactional
     public Integer getQtyById(int id) throws ApiException {
-        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class, "InventoryPojo");
-        if(ValidationUtil.checkNull(i)) {
+        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
+        if(Objects.isNull(i)) {
             throw new ApiException("The product is not in the inventory");
         }
         return i.getQty();
