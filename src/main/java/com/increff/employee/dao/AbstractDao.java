@@ -1,5 +1,7 @@
 package com.increff.employee.dao;
 
+import com.increff.employee.pojo.BrandPojo;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -20,6 +22,11 @@ public abstract class AbstractDao {
 	
 	protected EntityManager em() {
 		return em;
+	}
+
+	public <T> void insert(T t)  {
+		// saves object into the db
+		em.persist(t);
 	}
 
 

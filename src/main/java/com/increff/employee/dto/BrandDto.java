@@ -1,6 +1,5 @@
 package com.increff.employee.dto;
 
-import com.increff.employee.helper.BrandFormHelper;
 import com.increff.employee.model.data.BrandData;
 import com.increff.employee.model.form.BrandForm;
 import com.increff.employee.pojo.BrandPojo;
@@ -8,7 +7,7 @@ import com.increff.employee.service.ApiException;
 import com.increff.employee.service.BrandService;
 import com.increff.employee.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Objects;
 import static com.increff.employee.helper.BrandFormHelper.*;
 
 
-@Configuration
+@Component
 public class BrandDto {
     @Autowired
     BrandService brandService;

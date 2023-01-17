@@ -12,13 +12,13 @@ import java.util.Objects;
 
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class InventoryService {
 
     @Autowired
     private InventoryDao inventoryDao;
 
 
-    @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo i) throws ApiException {
         InventoryPojo i_temp = getById(i.getId());
         if(Objects.isNull(i_temp)) {
@@ -32,30 +32,25 @@ public class InventoryService {
         }
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public InventoryPojo get(int id) throws ApiException {
         return CheckIdInventory(id);
     }
 
-    @Transactional
     public List<InventoryPojo> getAll() {
         return inventoryDao.selectALL(InventoryPojo.class);
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public void update(int id, InventoryPojo i) throws ApiException{
         InventoryPojo ix = CheckIdInventory(id);
         ix.setQty(i.getQty());
         inventoryDao.update();
     }
 
-    @Transactional
     public InventoryPojo getById(int id) throws ApiException {
         InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
         return i;
     }
 
-    @Transactional
     public InventoryPojo CheckIdInventory(int id) throws ApiException {
         InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
         if(Objects.isNull(i)) {
@@ -64,7 +59,6 @@ public class InventoryService {
         return i;
     }
 
-    @Transactional
     public Integer getQtyById(int id) throws ApiException {
         InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
         if(Objects.isNull(i)) {

@@ -151,10 +151,13 @@ function displayProductList(data){
    $tbody.empty();
    for(var i in data){
       var e = data[i];
+      console.log(e);
       var buttonHtml = ' <button onclick="displayEditProduct(' + e.id + ')">edit</button>'
       var row = '<tr>'
       + '<td>' + e.barcode + '</td>'
       + '<td>'  + e.name + '</td>'
+      + '<td>'  + e.brand + '</td>'
+      + '<td>'  + e.category + '</td>'
       + '<td>'  + e.mrp + '</td>'
       + '<td>' + buttonHtml + '</td>'
       + '</tr>';
@@ -243,8 +246,10 @@ function displayBrandOptions(data)
       }
    console.log(brandData);
    var $elB = $("#inputBrand");
-
    $elB.empty();
+
+   $elB.append(`<option value="none" selected disabled hidden>Select a Brand</option>`);
+
 
    $.each(brandData, function(key,value) {
             $elB.append($("<option></option>")
@@ -262,7 +267,7 @@ function displayCategoryOptions()
     var $elC = $("#inputCategory");
 
     $elC.empty();
-
+    $elC.append(`<option value="none" selected disabled hidden>Select a Category</option>`);
     var a = getBrandOption();
     console.log(brandData[a]);
     console.log(brandData[a].length);

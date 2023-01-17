@@ -13,17 +13,16 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class OrderService {
 
     @Autowired
     private OrderDao orderDao;
 
-    @Transactional(rollbackOn = ApiException.class)
     public void add(OrderPojo o) {
         orderDao.insert(o);
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public OrderPojo get(int id) throws ApiException {
         OrderPojo o = orderDao.selectByID(id, OrderPojo.class);
         if(Objects.isNull(o)) {
@@ -32,7 +31,6 @@ public class OrderService {
         return o;
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public List<OrderPojo> getAll() {
         return orderDao.selectALL(OrderPojo.class);
     }

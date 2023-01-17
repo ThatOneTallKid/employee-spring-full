@@ -12,19 +12,18 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class OrderItemService {
 
     @Autowired
     private OrderItemDao orderItemDao;
 
 
-    @Transactional(rollbackOn = ApiException.class)
     public void add(OrderItemPojo o) throws ApiException {
 
         orderItemDao.insert(o);
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public OrderItemPojo get(int id) throws ApiException {
         OrderItemPojo o = orderItemDao.selectByID(id, OrderItemPojo.class);
         if(Objects.isNull(o)){
@@ -33,12 +32,10 @@ public class OrderItemService {
         return o;
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public List<OrderItemPojo> getAll() {
         return orderItemDao.selectALL(OrderItemPojo.class);
     }
 
-    @Transactional(rollbackOn = ApiException.class)
     public void update(int id, OrderItemPojo o) throws ApiException{
         OrderItemPojo ox = get(id);
         ox.setQty(o.getQty());
@@ -46,7 +43,6 @@ public class OrderItemService {
         orderItemDao.update();
     }
 
-    @Transactional
     public OrderItemPojo getOrderItemByOrderId(int orderId) throws ApiException {
         OrderItemPojo o = orderItemDao.selectByOrderId(orderId);
         if(Objects.isNull(o)){
@@ -55,12 +51,10 @@ public class OrderItemService {
         return o;
     }
 
-    @Transactional
     public List<OrderItemPojo> getOrderItemByOrderItem(int orderId) throws ApiException {
         return orderItemDao.selectOrderByOrderId(orderId);
     }
 
-    @Transactional
     public OrderItemPojo getOrderItemByOrderIdProductId(int orderId,int productId) throws ApiException {
         OrderItemPojo o = orderItemDao.selectByOrderIdProductId(orderId, productId);
         return o;

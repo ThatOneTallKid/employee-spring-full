@@ -1,6 +1,5 @@
 package com.increff.employee.dto;
 
-import com.increff.employee.helper.InventoryFormHelper;
 import com.increff.employee.model.data.InventoryData;
 import com.increff.employee.model.form.InventoryForm;
 import com.increff.employee.pojo.InventoryPojo;
@@ -10,7 +9,7 @@ import com.increff.employee.service.InventoryService;
 import com.increff.employee.service.ProductService;
 import com.increff.employee.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
 import static com.increff.employee.helper.InventoryFormHelper.convertInventoryFormToPojo;
 import static com.increff.employee.helper.InventoryFormHelper.convertInventoryPojoToData;
 
-@Configuration
+@Component
 public class InventoryDto {
     
     @Autowired

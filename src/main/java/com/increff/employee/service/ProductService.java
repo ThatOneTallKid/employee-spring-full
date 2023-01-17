@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class ProductService {
 
     @Autowired
     private ProductDao productDao;
 
 
-    @Transactional(rollbackOn = ApiException.class)
     public void add(ProductPojo p) throws ApiException {
         if(checkBarcode(p.getBarcode())){
             throw new ApiException("Barcode already exists");
@@ -26,18 +26,16 @@ public class ProductService {
     }
 
 
-    @Transactional(rollbackOn = ApiException.class)
     public ProductPojo get(int id) throws ApiException {
         return getCheck(id);
     }
 
-    @Transactional
+
     public List<ProductPojo> getAll() {
         return productDao.selectALL(ProductPojo.class);
     }
 
 
-    @Transactional(rollbackOn = ApiException.class)
     public void update(int id, ProductPojo p) throws ApiException {
         ProductPojo px = get(id);
         if(checkBarcode(p.getBarcode())) {
@@ -50,7 +48,6 @@ public class ProductService {
         }
     }
 
-    @Transactional
     public Boolean checkBarcode(String barcode){
         ProductPojo p = productDao.selectByBarcode(barcode);
         if(Objects.isNull(p)) {
@@ -59,7 +56,7 @@ public class ProductService {
         return false;
     }
 
-    @Transactional
+
     public ProductPojo getByBarcode(String barcode) throws ApiException {
         ProductPojo p = productDao.selectByBarcode(barcode);
         if(Objects.isNull(p)) {
@@ -68,7 +65,6 @@ public class ProductService {
         return p;
     }
 
-    @Transactional
     public ProductPojo getCheck(int id) throws ApiException{
         ProductPojo p = productDao.selectByID(id, ProductPojo.class);
         if(Objects.isNull(p)) {
@@ -77,7 +73,6 @@ public class ProductService {
         return p;
     }
 
-    @Transactional
     public Integer getIDByBarcode(String barcode) throws ApiException {
         ProductPojo p = productDao.selectByBarcode(barcode);
         if(Objects.isNull(p)) {

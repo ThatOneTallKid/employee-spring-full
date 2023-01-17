@@ -10,14 +10,14 @@ import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.*;
 import com.increff.employee.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 import static com.increff.employee.helper.OrderFormHelper.convertOrderPojoToData;
 import static com.increff.employee.helper.OrderItemFormHelper.*;
 
-@Configuration
+@Component
 public class OrderDto {
 
     @Autowired

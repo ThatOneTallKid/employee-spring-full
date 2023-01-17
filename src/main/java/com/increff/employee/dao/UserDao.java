@@ -19,7 +19,7 @@ public class UserDao extends AbstractDao {
 	private static String select_all = "select p from UserPojo p";
 
 	
-	@Transactional
+
 	public void insert(UserPojo p) {
 		em().persist(p);
 	}
