@@ -11,4 +11,5 @@ public class InvoiceForm {
     private Integer orderId;
     private String placeDate;
     private List<OrderItem> orderItemList;
+    private Double amount;
 }

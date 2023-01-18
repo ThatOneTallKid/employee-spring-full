@@ -102,7 +102,13 @@ function processData(){
 
 function readFileDataCallback(results){
    fileData = results.data;
-   uploadRows();
+   var filelen = fileData.length;
+   	if(filelen > 5000) {
+   	    alert("file length exceeds 5000, Not Allowed");
+   	}
+   	else {
+   	    uploadRows();
+   	}
 }
 
 function uploadRows(){

@@ -3,6 +3,11 @@ function getInventoryUrl(){
 	return baseUrl + "/api/inventory";
 }
 
+function getInventoryReportUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/inventoryreport";
+}
+
 function resetForm() {
     var element = document.getElementById("inventory-form");
     element.reset()
@@ -89,7 +94,13 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
-	uploadRows();
+	var filelen = fileData.length;
+    	if(filelen > 5000) {
+    	    alert("file length exceeds 5000, Not Allowed");
+    	}
+    	else {
+    	    uploadRows();
+    	}
 }
 
 function uploadRows(){
@@ -200,6 +211,10 @@ function displayInventory(data){
 	$('#edit-inventory-modal').modal('toggle');
 }
 
+function printReport() {
+    window.location.href = getInventoryReportUrl();
+}
+
 
 //INITIALIZATION CODE
 function init(){
@@ -210,6 +225,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName)
+    $('#print-report').click(printReport);
 }
 
 $(document).ready(init);

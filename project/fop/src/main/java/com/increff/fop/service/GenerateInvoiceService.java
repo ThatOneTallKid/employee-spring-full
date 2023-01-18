@@ -1,6 +1,8 @@
 package com.increff.fop.service;
 
 
+import com.increff.fop.model.BrandReportForm;
+import com.increff.fop.model.InventoryReportForm;
 import com.increff.fop.model.InvoiceForm;
 import com.increff.fop.model.OrderItem;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,14 @@ public class GenerateInvoiceService {
 //        }
 //
 //        invoiceForm.setOrderItemList(orderItemList);
-
+        List<OrderItem> items = form.getOrderItemList();
+        Double amt = 0.0;
+        for(OrderItem i : items) {
+            Double cur = 0.0;
+            cur = i.getSellingPrice() * i.getQuantity();
+            amt+=cur;
+        }
+        form.setAmount(amt);
         CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
 
         createXMLFileJava.createXML(form);
@@ -57,5 +66,25 @@ public class GenerateInvoiceService {
             System.out.println(o.getQuantity());
             System.out.println(o.getSellingPrice());
         }
+    }
+
+    public void generateBrandReport(BrandReportForm form){
+        CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
+
+        createXMLFileJava.createBrandXml(form);
+
+        PDFFromFOP pdfFromFOP = new PDFFromFOP();
+
+        pdfFromFOP.createBrandPDF();
+    }
+
+    public void generateInventoryReport(InventoryReportForm form){
+        CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
+
+        createXMLFileJava.createInventoryXml(form);
+
+        PDFFromFOP pdfFromFOP = new PDFFromFOP();
+
+        pdfFromFOP.createInventoryPDF();
     }
 }

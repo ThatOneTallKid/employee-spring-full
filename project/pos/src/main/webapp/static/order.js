@@ -377,16 +377,9 @@ function init(){
 	$('#add-order-item').click(addOrderItem);
 	$('#place-order').click(placeOrder);
 	$('#refresh-data').click(getOrderList);
-//	$('#update-inventory').click(updateInventory);
-//	$('#refresh-data').click(getInventoryList);
-//	$('#upload-data').click(displayUploadData);
-//	$('#process-data').click(processData);
-//	$('#download-errors').click(downloadErrors);
-//    $('#inventoryFile').on('change', updateFileName)
 }
 
 $(document).ready(init);
 $(document).ready(getOrderItemList)
 $(document).ready(getOrderList)
 $(document).ready(getProductList)
-//$(document).ready(getInventoryList);

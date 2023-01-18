@@ -2,12 +2,15 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.increff.training</groupId>
 	<artifactId>pos-spring-full</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>pos-spring</name>
 	<url>http://maven.apache.org</url>
+
+
 	<properties>
 		<!-- Maven configuration -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -205,6 +208,7 @@
 					<webApp>
 						<contextPath>${jetty.context}</contextPath>
 					</webApp>
+
 				</configuration>
 			</plugin>
 			<plugin>

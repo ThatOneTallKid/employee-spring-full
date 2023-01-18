@@ -11,8 +11,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import com.increff.fop.model.InvoiceForm;
-import com.increff.fop.model.OrderItem;
+import com.increff.fop.model.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -20,6 +19,10 @@ public class CreateXMLFileJava {
 
     public static final String xmlFilePath = "C:\\Users\\KIIT\\Desktop\\Projects\\employee-spring-full\\project\\fop\\src\\main\\resources\\xml" +
             "\\Invoice.xml";
+    public static final String brandXmlFilePath = "C:\\Users\\KIIT\\Desktop\\Projects\\employee-spring-full\\project\\fop\\src\\main\\resources\\xml" +
+            "\\brand.xml";
+    public static final String inventoryXmlFilePath = "C:\\Users\\KIIT\\Desktop\\Projects\\employee-spring-full\\project\\fop\\src\\main\\resources\\xml" +
+            "\\inventory.xml";
 
 
     public void createXML(InvoiceForm invoiceForm) {
@@ -71,12 +74,145 @@ public class CreateXMLFileJava {
                 order_item.appendChild(sellingPrice);
 
             }
+
+            Element amount = document.createElement("amount");
+            amount.appendChild(document.createTextNode(invoiceForm.getAmount().toString()));
+            root.appendChild(amount);
             // create the xml file
             //transform the DOM Object to an XML File
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
             StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+
+            // If you use
+            // StreamResult result = new StreamResult(System.out);
+            // the output will be pushed to the standard output ...
+            // You can use that for debugging
+
+            transformer.transform(domSource, streamResult);
+
+            System.out.println("Done creating XML File");
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+        }
+    }
+
+    public void createBrandXml(BrandReportForm form) {
+        try {
+
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+
+            Document document = documentBuilder.newDocument();
+
+            // root element
+            Element root = document.createElement("brand_table");
+            document.appendChild(root);
+
+
+            // order item element
+            for (BrandData o : form.getBrandItems()){
+                Element brand_item = document.createElement("brand_item");
+
+                root.appendChild(brand_item);
+
+                // set an attribute to staff element
+                Element id = document.createElement("id");
+                id.appendChild(document.createTextNode(o.getId().toString()));
+                brand_item.appendChild(id);
+
+                // firstname element
+                Element brand = document.createElement("brand");
+                brand.appendChild(document.createTextNode(o.getBrand()));
+                brand_item.appendChild(brand);
+
+                // lastname element
+                Element category = document.createElement("category");
+                category.appendChild(document.createTextNode(o.getCategory()));
+                brand_item.appendChild(category);
+
+            }
+
+            // create the xml file
+            //transform the DOM Object to an XML File
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(brandXmlFilePath));
+
+            // If you use
+            // StreamResult result = new StreamResult(System.out);
+            // the output will be pushed to the standard output ...
+            // You can use that for debugging
+
+            transformer.transform(domSource, streamResult);
+
+            System.out.println("Done creating XML File");
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+        }
+    }
+
+
+    public void createInventoryXml(InventoryReportForm form) {
+        try {
+
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+
+            Document document = documentBuilder.newDocument();
+
+            // root element
+            Element root = document.createElement("inventory_table");
+            document.appendChild(root);
+
+
+            // order item element
+            for (InventoryItem o : form.getInventoryDataList()){
+                Element inventory_item = document.createElement("inventory_item");
+
+                root.appendChild(inventory_item);
+
+                // set an attribute to staff element
+                Element id = document.createElement("id");
+                id.appendChild(document.createTextNode(Integer.toString(o.getId())));
+                inventory_item.appendChild(id);
+
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(o.getName()));
+                inventory_item.appendChild(name);
+
+                // firstname element
+                Element brand = document.createElement("brand");
+                brand.appendChild(document.createTextNode(o.getBrand()));
+                inventory_item.appendChild(brand);
+
+                // lastname element
+                Element category = document.createElement("category");
+                category.appendChild(document.createTextNode(o.getCategory()));
+                inventory_item.appendChild(category);
+
+                Element qty = document.createElement("qty");
+                qty.appendChild(document.createTextNode(Integer.toString(o.getQty())));
+                inventory_item.appendChild(qty);
+
+            }
+
+            // create the xml file
+            //transform the DOM Object to an XML File
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(inventoryXmlFilePath));
 
             // If you use
             // StreamResult result = new StreamResult(System.out);

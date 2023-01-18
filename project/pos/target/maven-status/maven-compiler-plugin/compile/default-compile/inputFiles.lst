@@ -42,6 +42,7 @@ C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\co
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\dao\OrderItemDao.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\dto\ProductDto.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\pojo\BrandPojo.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\InventoryReportForm.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\helper\BrandFormHelper.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\invoice\InvoiceGenerator.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\dao\OrderDao.java
@@ -60,7 +61,9 @@ C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\co
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\CheckerUtil.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\SecurityUtil.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\UserPrincipal.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\data\InventoryItem.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\ValidationUtil.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\BrandReportForm.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\AbstractUiController.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\pojo\UserPojo.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\SiteUiController.java
