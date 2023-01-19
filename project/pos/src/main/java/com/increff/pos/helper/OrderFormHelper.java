@@ -13,16 +13,15 @@ public class OrderFormHelper {
 
 
     public static OrderPojo convertOrderFormToPojo(OrderForm f) {
-        OrderPojo o = new OrderPojo();
-        return o;
+        return new OrderPojo();
     }
 
-    public static OrderData convertOrderPojoToData(OrderPojo p) {
-        OrderData d = new OrderData();
-        d.setId(p.getId());
-        Timestamp timestamp = p.getCreatedAt();
-        d.setOrderDate(LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHoursMinutes(5, 30)));
-        return d;
+    public static OrderData convertOrderPojoToData(OrderPojo orderPojo) {
+        OrderData orderData = new OrderData();
+        orderData.setId(orderPojo.getId());
+        Timestamp timestamp = orderPojo.getCreatedAt();
+        orderData.setOrderDate(LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHoursMinutes(5, 30)));
+        return orderData;
 
     }
 }

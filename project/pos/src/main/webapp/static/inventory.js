@@ -5,7 +5,7 @@ function getInventoryUrl(){
 
 function getInventoryReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/inventoryreport";
+	return baseUrl + "/api/inventory/report";
 }
 
 function resetForm() {

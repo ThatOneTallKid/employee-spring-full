@@ -21,6 +21,7 @@ import java.util.List;
 
 @Api
 @RestController
+@RequestMapping(path = "/api/order")
 public class OrderApiController {
 
     @Autowired
@@ -30,28 +31,26 @@ public class OrderApiController {
     InvoiceGenerator invoiceGenerator;
 
     @ApiOperation(value = "Adds an Order Item")
-    @RequestMapping(path = "/api/orderitem", method = RequestMethod.POST)
+    @PostMapping(path = "/item")
     public void add(@RequestBody List<OrderItemForm> form) throws ApiException {
         orderItem.add(form);
     }
 
     @ApiOperation(value ="Gets all orders")
-    @RequestMapping(path = "/api/order", method = RequestMethod.GET)
+    @GetMapping(path = "")
     public List<OrderData> getAll() throws ApiException {
         return orderItem.getAll();
     }
 
     @ApiOperation(value ="Gets all order items by order ID")
-    @RequestMapping(path = "/api/orderview/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/view/{id}")
     public List<OrderItemData> getOrderByID(@PathVariable int id) throws ApiException {
-        List<OrderItemData> list = orderItem.getOrderByID(id);
-        return list;
+        return orderItem.getOrderByID(id);
     }
 
     @ApiOperation(value = "Download Invoice")
-    @RequestMapping(path = "/api/invoice/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/invoice/{id}")
     public ResponseEntity<byte[]> getPDF(@PathVariable int id) throws Exception{
-        System.out.println("here");
         InvoiceForm invoiceForm = invoiceGenerator.generateInvoiceForOrder(id);
 
         RestTemplate restTemplate = new RestTemplate();
@@ -59,7 +58,6 @@ public class OrderApiController {
         String url = "http://localhost:8085/fop/api/invoice";
 
         byte[] contents = restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody();
-        System.out.println("here 2");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);

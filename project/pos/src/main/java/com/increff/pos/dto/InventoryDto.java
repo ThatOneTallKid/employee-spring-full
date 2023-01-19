@@ -42,47 +42,52 @@ public class InventoryDto {
     @Autowired
     BrandService brandService;
 
-    public void add(InventoryForm f) throws ApiException {
-        ValidationUtil.validateForms(f);
-        InventoryPojo b = convertInventoryFormToPojo(f,productService.getIDByBarcode(f.getBarcode()) );
-        inventoryService.add(b);
+    public void add(InventoryForm form) throws ApiException {
+        ValidationUtil.validateForms(form);
+        InventoryPojo inventoryPojo = convertInventoryFormToPojo(form,productService.getIDByBarcode(form.getBarcode()));
+        inventoryService.add(inventoryPojo);
     }
 
     public InventoryData get(int id) throws ApiException{
-        InventoryPojo i = inventoryService.get(id);
-        ProductPojo p = productService.get(id);
-        return convertInventoryPojoToData(i, p.getBarcode(), p.getName());
+        InventoryPojo inventoryPojo = inventoryService.get(id);
+        ProductPojo productPojo = productService.get(id);
+        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName());
     }
 
     public List<InventoryData> getAll() throws ApiException {
         List<InventoryPojo> list = inventoryService.getAll();
         List<InventoryData> list2 = new ArrayList<>();
-        for(InventoryPojo b : list) {
-            ProductPojo p = productService.get(b.getId());
-            list2.add(convertInventoryPojoToData(b,p.getBarcode(), p.getName()));
+        for(InventoryPojo inventoryPojo : list) {
+            ProductPojo productPojo = productService.get(inventoryPojo.getId());
+            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName()));
         }
         return list2;
     }
 
-    public void update(int id, InventoryForm f) throws ApiException {
-        ValidationUtil.validateForms(f);
-        int p_id = productService.getIDByBarcode(f.getBarcode());
-        InventoryPojo p = convertInventoryFormToPojo(f,p_id);
-        inventoryService.update(id,p);
+    public void update(int id, InventoryForm inventoryForm) throws ApiException {
+        ValidationUtil.validateForms(inventoryForm);
+        int p_id = productService.getIDByBarcode(inventoryForm.getBarcode());
+        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,p_id);
+        inventoryService.update(id,inventoryPojo);
     }
 
     public ResponseEntity<byte[]> getPDF() throws IOException, ApiException {
         List<InventoryData> inventoryDataList = getAll();
         List<InventoryItem> inventoryItemList = new ArrayList<>();
-        for(InventoryData i : inventoryDataList) {
-            ProductPojo p = productService.get(i.getId());
-            BrandPojo b = brandService.get(p.getBrandCategory());
-            InventoryItem inventoryItem = InventoryFormHelper.convertInventoryDataToItem(i, b.getBrand(), b.getCategory());
+
+        for(InventoryData inventoryData : inventoryDataList) {
+            ProductPojo productPojo = productService.get(inventoryData.getId());
+            BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
+            InventoryItem inventoryItem = InventoryFormHelper.convertInventoryDataToItem(inventoryData,
+                    brandPojo.getBrand(), brandPojo.getCategory());
             inventoryItemList.add(inventoryItem);
         }
+
         InventoryReportForm inventoryReportForm = new InventoryReportForm();
         inventoryReportForm.setInventoryDataList(inventoryItemList);
+
         Path pdfPath = Paths.get("./Test/inventoryreport.pdf");
+
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:8085/fop/api/inventoryreport";
 
@@ -90,11 +95,11 @@ public class InventoryDto {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
         String filename = "output.pdf";
         headers.setContentDispositionFormData(filename, filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
+
         return response;
     }
 }

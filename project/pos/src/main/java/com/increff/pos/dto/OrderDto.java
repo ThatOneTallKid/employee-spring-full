@@ -41,29 +41,30 @@ public class OrderDto {
 
         for (OrderItemForm f : forms) {
             // Check if Barcode exists in product db
-            ProductPojo p = productService.getByBarcode(f.getBarcode());
+            ProductPojo productPojo = productService.getByBarcode(f.getBarcode());
 
-            OrderItemPojo o = convertOrderItemFormToPojo(f, p.getId());
-            o.setOrderId(orderPojo.getId());
+            OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
+            orderItemPojo.setOrderId(orderPojo.getId());
 
-            OrderItemPojo checkExist = orderItemService.getOrderItemByOrderIdProductId(o.getOrderId(), o.getProductId());
+            OrderItemPojo checkExist = orderItemService.getOrderItemByOrderIdProductId(orderItemPojo.getOrderId(),
+                    orderItemPojo.getProductId());
             if (Objects.isNull(checkExist)) {
-                reduceInventory(o, p.getId(), f);
+                reduceInventory(orderItemPojo, productPojo.getId(), f);
             }
         }
     }
 
     public OrderItemData get(int id) throws ApiException {
-        OrderItemPojo o = orderItemService.get(id);
-        ProductPojo p = productService.get(o.getProductId());
-        return convertOrderItemPojoToData(o, p.getBarcode(), p.getName());
+        OrderItemPojo orderItemPojo = orderItemService.get(id);
+        ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
+        return convertOrderItemPojoToData(orderItemPojo, productPojo.getBarcode(), productPojo.getName());
     }
 
     public List<OrderData> getAll() {
         List<OrderPojo> list = orderService.getAll();
         List<OrderData> list2 = new ArrayList<>();
-        for(OrderPojo o : list) {
-            list2.add(convertOrderPojoToData(o));
+        for(OrderPojo orderPojo : list) {
+            list2.add(convertOrderPojoToData(orderPojo));
         }
         return list2;
     }
@@ -71,21 +72,21 @@ public class OrderDto {
     public List<OrderItemData> getOrderByID(int id) throws ApiException {
         List<OrderItemPojo> list = orderItemService.getOrderItemByOrderItem(id);
         List<OrderItemData> list2 = new ArrayList<>();
-        for (OrderItemPojo o : list) {
-            ProductPojo px = productService.get(o.getProductId());
-            list2.add(convertOrderItemPojoToData(o, px.getBarcode(), px.getName()));
+        for (OrderItemPojo orderItemPojo : list) {
+            ProductPojo px = productService.get(orderItemPojo.getProductId());
+            list2.add(convertOrderItemPojoToData(orderItemPojo, px.getBarcode(), px.getName()));
         }
         return list2;
     }
 
 
-    private void reduceInventory(OrderItemPojo o, int id, OrderItemForm f) throws ApiException {
+    private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
         int prev_qty = inventoryService.getQtyById(id);
-        int remaining_qty = prev_qty - f.getQty();
-        InventoryPojo i = new InventoryPojo();
-        i.setQty(remaining_qty);
-        orderItemService.add(o);
-        inventoryService.update(id, i);
+        int remaining_qty = prev_qty - orderItemForm.getQty();
+        InventoryPojo inventoryPojo = new InventoryPojo();
+        inventoryPojo.setQty(remaining_qty);
+        orderItemService.add(orderItemPojo);
+        inventoryService.update(id, inventoryPojo);
     }
 
     private void checkDuplicates(List<OrderItemForm> forms) throws ApiException{
@@ -103,8 +104,8 @@ public class OrderDto {
     }
 
     private void checkInventory(int id, OrderItemForm f) throws ApiException {
-        InventoryPojo ix = inventoryService.CheckIdInventory(id);
-        if (Objects.isNull(ix)) {
+        InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(id);
+        if (Objects.isNull(inventoryPojo)) {
             throw new ApiException("Product is not in the Inventory");
         }
         int prev_qty = inventoryService.getQtyById(id);

@@ -17,36 +17,36 @@ public class OrderItemService {
     private OrderItemDao orderItemDao;
 
 
-    public void add(OrderItemPojo o) throws ApiException {
+    public void add(OrderItemPojo orderItemPojo) throws ApiException {
 
-        orderItemDao.insert(o);
+        orderItemDao.insert(orderItemPojo);
     }
 
     public OrderItemPojo get(int id) throws ApiException {
-        OrderItemPojo o = orderItemDao.selectByID(id, OrderItemPojo.class);
-        if(Objects.isNull(o)){
+        OrderItemPojo orderItemPojo = orderItemDao.selectByID(id, OrderItemPojo.class);
+        if(Objects.isNull(orderItemPojo)){
             throw new ApiException("Order Item with given Id does not exists.;");
         }
-        return o;
+        return orderItemPojo;
     }
 
     public List<OrderItemPojo> getAll() {
         return orderItemDao.selectALL(OrderItemPojo.class);
     }
 
-    public void update(int id, OrderItemPojo o) throws ApiException{
-        OrderItemPojo ox = get(id);
-        ox.setQty(o.getQty());
-        ox.setSellingPrice(o.getSellingPrice());
+    public void update(int id, OrderItemPojo newOrderItemPojo) throws ApiException{
+        OrderItemPojo orderItemPojo = get(id);
+        orderItemPojo.setQty(newOrderItemPojo.getQty());
+        orderItemPojo.setSellingPrice(newOrderItemPojo.getSellingPrice());
         orderItemDao.update();
     }
 
     public OrderItemPojo getOrderItemByOrderId(int orderId) throws ApiException {
-        OrderItemPojo o = orderItemDao.selectByOrderId(orderId);
-        if(Objects.isNull(o)){
+        OrderItemPojo orderItemPojo = orderItemDao.selectByOrderId(orderId);
+        if(Objects.isNull(orderItemPojo)){
             throw new ApiException("Order Item with given orderId does not exists.;");
         }
-        return o;
+        return orderItemPojo;
     }
 
     public List<OrderItemPojo> getOrderItemByOrderItem(int orderId) throws ApiException {
@@ -54,8 +54,7 @@ public class OrderItemService {
     }
 
     public OrderItemPojo getOrderItemByOrderIdProductId(int orderId,int productId) throws ApiException {
-        OrderItemPojo o = orderItemDao.selectByOrderIdProductId(orderId, productId);
-        return o;
+        return orderItemDao.selectByOrderIdProductId(orderId, productId);
     }
 
 }

@@ -7,7 +7,7 @@ function getBrandUrl(){
 function getBrandReportUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     console.log(baseUrl);
-    return baseUrl + "/api/brandreport";
+    return baseUrl + "/api/brand/report";
 }
 
 function resetForm() {

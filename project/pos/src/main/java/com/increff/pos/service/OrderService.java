@@ -16,16 +16,16 @@ public class OrderService {
     @Autowired
     private OrderDao orderDao;
 
-    public void add(OrderPojo o) {
-        orderDao.insert(o);
+    public void add(OrderPojo orderPojo) {
+        orderDao.insert(orderPojo);
     }
 
     public OrderPojo get(int id) throws ApiException {
-        OrderPojo o = orderDao.selectByID(id, OrderPojo.class);
-        if(Objects.isNull(o)) {
+        OrderPojo orderPojo = orderDao.selectByID(id, OrderPojo.class);
+        if(Objects.isNull(orderPojo)) {
             throw new ApiException("Order does not exists");
         }
-        return o;
+        return orderPojo;
     }
 
     public List<OrderPojo> getAll() {

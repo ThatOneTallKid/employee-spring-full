@@ -26,36 +26,37 @@ import java.util.List;
 
 @Api
 @RestController
+@RequestMapping(path = "/api/inventory")
 public class InventoryApiController {
     @Autowired
     private InventoryDto inventoryDto;
 
     @ApiOperation(value = "Adds a Product")
-    @RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
+    @PostMapping(path = "")
     public void add(@RequestBody InventoryForm form) throws ApiException {
         inventoryDto.add(form);
     }
 
     @ApiOperation(value = "Get a Product by ID")
-    @RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/{id}")
     public InventoryData get(@PathVariable int id)  throws ApiException {
         return inventoryDto.get(id);
     }
 
     @ApiOperation(value = "Get All Products")
-    @RequestMapping(path = "/api/inventory", method = RequestMethod.GET)
+    @GetMapping(path = "")
     public  List<InventoryData> getAll() throws ApiException {
         return inventoryDto.getAll();
     }
 
     @ApiOperation(value = "Updates a Product")
-    @RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.PUT)
+    @PutMapping(path = "/{id}")
     public void update(@PathVariable int id, @RequestBody InventoryForm f) throws ApiException {
         inventoryDto.update(id, f);
     }
 
     @ApiOperation(value = "Generate Inventory Report")
-    @RequestMapping(path = "/api/inventoryreport", method = RequestMethod.GET)
+    @GetMapping(path = "/report")
     public ResponseEntity<byte[]> getPDF() throws IOException, ApiException {
         return inventoryDto.getPDF();
     }

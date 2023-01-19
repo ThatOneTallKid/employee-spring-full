@@ -41,7 +41,7 @@ public class InvoiceGenerator {
         {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrderItemId(p.getId());
-            String productName = productService.get(p.getId()).getName();
+            String productName = productService.get(p.getProductId()).getName();
             orderItem.setProductName(productName);
             orderItem.setQuantity(p.getQty());
             orderItem.setSellingPrice(p.getSellingPrice());

@@ -29,8 +29,8 @@ public class BrandDto {
 
     public void add(BrandForm f) throws ApiException {
         ValidationUtil.validateForms(f);
+        normalizeBrand(f);
         BrandPojo b = convertBrandFormToPojo(f);
-        normalizeBrand(b);
         if(Objects.isNull(brandService.getBrandPojofromBrandCategory(b.getBrand(), b.getCategory()))){
             brandService.add(b);
         }
@@ -54,25 +54,29 @@ public class BrandDto {
 
     public void update(int id, BrandForm f) throws ApiException {
         ValidationUtil.validateForms(f);
+        normalizeBrand(f);
         BrandPojo p = convertBrandFormToPojo(f);
-        normalizeBrand(p);
         brandService.update(id,p);
     }
 
     public ResponseEntity<byte[]> getPDF() throws Exception{
-        System.out.println("here");
         List<BrandData> brandItems= getAll();
         BrandReportForm brandReportForm = new BrandReportForm();
         brandReportForm.setBrandItems(brandItems);
+
         RestTemplate restTemplate = new RestTemplate();
+
         String url = "http://localhost:8085/fop/api/brandreport";
         byte[] contents = restTemplate.postForEntity(url, brandReportForm, byte[].class).getBody();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         String filename = "brandreport.pdf";
         headers.setContentDispositionFormData(filename, filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
         ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
+
         return response;
     }
 

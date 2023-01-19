@@ -2,7 +2,7 @@ var wholeOrder = []
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/orderitem";
+    return baseUrl + "/api/order/item";
 }
 
 function getOrderUrl() {
@@ -17,7 +17,7 @@ function getProductUrl() {
 
 function OrderViewUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/orderview";
+    return baseUrl + "/api/order/view";
 }
 
 function getInventoryUrl() {
@@ -29,7 +29,7 @@ function getInventoryUrl() {
 function getInvoiceUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     console.log(baseUrl);
-    return baseUrl + "/api/invoice";
+    return baseUrl + "/api/order/invoice";
 }
 
 function resetForm() {

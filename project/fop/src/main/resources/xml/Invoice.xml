@@ -1,6 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<inventory_table>
-    <inventory_item>
-        <brand>nike</brand><category>shoes</category><qty>1</qty>
-    </inventory_item>
-</inventory_table>
+<?xml version="1.0" encoding="UTF-8"?><invoice><order_id>2</order_id><order_date>2023-01-19 11:40:11.0</order_date><order_item><id>3</id><product_name>air jordan</product_name><quantity>2</quantity><selling_price>12000.0</selling_price></order_item><order_item><id>4</id><product_name>bottle</product_name><quantity>1</quantity><selling_price>500.0</selling_price></order_item><order_item><id>5</id><product_name>milkcake</product_name><quantity>2</quantity><selling_price>25.0</selling_price></order_item><order_item><id>6</id><product_name>macbook pro</product_name><quantity>1</quantity><selling_price>150000.0</selling_price></order_item><amount>174550.0</amount></invoice>

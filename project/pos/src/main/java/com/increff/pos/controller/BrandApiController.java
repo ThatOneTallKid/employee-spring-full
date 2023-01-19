@@ -21,6 +21,7 @@ import java.util.List;
 //TODO "api/brand" on class level
 @Api
 @RestController
+@RequestMapping(path = "/api/brand")
 public class BrandApiController {
 
 
@@ -28,48 +29,34 @@ public class BrandApiController {
     private BrandDto brandDto;
 
     @ApiOperation(value= "Adds a brand")
-    @RequestMapping(path = "/api/brand", method = RequestMethod.POST)
+    @PostMapping(path = "")
     public void add(@RequestBody BrandForm form) throws ApiException {
         brandDto.add(form);
     }
 
 
     @ApiOperation(value = "Gets a brand by ID")
-    @RequestMapping(path = "/api/brand/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/{id}")
     public BrandData get(@PathVariable int id) throws ApiException {
         return brandDto.get(id);
     }
 
     @ApiOperation(value ="Gets all brands")
-    @RequestMapping(path = "/api/brand", method = RequestMethod.GET)
+    @GetMapping(path = "")
     public List<BrandData> getAll() {
         return brandDto.getAll();
     }
 
     @ApiOperation(value = "Updates a brand")
-    @RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
+    @PutMapping(path = "/{id}")
     public void update(@PathVariable int id, @RequestBody BrandForm f) throws ApiException {
         brandDto.update(id,f);
 
     }
 
     @ApiOperation(value = "Download Invoice")
-    @RequestMapping(path = "/api/brandreport", method = RequestMethod.GET)
+    @GetMapping(path = "/report")
     public ResponseEntity<byte[]> getPDF() throws Exception{
-//        System.out.println("here");
-//        List<BrandData> brandItems= getAll();
-//        BrandReportForm brandReportForm = new BrandReportForm();
-//        brandReportForm.setBrandItems(brandItems);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://localhost:8085/fop/api/brandreport";
-//        byte[] contents = restTemplate.postForEntity(url, brandReportForm, byte[].class).getBody();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_PDF);
-//        String filename = "brandreport.pdf";
-//        headers.setContentDispositionFormData(filename, filename);
-//        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-//        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-//        return response;
         return brandDto.getPDF();
     }
 

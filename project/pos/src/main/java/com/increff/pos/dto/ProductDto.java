@@ -28,38 +28,37 @@ public class ProductDto {
 
 
 
-    public void add(ProductForm f) throws ApiException{
-        normalizeProduct(f);
-        ValidationUtil.validateForms(f);
-        // check null (get check brand )
-        BrandPojo b  = brandService.getBrandPojofromBrandCategory(f.getBrand(),  f.getCategory());
-        if(Objects.isNull(b)) {
-            throw new ApiException("Brand and Category not Founc");
+    public void add(ProductForm form) throws ApiException{
+        ValidationUtil.validateForms(form);
+        normalizeProduct(form);
+        BrandPojo brandPojo  = brandService.getBrandPojofromBrandCategory(form.getBrand(),  form.getCategory());
+        if(Objects.isNull(brandPojo)) {
+            throw new ApiException("Brand and Category not Found");
         }
-        ProductPojo p = convertProductFormToPojo(f, b.getId());
-        productService.add(p);
+        ProductPojo productPojo = convertProductFormToPojo(form, brandPojo.getId());
+        productService.add(productPojo);
     }
 
     public ProductData get(int id) throws ApiException {
-        ProductPojo p = productService.get(id);
-        BrandPojo b= brandService.get(id);
-        return convertProductPojoToData(p, b);
+        ProductPojo productPojo = productService.get(id);
+        BrandPojo brandPojo= brandService.get(id);
+        return convertProductPojoToData(productPojo, brandPojo);
     }
 
     public List<ProductData> getAll() throws ApiException {
         List<ProductPojo> list = productService.getAll();
         List<ProductData> list2 = new ArrayList<>();
-        for(ProductPojo b : list) {
-            BrandPojo bx= brandService.get(b.getBrandCategory());
-            list2.add(convertProductPojoToData(b, bx));
+        for(ProductPojo productPojo : list) {
+            BrandPojo brandPojo= brandService.get(productPojo.getBrandCategory());
+            list2.add(convertProductPojoToData(productPojo, brandPojo));
         }
         return list2;
     }
 
-    public void update(int id, ProductForm f) throws ApiException {
-        normalizeProduct(f);
-        ValidationUtil.validateForms(f);
-        ProductPojo p = convertProductFormToPojo(f, id);
-        productService.update(id,p);
+    public void update(int id, ProductForm form) throws ApiException {
+        ValidationUtil.validateForms(form);
+        normalizeProduct(form);
+        ProductPojo productPojo = convertProductFormToPojo(form, id);
+        productService.update(id,productPojo);
     }
 }

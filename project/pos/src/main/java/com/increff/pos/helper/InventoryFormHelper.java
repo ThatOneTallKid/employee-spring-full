@@ -8,29 +8,29 @@ import com.increff.pos.service.ApiException;
 
 public class InventoryFormHelper {
 
-    public static InventoryPojo convertInventoryFormToPojo(InventoryForm f, int id) throws ApiException {
-        InventoryPojo i = new InventoryPojo();
-        i.setQty(f.getQty());
-        i.setId(id);
-        return i;
+    public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm, int id) throws ApiException {
+        InventoryPojo inventoryPojo = new InventoryPojo();
+        inventoryPojo.setQty(inventoryForm.getQty());
+        inventoryPojo.setId(id);
+        return inventoryPojo;
     }
 
-    public static InventoryData convertInventoryPojoToData(InventoryPojo i, String barcode, String name) throws ApiException {
-        InventoryData d = new InventoryData();
-        d.setId(i.getId());
-        d.setQty(i.getQty());
-        d.setName(name);
-        d.setBarcode(barcode);
-        return d;
+    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name) throws ApiException {
+        InventoryData inventoryData = new InventoryData();
+        inventoryData.setId(inventoryPojo.getId());
+        inventoryData.setQty(inventoryPojo.getQty());
+        inventoryData.setName(name);
+        inventoryData.setBarcode(barcode);
+        return inventoryData;
     }
 
-    public static InventoryItem convertInventoryDataToItem(InventoryData d, String brand, String category) {
-        InventoryItem i = new InventoryItem();
-        i.setId(d.getId());
-        i.setQty(d.getQty());
-        i.setName(d.getName());
-        i.setBrand(brand);
-        i.setCategory(category);
-        return i;
+    public static InventoryItem convertInventoryDataToItem(InventoryData inventoryData, String brand, String category) {
+        InventoryItem inventoryItem = new InventoryItem();
+        inventoryItem.setId(inventoryData.getId());
+        inventoryItem.setQty(inventoryData.getQty());
+        inventoryItem.setName(inventoryData.getName());
+        inventoryItem.setBrand(brand);
+        inventoryItem.setCategory(category);
+        return inventoryItem;
     }
 }

@@ -18,15 +18,15 @@ public class InventoryService {
     private InventoryDao inventoryDao;
 
 
-    public void add(InventoryPojo i) throws ApiException {
-        InventoryPojo i_temp = getById(i.getId());
-        if(Objects.isNull(i_temp)) {
-            inventoryDao.insert(i);
+    public void add(InventoryPojo inventoryPojo) throws ApiException {
+        InventoryPojo tempInventoryPojo = getById(inventoryPojo.getId());
+        if(Objects.isNull(tempInventoryPojo)) {
+            inventoryDao.insert(inventoryPojo);
         }
         else {
-            int prev_qty = i_temp.getQty();
-            int new_qty = prev_qty + i.getQty();
-            i_temp.setQty(new_qty);
+            int prev_qty = tempInventoryPojo.getQty();
+            int new_qty = prev_qty + inventoryPojo.getQty();
+            tempInventoryPojo.setQty(new_qty);
             inventoryDao.update();
         }
     }
@@ -39,31 +39,30 @@ public class InventoryService {
         return inventoryDao.selectALL(InventoryPojo.class);
     }
 
-    public void update(int id, InventoryPojo i) throws ApiException{
-        InventoryPojo ix = CheckIdInventory(id);
-        ix.setQty(i.getQty());
+    public void update(int id, InventoryPojo newInventoryPojo) throws ApiException{
+        InventoryPojo inventoryPojo = CheckIdInventory(id);
+        inventoryPojo.setQty(newInventoryPojo.getQty());
         inventoryDao.update();
     }
 
     public InventoryPojo getById(int id) throws ApiException {
-        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
-        return i;
+        return inventoryDao.selectByID(id, InventoryPojo.class);
     }
 
     public InventoryPojo CheckIdInventory(int id) throws ApiException {
-        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
-        if(Objects.isNull(i)) {
+        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
+        if(Objects.isNull(inventoryPojo)) {
             throw new ApiException("Product is not there in the inventory");
         }
-        return i;
+        return inventoryPojo;
     }
 
     public Integer getQtyById(int id) throws ApiException {
-        InventoryPojo i = inventoryDao.selectByID(id, InventoryPojo.class);
-        if(Objects.isNull(i)) {
+        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
+        if(Objects.isNull(inventoryPojo)) {
             throw new ApiException("The product is not in the inventory");
         }
-        return i.getQty();
+        return inventoryPojo.getQty();
     }
 
 }

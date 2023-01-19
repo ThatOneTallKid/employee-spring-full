@@ -8,26 +8,26 @@ import com.increff.pos.util.StringUtil;
 public class OrderItemFormHelper {
 
     public static OrderItemPojo convertOrderItemFormToPojo(OrderItemForm form, int productId) {
-        OrderItemPojo o = new OrderItemPojo();
-        o.setSellingPrice(form.getSellingPrice());
-        o.setProductId(productId);
-        o.setQty(form.getQty());
-        return  o;
+        OrderItemPojo orderItemPojo = new OrderItemPojo();
+        orderItemPojo.setSellingPrice(form.getSellingPrice());
+        orderItemPojo.setProductId(productId);
+        orderItemPojo.setQty(form.getQty());
+        return  orderItemPojo;
     }
 
-    public static OrderItemData convertOrderItemPojoToData(OrderItemPojo p, String barcode, String name){
-        OrderItemData d = new OrderItemData();
-        d.setId(p.getId());
-        d.setProductId(p.getProductId());
-        d.setBarcode(barcode);
-        d.setName(name);
-        d.setQty(p.getQty());
-        d.setOrderId(p.getOrderId());
-        d.setSellingPrice(p.getSellingPrice());
-        return d;
+    public static OrderItemData convertOrderItemPojoToData(OrderItemPojo orderItemPojo, String barcode, String name){
+        OrderItemData orderItemData = new OrderItemData();
+        orderItemData.setId(orderItemPojo.getId());
+        orderItemData.setProductId(orderItemPojo.getProductId());
+        orderItemData.setBarcode(barcode);
+        orderItemData.setName(name);
+        orderItemData.setQty(orderItemPojo.getQty());
+        orderItemData.setOrderId(orderItemPojo.getOrderId());
+        orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());
+        return orderItemData;
     }
 
-    public static void normalizeOrderItem(OrderItemForm o) {
-        o.setBarcode(StringUtil.toLowerCase(o.getBarcode()));
+    public static void normalizeOrderItem(OrderItemForm orderItemForm) {
+        orderItemForm.setBarcode(StringUtil.toLowerCase(orderItemForm.getBarcode()));
     }
 }

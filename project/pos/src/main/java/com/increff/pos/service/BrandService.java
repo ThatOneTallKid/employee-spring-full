@@ -17,42 +17,42 @@ public class BrandService {
     private BrandDao dao;
 
 
-    public void add(BrandPojo b) throws ApiException{
-        dao.insert(b);
+    public void add(BrandPojo brandPojo) throws ApiException{
+        dao.insert(brandPojo);
     }
 
     public BrandPojo get(int id) throws ApiException {
-        BrandPojo p = dao.selectByID(id, BrandPojo.class);
-        if (Objects.isNull(p)) {
+        BrandPojo brandPojo = dao.selectByID(id, BrandPojo.class);
+        if (Objects.isNull(brandPojo)) {
             throw new ApiException("Brand with given ID does not exit, id: " + id);
         }
-        return p;
+        return brandPojo;
     }
 
     public List<BrandPojo> getAll() {
         return dao.selectALL(BrandPojo.class);
     }
 
-    public void update(int id, BrandPojo b) throws ApiException{
-        BrandPojo bx = get(id);
-        if(checkBrandExists(b.getBrand(), b.getCategory()) == true) {
+    public void update(int id, BrandPojo newBrandPojo) throws ApiException{
+        BrandPojo brandPojo = get(id);
+        if(checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory()) == true) {
             throw new ApiException("Same brand and category exist");
         }
-        bx.setCategory(b.getCategory());
-        bx.setBrand(b.getBrand());
+        brandPojo.setCategory(newBrandPojo.getCategory());
+        brandPojo.setBrand(newBrandPojo.getBrand());
         dao.update();
     }
 
     public Boolean checkBrandExists(String brand, String category)  {
-        BrandPojo b = dao.selectByBrandCategory(brand, category);
-        if(Objects.isNull(b)) {
+        BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
+        if(Objects.isNull(brandPojo)) {
             return false;
         }
         return true;
     }
 
     public BrandPojo getBrandPojofromBrandCategory(String brand, String category) throws ApiException {
-        BrandPojo b = dao.selectByBrandCategory(brand, category);
-        return b;
+        BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
+        return brandPojo;
     }
 }

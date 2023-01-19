@@ -11,7 +11,8 @@ public class OrderItemDao extends AbstractDao{
 
     private static String DELETE_BY_ID = "delete from OrderItemPojo where id=:id";
     private static String SELECT_BY_ORDER_ID = "select o from OrderItemPojo o where orderId=:orderId";
-    private static String SELECT_BY_ORDER_ID_PRODUCT_ID = "select o from OrderItemPojo o where orderId=:orderId and productId=:productId";
+    private static String SELECT_BY_ORDER_ID_PRODUCT_ID = "select o from OrderItemPojo o where orderId=:orderId and" +
+            " productId=:productId";
 
     public OrderItemPojo deleteById(int id) {
         TypedQuery<OrderItemPojo> query = getQuery(DELETE_BY_ID, OrderItemPojo.class);
