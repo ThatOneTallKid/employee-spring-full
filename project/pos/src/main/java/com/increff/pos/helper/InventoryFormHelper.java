@@ -5,6 +5,9 @@ import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
+import javafx.util.Pair;
+
+import java.util.Map;
 
 public class InventoryFormHelper {
 
@@ -24,13 +27,12 @@ public class InventoryFormHelper {
         return inventoryData;
     }
 
-    public static InventoryItem convertInventoryDataToItem(InventoryData inventoryData, String brand, String category) {
+    public static InventoryItem convertMapToItem(Map.Entry<Pair<String,String>, Integer> mapElement) {
+        Pair<String, String> p = mapElement.getKey();
         InventoryItem inventoryItem = new InventoryItem();
-        inventoryItem.setId(inventoryData.getId());
-        inventoryItem.setQty(inventoryData.getQty());
-        inventoryItem.setName(inventoryData.getName());
-        inventoryItem.setBrand(brand);
-        inventoryItem.setCategory(category);
+        inventoryItem.setBrand(p.getKey());
+        inventoryItem.setCategory(p.getValue());
+        inventoryItem.setQty(mapElement.getValue());
         return inventoryItem;
     }
 }

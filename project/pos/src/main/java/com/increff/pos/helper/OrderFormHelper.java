@@ -19,8 +19,7 @@ public class OrderFormHelper {
     public static OrderData convertOrderPojoToData(OrderPojo orderPojo) {
         OrderData orderData = new OrderData();
         orderData.setId(orderPojo.getId());
-        Timestamp timestamp = orderPojo.getCreatedAt();
-        orderData.setOrderDate(LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHoursMinutes(5, 30)));
+        orderData.setOrderDate(orderPojo.getCreatedAt());
         return orderData;
 
     }

@@ -49,8 +49,8 @@
         <fo:block space-before="35pt">
             <fo:table line-height="30px">
                 <fo:table-column column-width="3cm"/>
-                <fo:table-column column-width="6.5cm"/>
-                <fo:table-column column-width="6.5cm"/>
+                <fo:table-column column-width="7cm"/>
+                <fo:table-column column-width="7cm"/>
                 <fo:table-header>
                     <fo:table-row background-color="#f5f5f5" text-align="center" font-weight="bold">
                         <fo:table-cell border="1px solid #b8b6b6">

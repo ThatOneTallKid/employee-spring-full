@@ -187,10 +187,6 @@ public class CreateXMLFileJava {
                 id.appendChild(document.createTextNode(Integer.toString(o.getId())));
                 inventory_item.appendChild(id);
 
-                Element name = document.createElement("name");
-                name.appendChild(document.createTextNode(o.getName()));
-                inventory_item.appendChild(name);
-
                 // firstname element
                 Element brand = document.createElement("brand");
                 brand.appendChild(document.createTextNode(o.getBrand()));

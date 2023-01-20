@@ -51,7 +51,7 @@ public class BrandService {
         return true;
     }
 
-    public BrandPojo getBrandPojofromBrandCategory(String brand, String category) throws ApiException {
+    public BrandPojo    getBrandPojofromBrandCategory(String brand, String category) throws ApiException {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
         return brandPojo;
     }

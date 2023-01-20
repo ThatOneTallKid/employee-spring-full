@@ -49,6 +49,12 @@ public class OrderItemService {
         return orderItemPojo;
     }
 
+    public List<OrderItemPojo> getOrderItemsByOrderId(int orderId) throws ApiException {
+        List<OrderItemPojo> orderItemPojo = orderItemDao.selectOrderItemByOrderId(orderId);
+
+        return orderItemPojo;
+    }
+
     public List<OrderItemPojo> getOrderItemByOrderItem(int orderId) throws ApiException {
         return orderItemDao.selectOrderByOrderId(orderId);
     }

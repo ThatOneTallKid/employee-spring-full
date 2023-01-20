@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 @MappedSuperclass
@@ -16,13 +17,13 @@ import java.sql.Timestamp;
 public abstract class AbstractPojo implements Serializable {
     @CreationTimestamp
     @Column
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column
-    private Timestamp updatedAt;
-//  Implement
-//    @Version
-//    @Column
-//    private long version;
+    private LocalDateTime updatedAt;
+
+    @Version
+    @Column
+    private Integer version;
 }

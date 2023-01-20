@@ -13,6 +13,7 @@ import com.increff.pos.service.BrandService;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ValidationUtil;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.increff.pos.helper.InventoryFormHelper.convertInventoryFormToPojo;
 import static com.increff.pos.helper.InventoryFormHelper.convertInventoryPojoToData;
@@ -41,6 +44,8 @@ public class InventoryDto {
 
     @Autowired
     BrandService brandService;
+
+
 
     public void add(InventoryForm form) throws ApiException {
         ValidationUtil.validateForms(form);
@@ -75,12 +80,21 @@ public class InventoryDto {
         List<InventoryData> inventoryDataList = getAll();
         List<InventoryItem> inventoryItemList = new ArrayList<>();
 
+        HashMap<Pair<String, String>, Integer> map = new HashMap<>();
         for(InventoryData inventoryData : inventoryDataList) {
-            ProductPojo productPojo = productService.get(inventoryData.getId());
-            BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
-            InventoryItem inventoryItem = InventoryFormHelper.convertInventoryDataToItem(inventoryData,
-                    brandPojo.getBrand(), brandPojo.getCategory());
-            inventoryItemList.add(inventoryItem);
+            BrandPojo brandPojo = brandService.get(productService.get(inventoryData.getId()).getBrandCategory());
+            Pair<String, String> pair= new Pair<>(brandPojo.getBrand(), brandPojo.getCategory());
+            if(map.containsKey(pair)) {
+                int prev = map.get(pair);
+                map.replace(pair, prev+inventoryData.getQty());
+            }
+            else {
+                map.put(pair,inventoryData.getQty());
+            }
+        }
+
+        for(Map.Entry<Pair<String,String>, Integer> mapElement : map.entrySet()) {
+            inventoryItemList.add(InventoryFormHelper.convertMapToItem(mapElement));
         }
 
         InventoryReportForm inventoryReportForm = new InventoryReportForm();

@@ -32,7 +32,15 @@
                     </fo:block>
                   </fo:table-cell>
                 </fo:table-row>
-
+                <fo:table-row>
+                  <fo:table-cell padding-left="5pt" padding-top="5pt">
+                    <fo:block>
+                      c/o Increff&#x2028;
+                      Sector 6, HSR Layout&#x2028;
+                      Bengaluru
+                    </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
               </fo:table-body>
             </fo:table>
           </fo:block>

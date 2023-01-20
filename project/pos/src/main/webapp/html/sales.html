@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+    <h3>Daily Sales Report</h3>
+
+    <!-- Top row with form-->
+
+
+
+
+    <!-- Blank Row -->
+    <div class="row">
+        &nbsp;
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+
+        <!-- Table -->
+        <div class="col-12">
+            <table class="table table-striped" id="Sales-table">
+                <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Order Count</th>
+                    <th scope="col">Item Count</th>
+                    <th scope="col">Revenue</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Romil Jain</td>
+                    <td>30</td>
+                    <td>30</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>Rajul Jain</td>
+                    <td>31</td>
+                    <td>31</td>
+                    <td>31</td>
+                </tr>
+                <tr>
+                    <td>Anaisha Jain</td>
+                    <td>7</td>
+                    <td>7</td>
+                    <td>7</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/sales.js}"/></script>
+
+</body>
+
+</html>
