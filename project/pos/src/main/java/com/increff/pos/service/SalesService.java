@@ -38,4 +38,9 @@ public class SalesService {
         pojo.setInvoicedItemsCount(newPojo.getInvoicedItemsCount());
     }
 
+    @Transactional
+    public List<SalesPojo> getAllByDate(LocalDate startDate, LocalDate endDate) {
+        return salesDao.getAllByDate(startDate,endDate);
+    }
+
 }

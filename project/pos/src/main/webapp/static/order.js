@@ -55,8 +55,6 @@ function editOrderItem(id) {
 function displayOrderItemList(data){
 	var $tbody = $('#order-item-table').find('tbody');
 	$tbody.empty();
-
-	// logic is flawedshould be in a loop
 	for(var i in wholeOrder) {
         var e = wholeOrder[i];  
         var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn"><i class="fa-regular fa-circle-xmark"></i></button>';
@@ -282,15 +280,6 @@ function getOrderInfoForView(id) {
 }
 
 function printOrder(id) {
-//    var url = getInvoiceUrl() + "/" + id;
-//        $.ajax({
-//            url: url,
-//            type: 'GET',
-//            success: function(data) {
-//
-//            },
-//            error: handleAjaxError
-//         });
     window.location.href = getInvoiceUrl() + "/" + id;
 }
 
@@ -368,7 +357,6 @@ function placeOrder() {
             error: handleAjaxError
         });
     }
-
     return false;
 }
 

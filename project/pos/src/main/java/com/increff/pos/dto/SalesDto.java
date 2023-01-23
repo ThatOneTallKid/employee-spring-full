@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import com.increff.pos.model.form.SalesForm;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.SalesPojo;
@@ -38,8 +39,6 @@ public class SalesDto {
 
         LocalDateTime endDate =  LocalDateTime.of(date, LocalTime.MAX);
 
-
-
         List<OrderPojo> orderPojoList = orderService.getOrderByDateFilter(startDate,endDate);
 
         Integer totalOrders = orderPojoList.size();
@@ -69,8 +68,13 @@ public class SalesDto {
     }
 
     public List<SalesPojo> getAll() {
-
         return salesService.getALL();
+    }
+
+    public List<SalesPojo> getAllByDate(SalesForm salesForm){
+        LocalDate startDate = LocalDate.parse(salesForm.getStartDate());
+        LocalDate endDate = LocalDate.parse(salesForm.getEndDate());
+        return  salesService.getAllByDate(startDate, endDate);
     }
 
 

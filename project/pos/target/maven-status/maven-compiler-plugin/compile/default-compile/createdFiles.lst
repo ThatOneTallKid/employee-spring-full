@@ -48,6 +48,7 @@ com\increff\pos\model\data\OrderData.class
 com\increff\pos\pojo\BrandPojo.class
 com\increff\pos\service\OrderItemService.class
 com\increff\pos\dao\OrderDao.class
+com\increff\pos\model\form\SalesForm.class
 com\increff\pos\util\IOUtil.class
 com\increff\pos\dao\OrderItemDao.class
 com\increff\pos\dto\BrandDto.class

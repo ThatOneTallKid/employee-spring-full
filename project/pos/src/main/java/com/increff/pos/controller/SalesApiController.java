@@ -1,14 +1,13 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.dto.SalesDto;
+import com.increff.pos.model.form.SalesForm;
 import com.increff.pos.pojo.SalesPojo;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +24,11 @@ public class SalesApiController {
     public List<SalesPojo> getAll() throws ApiException {
         salesDto.createReport();
         return salesDto.getAll();
+    }
+
+    @ApiOperation(value = "get all sales date between 2 dates")
+    @PostMapping(path = "/filter")
+    public List<SalesPojo> getAllByDate(@RequestBody SalesForm salesForm){
+        return salesDto.getAllByDate(salesForm);
     }
 }

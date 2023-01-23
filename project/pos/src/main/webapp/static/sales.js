@@ -30,8 +30,39 @@ function getSalesList() {
 	});
 }
 
+function resetForm() {
+    var element = document.getElementById("sales-form");
+    element.reset()
+}
+
+
+
+function getFilteredList(event) {
+    var $form = $("#sales-form");
+    var json = toJson($form);
+    console.log(json);
+    var url = getSalesUrl()+ "/filter";
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: json,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+         success: function (response) {
+             resetForm();
+            displaySalesList(response);
+            console.log("success BC");
+        },
+        error: handleAjaxError
+     });
+ 
+     return false;
+}
+
 function init() {
     $('#refresh-data').click(getSalesList);
+    $('#apply-filter').click(getFilteredList);
 
 }
 
