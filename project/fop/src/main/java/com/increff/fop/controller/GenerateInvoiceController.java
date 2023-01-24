@@ -1,5 +1,6 @@
 package com.increff.fop.controller;
 
+import com.increff.fop.dto.InvoiceDto;
 import com.increff.fop.model.BrandReportForm;
 import com.increff.fop.model.InventoryReportForm;
 import com.increff.fop.model.InvoiceForm;
@@ -26,64 +27,24 @@ import java.nio.file.Paths;
 public class GenerateInvoiceController {
 
     @Autowired
-    private GenerateInvoiceService service;
+    private InvoiceDto invoiceDto;
 
     @ApiOperation(value = "Generate Invoice")
     @RequestMapping(path = "/api/invoice", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getPDF(@RequestBody InvoiceForm form) throws IOException {
-
-        service.generateInvoice(form);
-        String _filename = "./Test/invoice_"+form.getOrderId() +".pdf";
-        Path pdfPath = Paths.get("./Test/invoice.pdf");
-
-        byte[] contents = Files.readAllBytes(pdfPath);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-        return response;
+        return invoiceDto.getInvoicePDF(form);
     }
 
     @ApiOperation(value = "Generate Brand Report")
     @RequestMapping(path = "/api/brandreport", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getPDF(@RequestBody BrandReportForm form) throws IOException {
-
-        service.generateBrandReport(form);
-        Path pdfPath = Paths.get("./Test/brandreport.pdf");
-
-        byte[] contents = Files.readAllBytes(pdfPath);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-        return response;
+        return invoiceDto.getBrandReport(form);
     }
 
     @ApiOperation(value = "Generate Inventory Report")
     @RequestMapping(path = "/api/inventoryreport", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getPDF(@RequestBody InventoryReportForm form) throws IOException {
-
-        service.generateInventoryReport(form);
-        Path pdfPath = Paths.get("./Test/inventoryreport.pdf");
-
-        byte[] contents = Files.readAllBytes(pdfPath);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-        return response;
+        return invoiceDto.getInventoryReport(form);
     }
 
 }

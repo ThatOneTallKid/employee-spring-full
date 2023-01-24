@@ -7,12 +7,13 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "pos_day_sales")
-public class SalesPojo {
+public class SalesPojo extends AbstractPojo{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,5 +27,8 @@ public class SalesPojo {
     private Integer invoicedItemsCount;
     @Column(nullable = false, name = "total_revenue")
     private Double totalRevenue;
+    @Column(nullable = false, name = "last_run")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastRun;
 
 }

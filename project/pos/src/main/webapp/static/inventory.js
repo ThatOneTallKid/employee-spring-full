@@ -110,7 +110,10 @@ function uploadRows(){
 	if(processCount==fileData.length){
 		return;
 	}
-
+	$("#process-data").prop('disabled', true);
+    if(errorData.length > 0){
+      $("#download-errors").prop('disabled', false);
+    }
 	//Process next row
 	var row = fileData[processCount];
 	processCount++;
@@ -149,10 +152,12 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>'
+		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')" class="btn"><i class="fa-solid fa-pen"></i></button>'
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.name + '</td>'
+		+ '<td>' + e.brand + '</td>'
+		+ '<td>' + e.category + '</td>'
 		+ '<td>'  + e.qty + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
@@ -202,6 +207,8 @@ function displayUploadData(){
     console.log("hello");
  	resetUploadDialog();
 	$('#upload-inventory-modal').modal('toggle');
+	$("#download-errors").prop('disabled', true);
+	$("#process-data").prop('disabled', true);
 }
 
 function displayInventory(data){
@@ -215,6 +222,10 @@ function printReport() {
     window.location.href = getInventoryReportUrl();
 }
 
+function activateUpload() {
+    $("#process-data").prop('disabled', false);
+}
+
 
 //INITIALIZATION CODE
 function init(){
@@ -226,6 +237,7 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName)
     $('#print-report').click(printReport);
+    $('#inventoryFile').click(activateUpload);
 }
 
 $(document).ready(init);

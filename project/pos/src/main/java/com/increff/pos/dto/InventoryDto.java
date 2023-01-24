@@ -56,7 +56,8 @@ public class InventoryDto {
     public InventoryData get(int id) throws ApiException{
         InventoryPojo inventoryPojo = inventoryService.get(id);
         ProductPojo productPojo = productService.get(id);
-        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName());
+        BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
+        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
     }
 
     public List<InventoryData> getAll() throws ApiException {
@@ -64,7 +65,8 @@ public class InventoryDto {
         List<InventoryData> list2 = new ArrayList<>();
         for(InventoryPojo inventoryPojo : list) {
             ProductPojo productPojo = productService.get(inventoryPojo.getId());
-            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName()));
+            BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
+            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName(), brandPojo));
         }
         return list2;
     }

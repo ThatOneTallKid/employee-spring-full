@@ -11,6 +11,7 @@ import java.util.List;
 public class SalesDao extends AbstractDao{
     private final String SELECT_BY_DATE = "select p from SalesPojo p where date=:date";
     private final String SELECT_ALL_BY_DATE = "select p from SalesPojo p where date>=:startDate and date<=:endDate";
+    private final String SELECT_ALL_DESC = "select p from SalesPojo p order by date desc";
 
     public SalesPojo selectByDate(LocalDate date) {
         TypedQuery<SalesPojo> query = getQuery(SELECT_BY_DATE, SalesPojo.class);
@@ -22,6 +23,11 @@ public class SalesDao extends AbstractDao{
         TypedQuery<SalesPojo> query = getQuery(SELECT_ALL_BY_DATE, SalesPojo.class);
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
+        return query.getResultList();
+    }
+
+    public List<SalesPojo> selectAllDesc() {
+        TypedQuery<SalesPojo> query = getQuery(SELECT_ALL_DESC, SalesPojo.class);
         return query.getResultList();
     }
 }

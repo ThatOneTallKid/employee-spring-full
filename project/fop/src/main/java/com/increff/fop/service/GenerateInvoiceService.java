@@ -39,6 +39,7 @@ public class GenerateInvoiceService {
             Double cur = 0.0;
             cur = i.getSellingPrice() * i.getQuantity();
             amt+=cur;
+            i.setAmt(cur);
         }
         form.setAmount(amt);
         CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();

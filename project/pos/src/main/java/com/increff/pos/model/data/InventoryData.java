@@ -10,4 +10,6 @@ public class InventoryData extends InventoryForm {
 
     private int id;
     private String name;
+    private String brand;
+    private String category;
 }

@@ -22,7 +22,6 @@ public class SalesApiController {
     @ApiOperation(value = "Gets all the Sales data")
     @GetMapping(path = "")
     public List<SalesPojo> getAll() throws ApiException {
-        salesDto.createReport();
         return salesDto.getAll();
     }
 
@@ -30,5 +29,11 @@ public class SalesApiController {
     @PostMapping(path = "/filter")
     public List<SalesPojo> getAllByDate(@RequestBody SalesForm salesForm){
         return salesDto.getAllByDate(salesForm);
+    }
+
+    @ApiOperation(value = "Runs the scheduler")
+    @GetMapping(path = "/scheduler")
+    public void runScheduler() throws ApiException {
+        salesDto.createReport();
     }
 }

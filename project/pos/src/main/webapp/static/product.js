@@ -118,7 +118,12 @@ function uploadRows(){
    if(processCount==fileData.length){
       return;
    }
+    $("#process-data").prop('disabled', true);
 
+
+   if(errorData.length > 0){
+      $("#download-errors").prop('disabled', false);
+   }
    //Process next row
    var row = fileData[processCount];
    processCount++;
@@ -158,13 +163,13 @@ function displayProductList(data){
    for(var i in data){
       var e = data[i];
       console.log(e);
-      var buttonHtml = ' <button onclick="displayEditProduct(' + e.id + ')">edit</button>'
+      var buttonHtml = ' <button onclick="displayEditProduct(' + e.id + ')" class="btn"><i class="fa-solid fa-pen"></i></button>'
       var row = '<tr>'
       + '<td>' + e.barcode + '</td>'
       + '<td>'  + e.name + '</td>'
       + '<td>'  + e.brand + '</td>'
       + '<td>'  + e.category + '</td>'
-      + '<td>'  + e.mrp + '</td>'
+      + '<td>'  + parseFloat(e.mrp).toFixed(2) + '</td>'
       + '<td>' + buttonHtml + '</td>'
       + '</tr>';
         $tbody.append(row);
@@ -216,6 +221,9 @@ function displayUploadData(){
     console.log("hello");
    resetUploadDialog();
    $('#upload-product-modal').modal('toggle');
+   $("#download-errors").prop('disabled', true);
+   $("#process-data").prop('disabled', true);
+
 }
 
 function displayProduct(data){
@@ -286,6 +294,10 @@ function displayCategoryOptions()
         }
 }
 
+function activateUpload() {
+    $("#process-data").prop('disabled', false);
+}
+
 
 //INITIALIZATION CODE
 function init(){
@@ -297,9 +309,9 @@ function init(){
    $('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName)
     $('#inputBrand').change(displayCategoryOptions);
+    $('#productFile').click(activateUpload);
 }
 
 $(document).ready(init);
 $(document).ready(getProductList);
-
 $(document).ready(getBrandList);

@@ -2,8 +2,11 @@ function getSalesUrl(){
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     return baseUrl + "/api/sales";
 }
-
+var last_run = null;
 function displaySalesList(data) {
+    last_run =data[0].lastRun;
+    console.log(last_run);
+    $("#last-run input[name=lastRun]").val(last_run);
     var $tbody = $('#Sales-table').find('tbody');
     $tbody.empty();
     for (var i in data) {
@@ -12,7 +15,7 @@ function displaySalesList(data) {
 		+ '<td>' + e.date + '</td>'
 		+ '<td>'  + e.invoicedOrderCount + '</td>'
 		+ '<td>' + e.invoicedItemsCount + '</td>'
-		+ '<td>' + e.totalRevenue + '</td>'
+		+ '<td>' + parseFloat(e.totalRevenue).toFixed(2) + '</td>'
 		+ '</tr>';
         $tbody.append(row);
     }
@@ -52,7 +55,6 @@ function getFilteredList(event) {
          success: function (response) {
              resetForm();
             displaySalesList(response);
-            console.log("success BC");
         },
         error: handleAjaxError
      });
@@ -60,8 +62,25 @@ function getFilteredList(event) {
      return false;
 }
 
+function refreshData() {
+    var url = getSalesUrl()+ "/scheduler";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+             success: function () {
+                getSalesList();
+            },
+            error: handleAjaxError
+         });
+
+         return false;
+}
+
 function init() {
-    $('#refresh-data').click(getSalesList);
+    $('#refresh-data').click(refreshData);
     $('#apply-filter').click(getFilteredList);
 
 }

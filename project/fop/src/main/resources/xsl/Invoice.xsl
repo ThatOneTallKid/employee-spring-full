@@ -78,10 +78,11 @@
     </fo:block>
     <fo:block space-before="35pt">
       <fo:table line-height="30px">
+        <fo:table-column column-width="2cm"/>
+        <fo:table-column column-width="5.5cm"/>
+        <fo:table-column column-width="2cm"/>
         <fo:table-column column-width="3cm"/>
-        <fo:table-column column-width="6.5cm"/>
         <fo:table-column column-width="3cm"/>
-        <fo:table-column column-width="4cm"/>
         <fo:table-header>
           <fo:table-row background-color="#f5f5f5" text-align="center" font-weight="bold">
             <fo:table-cell border="1px solid #b8b6b6">
@@ -94,6 +95,9 @@
               <fo:block>QTY</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
+              <fo:block>Unit Price</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border="1px solid #b8b6b6">
               <fo:block>AMOUNT</fo:block>
             </fo:table-cell>
           </fo:table-row>
@@ -103,7 +107,7 @@
 
 
           <fo:table-row font-weight="bold">
-            <fo:table-cell number-columns-spanned="3" text-align="right" padding-right="3pt">
+            <fo:table-cell number-columns-spanned="4" text-align="right" padding-right="3pt">
               <fo:block>Total</fo:block>
             </fo:table-cell>
             <fo:table-cell  text-align="right" padding-right="3pt" background-color="#f5f5f5" border="1px solid #b8b6b6" >
@@ -138,6 +142,11 @@
       <fo:table-cell border="1px solid #b8b6b6" text-align="right" padding-right="3pt">
         <fo:block>
           <xsl:value-of select="selling_price"/>
+        </fo:block>
+      </fo:table-cell>
+      <fo:table-cell border="1px solid #b8b6b6" text-align="right" padding-right="3pt">
+        <fo:block>
+          <xsl:value-of select="amt"/>
         </fo:block>
       </fo:table-cell>
     </fo:table-row>

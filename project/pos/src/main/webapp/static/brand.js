@@ -100,6 +100,7 @@ function readFileDataCallback(results){
 	    alert("file length exceeds 5000, Not Allowed");
 	}
 	else {
+
 	    uploadRows();
 	}
 }
@@ -107,11 +108,15 @@ function readFileDataCallback(results){
 function uploadRows(){
 	//Update progress
 	updateUploadDialog();
+
+    $("#process-data").prop('disabled', true);
 	//If everything processed then return
 	if(processCount==fileData.length){
 		return;
 	}
-
+    if(errorData.length > 0){
+        $("#download-errors").prop('disabled', false);
+    }
 	//Process next row
 	var row = fileData[processCount];
 	processCount++;
@@ -150,7 +155,7 @@ function displayBrandList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = ' <button onclick="displayEditBrand(' + e.id + ')">edit</button>'
+		var buttonHtml = ' <button onclick="displayEditBrand(' + e.id + ')" class="btn"><i class="fa-solid fa-pen"></i></button>'
 		var row = '<tr>'
 		+ '<td>' + e.brand + '</td>'
 		+ '<td>'  + e.category + '</td>'
@@ -201,6 +206,9 @@ function displayUploadData(){
     console.log("hello");
  	resetUploadDialog();
 	$('#upload-brand-modal').modal('toggle');
+    $("#download-errors").prop('disabled', true);
+    $("#process-data").prop('disabled', true);
+
 }
 
 function displayBrand(data){
@@ -214,6 +222,11 @@ function printReport() {
     window.location.href = getBrandReportUrl();
 }
 
+function activateUpload() {
+    $("#process-data").prop('disabled', false);
+}
+
+
 //INITIALIZATION CODE
 function init(){
 	$('#add-brand').click(addBrand);
@@ -224,6 +237,7 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName)
     $('#print-report').click(printReport);
+    $('#brandFile').click(activateUpload);
 }
 
 $(document).ready(init);

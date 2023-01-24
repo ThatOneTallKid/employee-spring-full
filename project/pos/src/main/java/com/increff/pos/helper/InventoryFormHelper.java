@@ -3,6 +3,7 @@ package com.increff.pos.helper;
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
+import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
 import javafx.util.Pair;
@@ -18,12 +19,14 @@ public class InventoryFormHelper {
         return inventoryPojo;
     }
 
-    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name) throws ApiException {
+    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, BrandPojo brandPojo) throws ApiException {
         InventoryData inventoryData = new InventoryData();
         inventoryData.setId(inventoryPojo.getId());
         inventoryData.setQty(inventoryPojo.getQty());
         inventoryData.setName(name);
         inventoryData.setBarcode(barcode);
+        inventoryData.setBrand(brandPojo.getBrand());
+        inventoryData.setCategory(brandPojo.getCategory());
         return inventoryData;
     }
 

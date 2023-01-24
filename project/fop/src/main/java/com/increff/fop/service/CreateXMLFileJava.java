@@ -73,6 +73,10 @@ public class CreateXMLFileJava {
                 sellingPrice.appendChild(document.createTextNode(o.getSellingPrice().toString()));
                 order_item.appendChild(sellingPrice);
 
+                Element amt = document.createElement("amt");
+                amt.appendChild(document.createTextNode(o.getAmt().toString()));
+                order_item.appendChild(amt);
+
             }
 
             Element amount = document.createElement("amount");

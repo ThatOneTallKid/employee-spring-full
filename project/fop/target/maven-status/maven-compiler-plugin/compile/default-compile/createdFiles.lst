@@ -1,4 +1,5 @@
 com\increff\fop\spring\WebInitializer.class
+com\increff\fop\dto\InvoiceDto.class
 com\increff\fop\spring\ControllerConfig.class
 com\increff\fop\model\BrandData.class
 com\increff\fop\model\InventoryReportForm.class

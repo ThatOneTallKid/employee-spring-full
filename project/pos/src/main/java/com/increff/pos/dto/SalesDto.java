@@ -8,13 +8,9 @@ import com.increff.pos.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +22,6 @@ public class SalesDto {
     @Autowired
     OrderService orderService;
 
-    @Autowired
-    OrderItemService orderItemService;
 
     public void createReport() throws ApiException {
         SalesPojo salesPojo = new SalesPojo();
@@ -45,18 +39,18 @@ public class SalesDto {
 
         for (OrderPojo orderPojo : orderPojoList) {
             Integer id = orderPojo.getId();
-            List<OrderItemPojo> orderItemPojoList = orderItemService.getOrderItemsByOrderId(id);
+            List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(id);
             for (OrderItemPojo orderItemPojo: orderItemPojoList) {
                 totalItems += orderItemPojo.getQty();
                 totalRevenue += orderItemPojo.getQty() * orderItemPojo.getSellingPrice();
             }
         }
-
+        LocalDateTime now = LocalDateTime.now();
         salesPojo.setDate(date);
+        salesPojo.setLastRun(now);
         salesPojo.setInvoicedItemsCount(totalItems);
         salesPojo.setTotalRevenue(totalRevenue);
         salesPojo.setInvoicedOrderCount(totalOrders);
-
         SalesPojo pojo = salesService.getByDate(date);
         if(Objects.isNull(pojo)){
             salesService.add(salesPojo);

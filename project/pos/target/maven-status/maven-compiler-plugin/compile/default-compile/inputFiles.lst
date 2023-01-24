@@ -7,12 +7,15 @@ C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\co
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\spring\SpringSecurityInitializer.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\AppUiController.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\OrderApiController.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\SalesReportApiController.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\dao\BrandDao.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\pojo\InventoryPojo.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\service\UserService.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\SalesReportForm.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\LoginForm.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\SalesForm.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\pojo\OrderItemPojo.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\data\SalesReportData.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\StringUtil.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\dto\BrandDto.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\UserForm.java
@@ -27,6 +30,7 @@ C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\co
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\BrandForm.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\data\InventoryData.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\InvoiceForm.java
+C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\dto\SalesReportDto.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\SampleController.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\data\InfoData.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\service\BrandService.java
@@ -64,7 +68,6 @@ C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\co
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\controller\InitApiController.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\service\ApiException.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\model\form\OrderItemForm.java
-C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\service\OrderItemService.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\CheckerUtil.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\SecurityUtil.java
 C:\Users\KIIT\Desktop\Projects\employee-spring-full\project\pos\src\main\java\com\increff\pos\util\UserPrincipal.java

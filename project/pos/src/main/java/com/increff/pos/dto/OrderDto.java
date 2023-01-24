@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
+import com.increff.pos.model.form.InvoiceForm;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -10,7 +11,13 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.*;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import com.increff.pos.invoice.InvoiceGenerator;
 
 import java.util.*;
 
@@ -21,7 +28,7 @@ import static com.increff.pos.helper.OrderItemFormHelper.*;
 public class OrderDto {
 
     @Autowired
-    OrderItemService orderItemService;
+    OrderService orderService;
 
     @Autowired
     InventoryService inventoryService;
@@ -30,23 +37,23 @@ public class OrderDto {
     ProductService productService;
 
     @Autowired
-    OrderService orderService;
+    InvoiceGenerator invoiceGenerator;
+
 
 
     public void add(List<OrderItemForm> forms) throws ApiException {
         checkDuplicates(forms);
 
         OrderPojo orderPojo = new OrderPojo();
-        orderService.add(orderPojo);
+        orderService.addOrder(orderPojo);
 
         for (OrderItemForm f : forms) {
-            // Check if Barcode exists in product db
             ProductPojo productPojo = productService.getByBarcode(f.getBarcode());
 
             OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
             orderItemPojo.setOrderId(orderPojo.getId());
 
-            OrderItemPojo checkExist = orderItemService.getOrderItemByOrderIdProductId(orderItemPojo.getOrderId(),
+            OrderItemPojo checkExist = orderService.getOrderItemByOrderIdProductId(orderItemPojo.getOrderId(),
                     orderItemPojo.getProductId());
             if (Objects.isNull(checkExist)) {
                 reduceInventory(orderItemPojo, productPojo.getId(), f);
@@ -55,13 +62,13 @@ public class OrderDto {
     }
 
     public OrderItemData get(int id) throws ApiException {
-        OrderItemPojo orderItemPojo = orderItemService.get(id);
+        OrderItemPojo orderItemPojo = orderService.get(id);
         ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
         return convertOrderItemPojoToData(orderItemPojo, productPojo.getBarcode(), productPojo.getName());
     }
 
     public List<OrderData> getAll() {
-        List<OrderPojo> list = orderService.getAll();
+        List<OrderPojo> list = orderService.getAllOrders();
         List<OrderData> list2 = new ArrayList<>();
         for(OrderPojo orderPojo : list) {
             list2.add(convertOrderPojoToData(orderPojo));
@@ -69,8 +76,28 @@ public class OrderDto {
         return list2;
     }
 
+    public ResponseEntity<byte[]> getPDF(int id) throws Exception {
+        InvoiceForm invoiceForm = invoiceGenerator.generateInvoiceForOrder(id);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String url = "http://localhost:8085/fop/api/invoice";
+
+        byte[] contents = restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+
+        String filename = "invoice.pdf";
+        headers.setContentDispositionFormData(filename, filename);
+
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
+        return response;
+    }
+
     public List<OrderItemData> getOrderByID(int id) throws ApiException {
-        List<OrderItemPojo> list = orderItemService.getOrderItemByOrderItem(id);
+        List<OrderItemPojo> list = orderService.getOrderItemByOrderItem(id);
         List<OrderItemData> list2 = new ArrayList<>();
         for (OrderItemPojo orderItemPojo : list) {
             ProductPojo px = productService.get(orderItemPojo.getProductId());
@@ -85,7 +112,7 @@ public class OrderDto {
         int remaining_qty = prev_qty - orderItemForm.getQty();
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setQty(remaining_qty);
-        orderItemService.add(orderItemPojo);
+        orderService.add(orderItemPojo);
         inventoryService.update(id, inventoryPojo);
     }
 

@@ -49,6 +49,8 @@ function editOrderItem(id) {
     $("#order-item-form input[name=barcode]").val(JSON.parse(wholeOrder[id]).barcode);
     $("#order-item-form input[name=qty]").val(JSON.parse(wholeOrder[id]).qty);
     $("#order-item-form input[name=sellingPrice]").val(JSON.parse(wholeOrder[id]).sellingPrice);
+    var prev = barcode_qty.get(JSON.parse(wholeOrder[id]).barcode);
+    barcode_qty.set(JSON.parse(wholeOrder[id]).barcode, JSON.parse(wholeOrder[id]).qty + prev);
     deleteOrderItem(id);
 }
 
@@ -62,7 +64,7 @@ function displayOrderItemList(data){
         var row = '<tr>'
             + '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
             + '<td>'  + JSON.parse(wholeOrder[i]).qty + '</td>'
-            + '<td>'  + JSON.parse(wholeOrder[i]).sellingPrice + '</td>'
+            + '<td>'  + parseFloat(JSON.parse(wholeOrder[i]).sellingPrice).toFixed(2) + '</td>'
             + '<td>'  + editHtml+ buttonHtml + '</td>'
             + '</tr>';
 
@@ -260,7 +262,7 @@ function displayOrderView(data) {
    		+ '<td>' + e.barcode + '</td>'
    		+ '<td>' + e.name + '</td>'
     	+ '<td>'  + e.qty + '</td>'
-    	+ '<td>'  + e.sellingPrice + '</td>'
+    	+ '<td>'  + parseFloat(e.sellingPrice).toFixed(2) + '</td>'
    		+ '</tr>';
    		$tbody.append(row);
     }
@@ -294,8 +296,8 @@ function displayOrderList(data) {
     $tbody.empty();
     for(var i in data){
         var e = data[i];
-   		var buttonHtml = ' <button  onclick="OrderView(' + e.id + ')">view</button>'
-   		buttonHtml += ' <button onclick="printOrder('+e.id+')">Print</button>';
+   		var buttonHtml = ' <button  onclick="OrderView(' + e.id + ')" class="btn"><i class="fa-solid fa-eye"></i></button>'
+   		buttonHtml += '  <button onclick="printOrder('+e.id+')" class="btn"><i class="fa-solid fa-print"></i></button>';
    		var row = '<tr>'
    		+ '<td>' + e.id + '</td>'
     	+ '<td>'  + e.orderDate + '</td>'
