@@ -39,8 +39,6 @@ public class OrderDto {
     @Autowired
     InvoiceGenerator invoiceGenerator;
 
-
-
     public void add(List<OrderItemForm> forms) throws ApiException {
         checkDuplicates(forms);
 
@@ -83,7 +81,7 @@ public class OrderDto {
 
         String url = "http://localhost:8085/fop/api/invoice";
 
-        byte[] contents = restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody();
+        byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);

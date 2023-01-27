@@ -34,12 +34,6 @@ public class SalesReportApiController {
     @ApiOperation(value = "get data within filter")
     @PostMapping(path = "/filter")
     public List<SalesReportData> getFilteredData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
-        String startDate = salesReportForm.getStartDate() + " 00:00:00";
-        String endDate = salesReportForm.getEndDate() + " 23:59:59";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime sDate = LocalDateTime.parse(startDate, formatter);
-        LocalDateTime eDate = LocalDateTime.parse(endDate, formatter);
-        List<OrderPojo> list = orderService.getOrderByDateFilter(sDate,eDate);
-        return salesReportDto.getFilterSalesReport(list,salesReportForm.getBrand(), salesReportForm.getCategory());
+        return salesReportDto.getFilteredData(salesReportForm);
     }
 }

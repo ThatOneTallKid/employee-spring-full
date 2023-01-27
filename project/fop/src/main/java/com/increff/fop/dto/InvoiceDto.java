@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 @Component
 public class InvoiceDto {
@@ -28,7 +29,7 @@ public class InvoiceDto {
         String _filename = "./Test/invoice_"+form.getOrderId() +".pdf";
         Path pdfPath = Paths.get("./Test/invoice.pdf");
 
-        byte[] contents = Files.readAllBytes(pdfPath);
+        byte[] contents = Base64.getEncoder().encode(Files.readAllBytes(pdfPath));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);

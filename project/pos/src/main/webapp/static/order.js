@@ -241,6 +241,7 @@ function addOrderItem(event) {
 }
 
 function displayCart() {
+    emptyCart();
     $('#add-order-item-modal').modal('toggle');
     // table should be empty
     var $tbody = $('#order-item-table').find('tbody');
@@ -362,11 +363,16 @@ function placeOrder() {
     return false;
 }
 
+function emptyCart() {
+    wholeOrder=[];
+}
+
 function init(){
 	$('#add-order').click(displayCart);
 	$('#add-order-item').click(addOrderItem);
 	$('#place-order').click(placeOrder);
 	$('#refresh-data').click(getOrderList);
+	$('#cart-cancel').click(emptyCart);
 }
 
 $(document).ready(init);

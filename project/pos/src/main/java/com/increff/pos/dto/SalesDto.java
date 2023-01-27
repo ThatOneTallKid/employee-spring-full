@@ -5,6 +5,7 @@ import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.SalesPojo;
 import com.increff.pos.service.*;
+import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -66,6 +67,7 @@ public class SalesDto {
     }
 
     public List<SalesPojo> getAllByDate(SalesForm salesForm){
+        ValidationUtil.validateForms(salesForm);
         LocalDate startDate = LocalDate.parse(salesForm.getStartDate());
         LocalDate endDate = LocalDate.parse(salesForm.getEndDate());
         return  salesService.getAllByDate(startDate, endDate);

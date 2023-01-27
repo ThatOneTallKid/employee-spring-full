@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SalesDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.pos.dto</a> &gt; <span class="el_source">SalesDto.java</span></div><h1>SalesDto.java</h1><pre class="source lang-java linenums">package com.increff.pos.dto;
+
+import com.increff.pos.model.form.SalesForm;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.SalesPojo;
+import com.increff.pos.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Objects;
+
+@Component
+<span class="fc" id="L18">public class SalesDto {</span>
+    @Autowired
+    SalesService salesService;
+
+    @Autowired
+    OrderService orderService;
+
+
+    public void createReport() throws ApiException {
+<span class="nc" id="L27">        SalesPojo salesPojo = new SalesPojo();</span>
+
+<span class="nc" id="L29">        LocalDate date = LocalDate.now();</span>
+<span class="nc" id="L30">        int totalItems = 0;</span>
+<span class="nc" id="L31">        double totalRevenue = 0.0;</span>
+<span class="nc" id="L32">        LocalDateTime startDate = date.atStartOfDay();</span>
+
+<span class="nc" id="L34">        LocalDateTime endDate =  LocalDateTime.of(date, LocalTime.MAX);</span>
+
+<span class="nc" id="L36">        List&lt;OrderPojo&gt; orderPojoList = orderService.getOrderByDateFilter(startDate,endDate);</span>
+
+<span class="nc" id="L38">        Integer totalOrders = orderPojoList.size();</span>
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (OrderPojo orderPojo : orderPojoList) {</span>
+<span class="nc" id="L41">            Integer id = orderPojo.getId();</span>
+<span class="nc" id="L42">            List&lt;OrderItemPojo&gt; orderItemPojoList = orderService.getOrderItemsByOrderId(id);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            for (OrderItemPojo orderItemPojo: orderItemPojoList) {</span>
+<span class="nc" id="L44">                totalItems += orderItemPojo.getQty();</span>
+<span class="nc" id="L45">                totalRevenue += orderItemPojo.getQty() * orderItemPojo.getSellingPrice();</span>
+<span class="nc" id="L46">            }</span>
+<span class="nc" id="L47">        }</span>
+<span class="nc" id="L48">        LocalDateTime now = LocalDateTime.now();</span>
+<span class="nc" id="L49">        salesPojo.setDate(date);</span>
+<span class="nc" id="L50">        salesPojo.setLastRun(now);</span>
+<span class="nc" id="L51">        salesPojo.setInvoicedItemsCount(totalItems);</span>
+<span class="nc" id="L52">        salesPojo.setTotalRevenue(totalRevenue);</span>
+<span class="nc" id="L53">        salesPojo.setInvoicedOrderCount(totalOrders);</span>
+<span class="nc" id="L54">        SalesPojo pojo = salesService.getByDate(date);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(Objects.isNull(pojo)){</span>
+<span class="nc" id="L56">            salesService.add(salesPojo);</span>
+        }
+        else {
+<span class="nc" id="L59">            salesService.update(date,salesPojo);</span>
+        }
+
+<span class="nc" id="L62">    }</span>
+
+    public List&lt;SalesPojo&gt; getAll() {
+<span class="nc" id="L65">        return salesService.getALL();</span>
+    }
+
+    public List&lt;SalesPojo&gt; getAllByDate(SalesForm salesForm){
+<span class="nc" id="L69">        LocalDate startDate = LocalDate.parse(salesForm.getStartDate());</span>
+<span class="nc" id="L70">        LocalDate endDate = LocalDate.parse(salesForm.getEndDate());</span>
+<span class="nc" id="L71">        return  salesService.getAllByDate(startDate, endDate);</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
