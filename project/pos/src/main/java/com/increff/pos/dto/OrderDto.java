@@ -39,23 +39,20 @@ public class OrderDto {
     @Autowired
     InvoiceGenerator invoiceGenerator;
 
+    //TODO add transactional
     public void add(List<OrderItemForm> forms) throws ApiException {
         checkDuplicates(forms);
 
         OrderPojo orderPojo = new OrderPojo();
         orderService.addOrder(orderPojo);
 
+        //TODO fetch product from DB using list
         for (OrderItemForm f : forms) {
             ProductPojo productPojo = productService.getByBarcode(f.getBarcode());
 
             OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
             orderItemPojo.setOrderId(orderPojo.getId());
-
-            OrderItemPojo checkExist = orderService.getOrderItemByOrderIdProductId(orderItemPojo.getOrderId(),
-                    orderItemPojo.getProductId());
-            if (Objects.isNull(checkExist)) {
-                reduceInventory(orderItemPojo, productPojo.getId(), f);
-            }
+            reduceInventory(orderItemPojo, productPojo.getId(), f);
         }
     }
 
@@ -79,6 +76,7 @@ public class OrderDto {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        //TODO this url in properties file
         String url = "http://localhost:8085/fop/api/invoice";
 
         byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody());
@@ -108,12 +106,14 @@ public class OrderDto {
     private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
         int prev_qty = inventoryService.getQtyById(id);
         int remaining_qty = prev_qty - orderItemForm.getQty();
+        //TODO check for negative remaing qty
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setQty(remaining_qty);
         orderService.add(orderItemPojo);
         inventoryService.update(id, inventoryPojo);
     }
 
+    //TODO this function should only check duplicates
     private void checkDuplicates(List<OrderItemForm> forms) throws ApiException{
         Set<String> set = new HashSet<>();
         for(OrderItemForm f : forms) {
@@ -128,6 +128,7 @@ public class OrderDto {
 
     }
 
+    //TODO make this function check inventory for list
     private void checkInventory(int id, OrderItemForm f) throws ApiException {
         InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(id);
         if (Objects.isNull(inventoryPojo)) {

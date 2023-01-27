@@ -23,6 +23,7 @@ public class InvoiceGenerator {
     @Autowired
     ProductService productService;
 
+    //TODO move this function to orderDto
     public InvoiceForm generateInvoiceForOrder(int orderId) throws ApiException
     {
         InvoiceForm invoiceForm = new InvoiceForm();

@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 @Repository
 public class ProductDao extends AbstractDao{
 
-    private static String SELECT_BY_BARCODE = "select p from ProductPojo p where barcode=:barcode";
+    private final String SELECT_BY_BARCODE = "select p from ProductPojo p where barcode=:barcode";
 
     public ProductPojo selectByBarcode(String barcode) {
         TypedQuery<ProductPojo> query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);

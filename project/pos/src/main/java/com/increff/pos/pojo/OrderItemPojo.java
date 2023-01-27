@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+//TODO replqce @NotNull with @column(nullable=false)
 @Entity
 @Setter
 @Getter
@@ -27,6 +28,7 @@ public class OrderItemPojo extends AbstractPojo{
     @NotNull
     private int qty;
 
+    //TODO rename sellingPrice
     @NotNull
     private Double SellingPrice;
 }

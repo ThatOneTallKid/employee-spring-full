@@ -47,6 +47,7 @@ public class InventoryDto {
 
 
 
+    //TODO make add inventory list call
     public void add(InventoryForm form) throws ApiException {
         ValidationUtil.validateForms(form);
         InventoryPojo inventoryPojo = convertInventoryFormToPojo(form,productService.getIDByBarcode(form.getBarcode()));
@@ -56,7 +57,7 @@ public class InventoryDto {
     public InventoryData get(int id) throws ApiException{
         InventoryPojo inventoryPojo = inventoryService.get(id);
         ProductPojo productPojo = productService.get(id);
-        BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
+        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
         return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
     }
 
@@ -65,7 +66,7 @@ public class InventoryDto {
         List<InventoryData> list2 = new ArrayList<>();
         for(InventoryPojo inventoryPojo : list) {
             ProductPojo productPojo = productService.get(inventoryPojo.getId());
-            BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
+            BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
             list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName(), brandPojo));
         }
         return list2;
@@ -84,7 +85,7 @@ public class InventoryDto {
 
         HashMap<Pair<String, String>, Integer> map = new HashMap<>();
         for(InventoryData inventoryData : inventoryDataList) {
-            BrandPojo brandPojo = brandService.get(productService.get(inventoryData.getId()).getBrandCategory());
+            BrandPojo brandPojo = brandService.getCheck(productService.get(inventoryData.getId()).getBrandCategory());
             Pair<String, String> pair= new Pair<>(brandPojo.getBrand(), brandPojo.getCategory());
             if(map.containsKey(pair)) {
                 int prev = map.get(pair);

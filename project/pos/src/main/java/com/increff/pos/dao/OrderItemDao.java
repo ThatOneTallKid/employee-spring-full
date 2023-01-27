@@ -5,13 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
-
+//TODO remove unused code
 @Repository
 public class OrderItemDao extends AbstractDao{
 
-    private static String DELETE_BY_ID = "delete from OrderItemPojo where id=:id";
-    private static String SELECT_BY_ORDER_ID = "select o from OrderItemPojo o where orderId=:orderId";
-    private static String SELECT_BY_ORDER_ID_PRODUCT_ID = "select o from OrderItemPojo o where orderId=:orderId and" +
+    private final String DELETE_BY_ID = "delete from OrderItemPojo where id=:id";
+    private final String SELECT_BY_ORDER_ID = "select o from OrderItemPojo o where orderId=:orderId";
+    private final String SELECT_BY_ORDER_ID_PRODUCT_ID = "select o from OrderItemPojo o where orderId=:orderId and" +
             " productId=:productId";
 
     public OrderItemPojo deleteById(int id) {
@@ -36,6 +36,7 @@ public class OrderItemDao extends AbstractDao{
         return query.getResultList();
     }
 
+    //TODO remove this funtion, use the functions written above
     public List<OrderItemPojo> selectOrderByOrderId(int orderId) {
         TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
         query.setParameter("orderId", orderId);

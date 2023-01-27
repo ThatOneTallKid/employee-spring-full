@@ -12,10 +12,10 @@ import com.increff.pos.pojo.UserPojo;
 @Repository
 public class UserDao extends AbstractDao {
 
-	private static String delete_id = "delete from UserPojo p where id=:id";
-	private static String select_id = "select p from UserPojo p where id=:id";
-	private static String select_email = "select p from UserPojo p where email=:email";
-	private static String select_all = "select p from UserPojo p";
+	private final String delete_id = "delete from UserPojo p where id=:id";
+	private final String select_id = "select p from UserPojo p where id=:id";
+	private final String select_email = "select p from UserPojo p where email=:email";
+	private final String select_all = "select p from UserPojo p";
 
 	
 

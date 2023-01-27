@@ -14,13 +14,13 @@ import java.util.List;
 @Repository
 public class OrderDao extends AbstractDao{
 
-    private static String SELECT_BY_DATE_FILTER = "select p from OrderPojo p where createdAt>=:startDate and createdAt<=:endDate";
+    private final String SELECT_BY_DATE_FILTER = "select p from OrderPojo p where createdAt>=:startDate and createdAt<=:endDate";
 
     public void update() {
 
     }
 
-    public List<OrderPojo> getOrderByDateFilter(LocalDateTime startDate, LocalDateTime endDate) throws ApiException {
+    public List<OrderPojo> getOrderByDateFilter(LocalDateTime startDate, LocalDateTime endDate) {
         TypedQuery<OrderPojo> query = getQuery(SELECT_BY_DATE_FILTER, OrderPojo.class);
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);

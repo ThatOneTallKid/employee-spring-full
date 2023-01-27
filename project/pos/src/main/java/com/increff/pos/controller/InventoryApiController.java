@@ -31,6 +31,8 @@ public class InventoryApiController {
     @Autowired
     private InventoryDto inventoryDto;
 
+
+
     @ApiOperation(value = "Adds a Product")
     @PostMapping(path = "")
     public void add(@RequestBody InventoryForm form) throws ApiException {

@@ -9,40 +9,39 @@ import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
-//TODO "api/brand" on class level
 @Api
 @RestController
 @RequestMapping(path = "/api/brand")
 public class BrandApiController {
 
+    //TODO change @mappings to requestMapping
 
     @Autowired
     private BrandDto brandDto;
 
     @ApiOperation(value= "Adds a brand")
-    @PostMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.POST)
     public void add(@RequestBody BrandForm form) throws ApiException {
         brandDto.add(form);
     }
 
 
     @ApiOperation(value = "Gets a brand by ID")
-    @GetMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public BrandData get(@PathVariable int id) throws ApiException {
         return brandDto.get(id);
     }
 
     @ApiOperation(value ="Gets all brands")
-    @GetMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<BrandData> getAll() {
         return brandDto.getAll();
     }
@@ -54,10 +53,11 @@ public class BrandApiController {
 
     }
 
-    @ApiOperation(value = "Download Invoice")
-    @GetMapping(path = "/report")
-    public ResponseEntity<byte[]> getPDF() throws Exception{
-        return brandDto.getPDF();
+    //TODO report should be csv
+    @ApiOperation(value = "Exports to CSV")
+    @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
+    public void exportToCSV(HttpServletResponse response) throws IOException, IOException {
+        brandDto.generateCsv(response);
     }
 
 }

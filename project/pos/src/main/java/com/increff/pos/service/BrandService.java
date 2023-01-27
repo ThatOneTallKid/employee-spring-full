@@ -21,7 +21,7 @@ public class BrandService {
         dao.insert(brandPojo);
     }
 
-    public BrandPojo get(int id) throws ApiException {
+    public BrandPojo getCheck(int id) throws ApiException {
         BrandPojo brandPojo = dao.selectByID(id, BrandPojo.class);
         if (Objects.isNull(brandPojo)) {
             throw new ApiException("Brand with given ID does not exit, id: " + id);
@@ -34,7 +34,7 @@ public class BrandService {
     }
 
     public void update(int id, BrandPojo newBrandPojo) throws ApiException{
-        BrandPojo brandPojo = get(id);
+        BrandPojo brandPojo = getCheck(id);
         if(checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory()) == true) {
             throw new ApiException("Same brand and category exist");
         }
@@ -51,6 +51,7 @@ public class BrandService {
         return true;
     }
 
+    //TODO rename function getBrandByParams
     public BrandPojo    getBrandPojofromBrandCategory(String brand, String category) throws ApiException {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
         return brandPojo;

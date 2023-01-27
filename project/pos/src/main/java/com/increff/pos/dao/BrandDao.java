@@ -5,11 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 
+//TODO add Transactional on class level
 @Repository
 public class BrandDao extends AbstractDao{
 
-    // check final
-    private static String SELECT_BY_BRAND_CATEGORY = "select b from BrandPojo b where brand=:brand and " +
+    private final String SELECT_BY_BRAND_CATEGORY = "select b from BrandPojo b where brand=:brand and " +
             "category=:category";
 
 

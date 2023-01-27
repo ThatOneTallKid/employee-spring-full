@@ -41,7 +41,7 @@ public class ProductDto {
 
     public ProductData get(int id) throws ApiException {
         ProductPojo productPojo = productService.get(id);
-        BrandPojo brandPojo= brandService.get(id);
+        BrandPojo brandPojo= brandService.getCheck(id);
         return convertProductPojoToData(productPojo, brandPojo);
     }
 
@@ -49,7 +49,7 @@ public class ProductDto {
         List<ProductPojo> list = productService.getAll();
         List<ProductData> list2 = new ArrayList<>();
         for(ProductPojo productPojo : list) {
-            BrandPojo brandPojo= brandService.get(productPojo.getBrandCategory());
+            BrandPojo brandPojo= brandService.getCheck(productPojo.getBrandCategory());
             list2.add(convertProductPojoToData(productPojo, brandPojo));
         }
         return list2;

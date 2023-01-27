@@ -6,6 +6,7 @@ import com.increff.pos.model.form.BrandReportForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
+import com.increff.pos.util.CsvFileGenerator;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,10 +30,14 @@ public class BrandDto {
     @Autowired
     BrandService brandService;
 
+    @Autowired
+    private CsvFileGenerator csvGenerator;
+
     public void add(BrandForm f) throws ApiException {
         ValidationUtil.validateForms(f);
         normalizeBrand(f);
         BrandPojo b = convertBrandFormToPojo(f);
+
         if(Objects.isNull(brandService.getBrandPojofromBrandCategory(b.getBrand(), b.getCategory()))){
             brandService.add(b);
         }
@@ -40,7 +47,7 @@ public class BrandDto {
     }
 
     public BrandData get(int id) throws ApiException{
-        return convertBrandPojoToData(brandService.get(id));
+        return convertBrandPojoToData(brandService.getCheck(id));
     }
 
     public List<BrandData> getAll() {
@@ -57,6 +64,12 @@ public class BrandDto {
         normalizeBrand(f);
         BrandPojo p = convertBrandFormToPojo(f);
         brandService.update(id,p);
+    }
+
+    public void generateCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.addHeader("Content-Disposition", "attachment; filename=\"brandReport.csv\"");
+        csvGenerator.writeBrandsToCsv(brandService.getAll(), response.getWriter());
     }
 
     public ResponseEntity<byte[]> getPDF() throws Exception{

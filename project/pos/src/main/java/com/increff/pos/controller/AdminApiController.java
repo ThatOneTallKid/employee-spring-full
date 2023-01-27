@@ -3,6 +3,7 @@ package com.increff.pos.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ public class AdminApiController {
 	@ApiOperation(value = "Adds a user")
 	@RequestMapping(path = "/api/admin/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
+		ValidationUtil.validateForms(form);
 		UserPojo p = convert(form);
 		service.add(p);
 	}

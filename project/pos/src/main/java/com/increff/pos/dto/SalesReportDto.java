@@ -13,7 +13,6 @@ import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +51,7 @@ public class SalesReportDto {
             List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());
             for (OrderItemPojo orderItemPojo: orderItemPojoList) {
                 ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
-                BrandPojo brandPojo = brandService.get(productPojo.getBrandCategory());
+                BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
                 if(!map.containsKey(brandPojo.getId())) {
                     map.put(brandPojo.getId(), new SalesReportData());
                 }
@@ -66,7 +65,7 @@ public class SalesReportDto {
         List<SalesReportData> salesReportDataList = new ArrayList<>();
 
         for(Map.Entry<Integer, SalesReportData> entry: map.entrySet()) {
-            BrandPojo bp = brandService.get(entry.getKey());
+            BrandPojo bp = brandService.getCheck(entry.getKey());
             if((Objects.equals(brand,bp.getBrand()) || Objects.equals(brand,"all")) && (Objects.equals(category,bp.getCategory()) || Objects.equals(category,"all"))){
                 SalesReportData d = entry.getValue();
                 d.setBrand(bp.getBrand());

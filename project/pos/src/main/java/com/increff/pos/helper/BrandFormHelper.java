@@ -13,6 +13,7 @@ public class BrandFormHelper {
         return brandPojo;
     }
 
+    //TODO create generic convert fucntion
     public static BrandData convertBrandPojoToData(BrandPojo brandPojo){
         BrandData brandData = new BrandData();
         brandData.setId(brandPojo.getId());

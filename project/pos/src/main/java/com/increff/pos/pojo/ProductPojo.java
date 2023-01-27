@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+
+//TODO difference between identity vs table
 @Entity
 @Getter
 @Setter

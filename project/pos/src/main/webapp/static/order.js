@@ -50,7 +50,9 @@ function editOrderItem(id) {
     $("#order-item-form input[name=qty]").val(JSON.parse(wholeOrder[id]).qty);
     $("#order-item-form input[name=sellingPrice]").val(JSON.parse(wholeOrder[id]).sellingPrice);
     var prev = barcode_qty.get(JSON.parse(wholeOrder[id]).barcode);
-    barcode_qty.set(JSON.parse(wholeOrder[id]).barcode, JSON.parse(wholeOrder[id]).qty + prev);
+    var cur = parseInt(JSON.parse(wholeOrder[id]).qty);
+    console.log(prev + cur);
+    barcode_qty.set(JSON.parse(wholeOrder[id]).barcode, prev+cur);
     deleteOrderItem(id);
 }
 
