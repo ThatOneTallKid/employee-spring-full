@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 
 
-// TODO add unique constrainsts and indexes
 @Entity
 @Getter
 @Setter
@@ -19,10 +18,10 @@ public class BrandPojo extends AbstractPojo{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+    @Column(nullable = false)
     private String brand;
 
-    @NotNull
+    @Column(nullable = false)
     private String category;
 
 }

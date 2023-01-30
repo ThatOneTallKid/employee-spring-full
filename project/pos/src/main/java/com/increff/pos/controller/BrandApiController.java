@@ -2,6 +2,7 @@ package com.increff.pos.controller;
 
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.data.BrandData;
+import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.model.form.BrandReportForm;
 import com.increff.pos.model.form.InvoiceForm;
@@ -22,15 +23,13 @@ import java.util.List;
 @RequestMapping(path = "/api/brand")
 public class BrandApiController {
 
-    //TODO change @mappings to requestMapping
-
     @Autowired
     private BrandDto brandDto;
 
     @ApiOperation(value= "Adds a brand")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public void add(@RequestBody BrandForm form) throws ApiException {
-        brandDto.add(form);
+    public List<BrandErrorData> add(@RequestBody List<BrandForm> forms) throws ApiException {
+        return brandDto.add(forms);
     }
 
 
@@ -48,15 +47,15 @@ public class BrandApiController {
 
     @ApiOperation(value = "Updates a brand")
     @PutMapping(path = "/{id}")
-    public void update(@PathVariable int id, @RequestBody BrandForm f) throws ApiException {
-        brandDto.update(id,f);
+    public void update(@PathVariable int id, @RequestBody BrandForm brandForm) throws ApiException {
+        brandDto.update(id,brandForm);
 
     }
 
-    //TODO report should be csv
+
     @ApiOperation(value = "Exports to CSV")
     @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
-    public void exportToCSV(HttpServletResponse response) throws IOException, IOException {
+    public void exportToCSV(HttpServletResponse response) throws IOException {
         brandDto.generateCsv(response);
     }
 

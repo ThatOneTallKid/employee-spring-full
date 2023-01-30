@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import com.increff.pos.model.data.OrderData;
+import com.increff.pos.model.data.OrderItem;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.form.InvoiceForm;
 import com.increff.pos.model.form.OrderItemForm;
@@ -8,17 +9,21 @@ import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
-import com.increff.pos.service.*;
+import com.increff.pos.service.ApiException;
+import com.increff.pos.service.InventoryService;
+import com.increff.pos.service.OrderService;
+import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import com.increff.pos.invoice.InvoiceGenerator;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static com.increff.pos.helper.OrderFormHelper.convertOrderPojoToData;
@@ -36,25 +41,35 @@ public class OrderDto {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    InvoiceGenerator invoiceGenerator;
+    @Value("${invoice.url}")
+    private String url;
 
-    //TODO add transactional
+    @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderItemForm> forms) throws ApiException {
+        Map<String, ProductPojo> productList = new HashMap<>();
+        productList.clear();
+        productList= getProductList(productList);
+
         checkDuplicates(forms);
+        checkInventory(forms, productList);
 
         OrderPojo orderPojo = new OrderPojo();
         orderService.addOrder(orderPojo);
 
-        //TODO fetch product from DB using list
         for (OrderItemForm f : forms) {
-            ProductPojo productPojo = productService.getByBarcode(f.getBarcode());
-
-            OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
-            orderItemPojo.setOrderId(orderPojo.getId());
-            reduceInventory(orderItemPojo, productPojo.getId(), f);
+            if(productList.containsKey(f.getBarcode())) {
+                ProductPojo productPojo = productList.get(f.getBarcode());
+                OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
+                orderItemPojo.setOrderId(orderPojo.getId());
+                reduceInventory(orderItemPojo, productPojo.getId(), f);
+            }
+            else {
+                throw new ApiException("Product with given Barcode does not exists !");
+            }
         }
     }
+
+
 
     public OrderItemData get(int id) throws ApiException {
         OrderItemPojo orderItemPojo = orderService.get(id);
@@ -72,13 +87,9 @@ public class OrderDto {
     }
 
     public ResponseEntity<byte[]> getPDF(int id) throws Exception {
-        InvoiceForm invoiceForm = invoiceGenerator.generateInvoiceForOrder(id);
+        InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 
         RestTemplate restTemplate = new RestTemplate();
-
-        //TODO this url in properties file
-        String url = "http://localhost:8085/fop/api/invoice";
-
         byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody());
 
         HttpHeaders headers = new HttpHeaders();
@@ -92,8 +103,8 @@ public class OrderDto {
         return response;
     }
 
-    public List<OrderItemData> getOrderByID(int id) throws ApiException {
-        List<OrderItemPojo> list = orderService.getOrderItemByOrderItem(id);
+    public List<OrderItemData> getOrderItemsByID(int id) throws ApiException {
+        List<OrderItemPojo> list = orderService.getOrderItemsByOrderId(id);
         List<OrderItemData> list2 = new ArrayList<>();
         for (OrderItemPojo orderItemPojo : list) {
             ProductPojo px = productService.get(orderItemPojo.getProductId());
@@ -106,14 +117,15 @@ public class OrderDto {
     private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
         int prev_qty = inventoryService.getQtyById(id);
         int remaining_qty = prev_qty - orderItemForm.getQty();
-        //TODO check for negative remaing qty
+        if(remaining_qty < 0) {
+            throw new ApiException("Not enough items in the inventory");
+        }
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setQty(remaining_qty);
         orderService.add(orderItemPojo);
         inventoryService.update(id, inventoryPojo);
     }
 
-    //TODO this function should only check duplicates
     private void checkDuplicates(List<OrderItemForm> forms) throws ApiException{
         Set<String> set = new HashSet<>();
         for(OrderItemForm f : forms) {
@@ -123,21 +135,57 @@ public class OrderDto {
                 throw new ApiException("Duplicate Barcode Detected");
             }
             set.add(f.getBarcode());
-            checkInventory(productService.getIDByBarcode(f.getBarcode()), f);
         }
-
     }
 
-    //TODO make this function check inventory for list
-    private void checkInventory(int id, OrderItemForm f) throws ApiException {
-        InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(id);
-        if (Objects.isNull(inventoryPojo)) {
-            throw new ApiException("Product is not in the Inventory");
+    private void checkInventory(List<OrderItemForm> orderItemFormList, Map<String, ProductPojo> productPojoList) throws ApiException {
+        for (OrderItemForm form: orderItemFormList) {
+            if(productPojoList.containsKey(form.getBarcode())) {
+                InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(productPojoList.get(form.getBarcode()).getId());
+            }
+            else {
+                throw new ApiException("Product is not in the Inventory");
+            }
+            int prev_qty = inventoryService.getQtyById(productPojoList.get(form.getBarcode()).getId());
+            if (prev_qty < form.getQty()) {
+                throw new ApiException("Not enough quantity present in the inventory");
+            }
         }
-        int prev_qty = inventoryService.getQtyById(id);
-        if (prev_qty < f.getQty()) {
-            throw new ApiException("Not enough quantity present in the inventory");
+    }
+
+    private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList) {
+        List<ProductPojo> list = productService.getAll();
+        for (ProductPojo productPojo: list){
+            productList.put(productPojo.getBarcode(), productPojo);
         }
+        return productList;
+    }
+
+    private InvoiceForm generateInvoiceForOrder(int orderId) throws ApiException
+    {
+        InvoiceForm invoiceForm = new InvoiceForm();
+        OrderPojo orderPojo = orderService.getOrderById(orderId);
+
+        invoiceForm.setOrderId(orderPojo.getId());
+        invoiceForm.setPlaceDate(orderPojo.getCreatedAt().toString());
+
+        List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for(OrderItemPojo p: orderItemPojoList)
+        {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrderItemId(p.getId());
+            String productName = productService.get(p.getProductId()).getName();
+            orderItem.setProductName(productName);
+            orderItem.setQuantity(p.getQty());
+            orderItem.setSellingPrice(p.getSellingPrice());
+            orderItemList.add(orderItem);
+        }
+
+        invoiceForm.setOrderItemList(orderItemList);
+
+        return invoiceForm;
     }
 
 }

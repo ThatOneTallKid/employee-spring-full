@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
@@ -17,8 +18,7 @@ public class InventoryPojo extends AbstractPojo {
     @Id
     private int id;
 
-    @NotNull
-    @Min(value = 1)
+    @Column(nullable = false)
     private int qty;
 
 }

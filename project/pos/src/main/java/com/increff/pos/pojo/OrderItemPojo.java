@@ -3,13 +3,9 @@ package com.increff.pos.pojo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-//TODO replqce @NotNull with @column(nullable=false)
 @Entity
 @Setter
 @Getter
@@ -19,16 +15,15 @@ public class OrderItemPojo extends AbstractPojo{
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+    @Column(nullable = false)
     private int orderId;
 
-    @NotNull
+    @Column(nullable = false)
     private int productId;
 
-    @NotNull
+    @Column(nullable = false)
     private int qty;
 
-    //TODO rename sellingPrice
-    @NotNull
-    private Double SellingPrice;
+    @Column(nullable = false)
+    private Double sellingPrice;
 }

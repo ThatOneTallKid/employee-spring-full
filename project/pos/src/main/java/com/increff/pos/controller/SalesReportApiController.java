@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -26,14 +28,20 @@ public class SalesReportApiController {
     private OrderService orderService;
 
     @ApiOperation(value = "get all the orders")
-    @GetMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<SalesReportData> getAll() throws ApiException {
         return salesReportDto.getAll();
     }
 
     @ApiOperation(value = "get data within filter")
-    @PostMapping(path = "/filter")
+    @RequestMapping(path = "/filter", method = RequestMethod.POST)
     public List<SalesReportData> getFilteredData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
         return salesReportDto.getFilteredData(salesReportForm);
+    }
+
+    @ApiOperation(value = "Export Product Report to CSV")
+    @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
+    public void exportToCSV(HttpServletResponse response) throws IOException {
+        salesReportDto.generateCsv(response);
     }
 }

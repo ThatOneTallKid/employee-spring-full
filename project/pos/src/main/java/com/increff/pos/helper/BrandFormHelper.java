@@ -3,22 +3,17 @@ package com.increff.pos.helper;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.StringUtil;
 
 public class BrandFormHelper {
     public static BrandPojo convertBrandFormToPojo(BrandForm f){
-        BrandPojo brandPojo = new BrandPojo();
-        brandPojo.setBrand(f.getBrand());
-        brandPojo.setCategory(f.getCategory());
+        BrandPojo brandPojo = ConvertUtil.convert(f, BrandPojo.class);
         return brandPojo;
     }
 
-    //TODO create generic convert fucntion
     public static BrandData convertBrandPojoToData(BrandPojo brandPojo){
-        BrandData brandData = new BrandData();
-        brandData.setId(brandPojo.getId());
-        brandData.setBrand(brandPojo.getBrand());
-        brandData.setCategory(brandPojo.getCategory());
+        BrandData brandData = ConvertUtil.convert(brandPojo, BrandData.class);
         return brandData;
     }
 

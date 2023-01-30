@@ -1,4 +1,4 @@
-//HELPER METHOD
+    //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
     console.log(serialized);

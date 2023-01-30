@@ -24,17 +24,11 @@ public class InventoryService {
             inventoryDao.insert(inventoryPojo);
         }
         else {
-            //TODO all variables will be camelCase
-            int prev_qty = tempInventoryPojo.getQty();
-            int new_qty = prev_qty + inventoryPojo.getQty();
-            tempInventoryPojo.setQty(new_qty);
+            int prevQty = tempInventoryPojo.getQty();
+            int newQty = prevQty + inventoryPojo.getQty();
+            tempInventoryPojo.setQty(newQty);
             inventoryDao.update();
         }
-    }
-
-    //TODO check if this function is required?
-    public InventoryPojo get(int id) throws ApiException {
-        return CheckIdInventory(id);
     }
 
     public List<InventoryPojo> getAll() {

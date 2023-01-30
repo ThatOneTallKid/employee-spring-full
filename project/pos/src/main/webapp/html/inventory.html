@@ -42,13 +42,7 @@
     <div class="row">
         &nbsp;
     </div>
-    <div class="row">
-        <div class="col-12">
-            <button type="button" class="btn btn-primary" id="print-report">
-                Print Report
-            </button>
-        </div>
-    </div>
+
     <!-- Blank Row -->
     <div class="row">
         &nbsp;
@@ -155,14 +149,12 @@
                     <a th:href="@{/sample/inventory.tsv}" target="_blank">Download Sample</a>
                     <br>
                     Rows: <span id="rowCount">0</span>,
-                    Processed: <span id="processCount">0</span>,
-                    Errors: <span id="errorCount">0</span>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="process-data">Upload</button>
-                    <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+                    <button type="button" class="btn btn-warning" id="download-errors">Download Error</button>
                 </div>
             </div>
         </div>

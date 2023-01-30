@@ -10,12 +10,40 @@
 
 <div class="container">
 
-    <h3>Sales Report</h3>
+    <h3>Report</h3>
+    <hr>
+    <h5>
+        Brand Report
+    </h5>
+    <div class="row">
+
+    </div>
+
     <div class="row">
         &nbsp;
+        <div class="col-12">
+        <button type="button" class="btn btn-primary" id="downloadBrandCSV">Print CSV</button>
+        </div>
     </div>
+    <hr>
+    <h5>
+        Inventory Report
+    </h5>
+    <div class="row">
+
+    </div>
+
+    <div class="row">
+
+        &nbsp;
+        <div class="col-12">
+        <button type="button" class="btn btn-primary" id="downloadInventoryCSV">Print CSV</button>
+        </div>
+    </div>
+    <hr>
+    <h5>Sales Report</h5>
     <!-- Top row with form-->
-    <h5>Date Filters</h5>
+    <h6>Date Filters</h6>
     <div class="row">
         <div class="col-12">
             <form class="form" id="sales-report-form">
@@ -56,7 +84,7 @@
             </form>
             <button type="button" class="btn btn-primary" id="apply-filter">Apply</button>
             &nbsp;
-            <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+            <button type="button" class="btn btn-primary" id="printCSV" disabled>Print CSV</button>
 
         </div>
     </div>
@@ -67,43 +95,6 @@
         &nbsp;
     </div>
 
-    <div class="row">
-
-        <!-- Table -->
-        <div class="col-12">
-            <table class="table table-striped" id="Sales-report-table">
-                <thead>
-                <tr>
-                    <th scope="col">Brand</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Item Count</th>
-                    <th scope="col">Revenue</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Romil Jain</td>
-                    <td>30</td>
-                    <td>30</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td>Rajul Jain</td>
-                    <td>31</td>
-                    <td>31</td>
-                    <td>31</td>
-                </tr>
-                <tr>
-                    <td>Anaisha Jain</td>
-                    <td>7</td>
-                    <td>7</td>
-                    <td>7</td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
 
 
 

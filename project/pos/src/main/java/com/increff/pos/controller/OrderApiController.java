@@ -1,7 +1,6 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.dto.OrderDto;
-import com.increff.pos.invoice.InvoiceGenerator;
 import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.form.OrderItemForm;
@@ -22,29 +21,27 @@ public class OrderApiController {
     @Autowired
     private OrderDto orderDto;
 
-    @Autowired
-    InvoiceGenerator invoiceGenerator;
 
     @ApiOperation(value = "Adds an Order Item")
-    @PostMapping(path = "/item")
+    @RequestMapping(path = "/item", method = RequestMethod.POST)
     public void add(@RequestBody List<OrderItemForm> form) throws ApiException {
         orderDto.add(form);
     }
 
     @ApiOperation(value ="Gets all orders")
-    @GetMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<OrderData> getAll() throws ApiException {
         return orderDto.getAll();
     }
 
     @ApiOperation(value ="Gets all order items by order ID")
-    @GetMapping(path = "/view/{id}")
+    @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
     public List<OrderItemData> getOrderByID(@PathVariable int id) throws ApiException {
-        return orderDto.getOrderByID(id);
+        return orderDto.getOrderItemsByID(id);
     }
 
     @ApiOperation(value = "Download Invoice")
-    @GetMapping(path = "/invoice/{id}")
+    @RequestMapping(path = "/invoice/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getPDF(@PathVariable int id) throws Exception{
         return orderDto.getPDF(id);
     }

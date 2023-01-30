@@ -1,4 +1,4 @@
-
+var wholeBrand = []
 function getBrandUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/brand";
@@ -7,7 +7,7 @@ function getBrandUrl(){
 function getBrandReportUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     console.log(baseUrl);
-    return baseUrl + "/api/brand/report";
+    return baseUrl + "/api/brand/exportcsv";
 }
 
 function resetForm() {
@@ -15,21 +15,35 @@ function resetForm() {
     element.reset()
 }
 
+function arrayToJson() {
+    let json = [];
+    for(i in wholeBrand) {
+        let data = {};
+        data["brand"]=JSON.parse(wholeBrand[i]).brand;
+        data["category"]=JSON.parse(wholeBrand[i]).category;
+        json.push(data);
+    }
+    return JSON.stringify(json);
+}
+
 //BUTTON ACTIONS
 function addBrand(event){
 	//Set the values to update
 	var $form = $("#brand-form");
 	var json = toJson($form);
+	wholeBrand.push(json)
 	var url = getBrandUrl();
+		var jsonObj = arrayToJson();
     console.log(url);
 	$.ajax({
 	   url: url,
 	   type: 'POST',
-	   data: json,
+	   data: jsonObj,
 	   headers: {
        	'Content-Type': 'application/json'
        },
 		success: function (response) {
+		    wholeBrand=[];
 			resetForm();
 			toastr.success("Brand Added Successfully", "Success : ");
 	   		getBrandList();
@@ -114,14 +128,10 @@ function uploadRows(){
 	if(processCount==fileData.length){
 		return;
 	}
-    if(errorData.length > 0){
-        $("#download-errors").prop('disabled', false);
-    }
-	//Process next row
-	var row = fileData[processCount];
-	processCount++;
 
-	var json = JSON.stringify(row);
+	//Process next row
+
+	var json = JSON.stringify(fileData);
 	var url = getBrandUrl();
 
 	//Make ajax call
@@ -133,12 +143,15 @@ function uploadRows(){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
-	   		uploadRows();
-	   },
-	   error: function(response){
-	   		row.error=response.responseText
-	   		errorData.push(row);
-	   		uploadRows();
+	   		console.log(response);
+            errorData = response;
+            processCount = fileData.length;
+            console.log(response.length);
+            if(response.length > 0) {
+                $("#download-errors").prop('disabled', false);
+            }
+            resetForm();
+            getBrandList();
 	   }
 	});
 

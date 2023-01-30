@@ -1,3 +1,5 @@
+var wholeInventory = []
+
 function getInventoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/inventory";
@@ -5,12 +7,23 @@ function getInventoryUrl(){
 
 function getInventoryReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/inventory/report";
+	return baseUrl + "/api/inventory/exportcsv";
 }
 
 function resetForm() {
     var element = document.getElementById("inventory-form");
     element.reset()
+}
+
+function arrayToJson() {
+    let json = [];
+    for(i in wholeInventory) {
+        let data = {};
+        data["barcode"]=JSON.parse(wholeInventory[i]).barcode;
+        data["qty"]=JSON.parse(wholeInventory[i]).qty;
+        json.push(data);
+    }
+    return JSON.stringify(json);
 }
 
 //BUTTON ACTIONS
@@ -19,15 +32,19 @@ function addInventory(event){
 	var $form = $("#inventory-form");
 	var json = toJson($form);
 	var url = getInventoryUrl();
+	wholeInventory.push(json);
+	var jsonObj = arrayToJson();
+	console.log(wholeInventory);
     console.log(url);
 	$.ajax({
 	   url: url,
 	   type: 'POST',
-	   data: json,
+	   data: jsonObj,
 	   headers: {
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+	        wholeInventory=[];
 		   resetForm();
 		   toastr.success("Inventory Added Successfully", "Success : ");
 	   		getInventoryList();
@@ -107,18 +124,11 @@ function uploadRows(){
 	//Update progress
 	updateUploadDialog();
 	//If everything processed then return
-	if(processCount==fileData.length){
-		return;
-	}
-	$("#process-data").prop('disabled', true);
-    if(errorData.length > 0){
-      $("#download-errors").prop('disabled', false);
-    }
-	//Process next row
-	var row = fileData[processCount];
-	processCount++;
 
-	var json = JSON.stringify(row);
+	$("#process-data").prop('disabled', true);
+
+	var json = JSON.stringify(fileData);
+	console.log(json);
 	var url = getInventoryUrl();
 
 	//Make ajax call
@@ -130,14 +140,19 @@ function uploadRows(){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
-	   		uploadRows();
-	   },
-	   error: function(response){
-	   		row.error=response.responseText
-	   		errorData.push(row);
-	   		uploadRows();
+	        console.log(response);
+	   		errorData = response;
+	   		processCount = fileData.length;
+			console.log(response.length);
+			if(response.length > 0) {
+				$("#download-errors").prop('disabled', false);
+			}
+	   		resetForm();
+	   		getInventoryList();
 	   }
 	});
+
+
 
 }
 
@@ -184,7 +199,6 @@ function resetUploadDialog(){
 	$file.val('');
 	$('#inventoryFileName').html("Choose File");
 	//Reset various counts
-	processCount = 0;
 	fileData = [];
 	errorData = [];
 	//Update counts
@@ -193,8 +207,6 @@ function resetUploadDialog(){
 
 function updateUploadDialog(){
 	$('#rowCount').html("" + fileData.length);
-	$('#processCount').html("" + processCount);
-	$('#errorCount').html("" + errorData.length);
 }
 
 function updateFileName(){

@@ -12,11 +12,11 @@ import javax.validation.constraints.Size;
 @Setter
 public class InventoryForm {
 
-    @NotBlank(message = "Barcode cannot be empty")
+    @NotBlank
     @Size(min = 8, max = 8, message = "Barcode must 8 character long")
     private String barcode;
 
-    @NotNull(message = "Quantity cannot be blank")
+    @NotNull
     @Min(value = 1, message = "Quantity must be atleast 1")
     private int qty;
 }

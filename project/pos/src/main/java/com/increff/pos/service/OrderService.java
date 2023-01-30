@@ -47,27 +47,11 @@ public class OrderService {
         orderItemDao.update();
     }
 
-    public OrderItemPojo getOrderItemByOrderId(int orderId) throws ApiException {
-        OrderItemPojo orderItemPojo = orderItemDao.selectByOrderId(orderId);
-        if(Objects.isNull(orderItemPojo)){
-            throw new ApiException("Order Item with given orderId does not exists.;");
-        }
-        return orderItemPojo;
-    }
-
-    public List<OrderItemPojo> getOrderItemsByOrderId(int orderId) throws ApiException {
+    public List<OrderItemPojo> getOrderItemsByOrderId(int orderId){
         List<OrderItemPojo> orderItemPojo = orderItemDao.selectOrderItemByOrderId(orderId);
-
         return orderItemPojo;
     }
 
-    public List<OrderItemPojo> getOrderItemByOrderItem(int orderId) throws ApiException {
-        return orderItemDao.selectOrderByOrderId(orderId);
-    }
-
-    public OrderItemPojo getOrderItemByOrderIdProductId(int orderId,int productId) throws ApiException {
-        return orderItemDao.selectByOrderIdProductId(orderId, productId);
-    }
 
     public void addOrder(OrderPojo orderPojo) {
         orderDao.insert(orderPojo);
@@ -86,7 +70,7 @@ public class OrderService {
     }
 
 
-    public List<OrderPojo> getOrderByDateFilter(LocalDateTime startDate, LocalDateTime endDate) throws ApiException {
+    public List<OrderPojo> getOrderByDateFilter(LocalDateTime startDate, LocalDateTime endDate)  {
         return orderDao.getOrderByDateFilter(startDate,endDate);
     }
 

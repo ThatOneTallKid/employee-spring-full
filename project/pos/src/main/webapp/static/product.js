@@ -1,4 +1,5 @@
 var brandData = {};
+var wholeProduct = []
 
 function getBrandUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -21,21 +22,38 @@ function resetForm() {
    element.reset()
 }
 
+function arrayToJson() {
+    let json = [];
+    for(i in wholeProduct) {
+        let data = {};
+        data["barcode"]=JSON.parse(wholeProduct[i]).barcode;
+        data["brand"]=JSON.parse(wholeProduct[i]).brand;
+        data["category"]=JSON.parse(wholeProduct[i]).category;
+        data["name"]=JSON.parse(wholeProduct[i]).name;
+        data["mrp"]=JSON.parse(wholeProduct[i]).mrp;
+        json.push(data);
+    }
+    return JSON.stringify(json);
+}
+
 //BUTTON ACTIONS
 function addProduct(event){
    //Set the values to update
    var $form = $("#product-form");
    var json = toJson($form);
    var url = getProductUrl();
+   wholeProduct.push(json);
+   	var jsonObj = arrayToJson();
     console.log(url);
    $.ajax({
       url: url,
       type: 'POST',
-      data: json,
+      data: jsonObj,
       headers: {
            'Content-Type': 'application/json'
        },
       success: function (response) {
+      wholeProduct=[];
          toastr.success("Product Added Successfully", "Success : ");
          resetForm();
          getProductList();
@@ -121,14 +139,10 @@ function uploadRows(){
     $("#process-data").prop('disabled', true);
 
 
-   if(errorData.length > 0){
-      $("#download-errors").prop('disabled', false);
-   }
-   //Process next row
-   var row = fileData[processCount];
-   processCount++;
 
-   var json = JSON.stringify(row);
+   //Process next row
+
+   var json = JSON.stringify(fileData);
    var url = getProductUrl();
 
    //Make ajax call
@@ -140,12 +154,18 @@ function uploadRows(){
            'Content-Type': 'application/json'
        },
       success: function(response) {
-             uploadRows();
+            console.log(response);
+            errorData = response;
+            processCount = fileData.length;
+            resetForm();
+            getProductList();
       },
       error: function(response){
-             row.error=response.responseText
-             errorData.push(row);
-             uploadRows();
+            $("#download-errors").prop('disabled', false);
+            console.log(response);
+            errorData.push(response.responseJSON) ;
+            console.log(errorData);
+            processCount=fileData.length;
       }
    });
 

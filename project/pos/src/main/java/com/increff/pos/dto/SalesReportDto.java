@@ -10,16 +10,19 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
+import com.increff.pos.util.CsvFileGenerator;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
-public class SalesReportDto {
+public class    SalesReportDto {
     @Autowired
     private OrderService orderService;
 
@@ -28,6 +31,11 @@ public class SalesReportDto {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CsvFileGenerator csvGenerator;
+
+    protected List<SalesReportData> salesList = new ArrayList<>();
 
     public List<SalesReportData> getAll() throws ApiException {
         List<OrderPojo> list = orderService.getAllOrders();
@@ -73,7 +81,14 @@ public class SalesReportDto {
                 salesReportDataList.add(d);
             }
         }
-
+        salesList = salesReportDataList;
         return salesReportDataList;
+    }
+    public void generateCsv(HttpServletResponse response) throws  IOException {
+        response.setContentType("text/csv");
+        response.addHeader("Content-Disposition", "attachment; filename=\"salesReport.csv\"");
+
+        csvGenerator.writeSalesToCsv(salesList, response.getWriter());
+        salesList.clear();
     }
 }

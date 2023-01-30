@@ -3,6 +3,7 @@ package com.increff.pos.controller;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.helper.InventoryFormHelper;
 import com.increff.pos.model.data.InventoryData;
+import com.increff.pos.model.data.InventoryErrorData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.model.form.InventoryReportForm;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,33 +36,39 @@ public class InventoryApiController {
 
 
     @ApiOperation(value = "Adds a Product")
-    @PostMapping(path = "")
-    public void add(@RequestBody InventoryForm form) throws ApiException {
-        inventoryDto.add(form);
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public List<InventoryErrorData> add(@RequestBody List<InventoryForm> form) throws ApiException {
+        return inventoryDto.add(form);
     }
 
     @ApiOperation(value = "Get a Product by ID")
-    @GetMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public InventoryData get(@PathVariable int id)  throws ApiException {
         return inventoryDto.get(id);
     }
 
+    @ApiOperation(value = "Get a Product by Barcode")
+    @RequestMapping(path = "/barcode",method = RequestMethod.GET)
+    public InventoryData getByBarcode(@RequestParam(value="barcode") String barcode)  throws ApiException {
+        return inventoryDto.getByBarcode(barcode);
+    }
+
     @ApiOperation(value = "Get All Products")
-    @GetMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public  List<InventoryData> getAll() throws ApiException {
         return inventoryDto.getAll();
     }
 
     @ApiOperation(value = "Updates a Product")
-    @PutMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable int id, @RequestBody InventoryForm f) throws ApiException {
         inventoryDto.update(id, f);
     }
 
-    @ApiOperation(value = "Generate Inventory Report")
-    @GetMapping(path = "/report")
-    public ResponseEntity<byte[]> getPDF() throws IOException, ApiException {
-        return inventoryDto.getPDF();
+    @ApiOperation(value = "Export Product Report to CSV")
+    @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
+    public void exportToCSV(HttpServletResponse response) throws IOException, ApiException {
+        inventoryDto.generateCsv(response);
     }
 
 }

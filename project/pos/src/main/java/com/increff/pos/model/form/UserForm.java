@@ -12,14 +12,14 @@ import javax.validation.constraints.Size;
 public class UserForm {
 
 	@Email
-	@NotBlank(message = "Email must not be blank")
+	@NotBlank
 	private String email;
 
-	@NotBlank(message = "Password must not be blank")
+	@NotBlank
 	@Size(min = 8, message = "Password must be atleast 8 character!")
 	private String password;
 
-	@NotBlank(message = "Role must not be blank")
+	@NotBlank
 	private String role;
 
 }

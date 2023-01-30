@@ -1,26 +1,21 @@
 package com.increff.pos.dto;
 
 import com.increff.pos.model.data.BrandData;
+import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.form.BrandForm;
-import com.increff.pos.model.form.BrandReportForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
+import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.CsvFileGenerator;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.increff.pos.helper.BrandFormHelper.*;
 
@@ -33,17 +28,23 @@ public class BrandDto {
     @Autowired
     private CsvFileGenerator csvGenerator;
 
-    public void add(BrandForm f) throws ApiException {
-        ValidationUtil.validateForms(f);
-        normalizeBrand(f);
-        BrandPojo b = convertBrandFormToPojo(f);
+    public List<BrandErrorData> add(List<BrandForm> brandForms) throws ApiException {
+        List<BrandErrorData> errorData= new ArrayList<>();
+        for(BrandForm brandForm: brandForms) {
+            try{
+                ValidationUtil.validateForms(brandForm);
+                normalizeBrand(brandForm);
+                BrandPojo b = convertBrandFormToPojo(brandForm);
+                brandService.add(b);
+            }
+            catch (ApiException e) {
+                BrandErrorData brandErrorData = ConvertUtil.convert(brandForm, BrandErrorData.class);
+                brandErrorData.setMessage(e.getMessage());
+                errorData.add(brandErrorData);
+            }
+        }
 
-        if(Objects.isNull(brandService.getBrandPojofromBrandCategory(b.getBrand(), b.getCategory()))){
-            brandService.add(b);
-        }
-        else {
-            throw new ApiException("Brand and Category already exists !");
-        }
+        return errorData;
     }
 
     public BrandData get(int id) throws ApiException{
@@ -59,10 +60,10 @@ public class BrandDto {
         return list2;
     }
 
-    public void update(int id, BrandForm f) throws ApiException {
-        ValidationUtil.validateForms(f);
-        normalizeBrand(f);
-        BrandPojo p = convertBrandFormToPojo(f);
+    public void update(int id, BrandForm brandForm) throws ApiException {
+        ValidationUtil.validateForms(brandForm);
+        normalizeBrand(brandForm);
+        BrandPojo p = convertBrandFormToPojo(brandForm);
         brandService.update(id,p);
     }
 
@@ -70,27 +71,6 @@ public class BrandDto {
         response.setContentType("text/csv");
         response.addHeader("Content-Disposition", "attachment; filename=\"brandReport.csv\"");
         csvGenerator.writeBrandsToCsv(brandService.getAll(), response.getWriter());
-    }
-
-    public ResponseEntity<byte[]> getPDF() throws Exception{
-        List<BrandData> brandItems= getAll();
-        BrandReportForm brandReportForm = new BrandReportForm();
-        brandReportForm.setBrandItems(brandItems);
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        String url = "http://localhost:8085/fop/api/brandreport";
-        byte[] contents = restTemplate.postForEntity(url, brandReportForm, byte[].class).getBody();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        String filename = "brandreport.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-
-        return response;
     }
 
 }

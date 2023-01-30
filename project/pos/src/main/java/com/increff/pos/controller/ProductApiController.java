@@ -20,25 +20,25 @@ public class ProductApiController {
     private ProductDto productDto;
 
     @ApiOperation(value = "Adds a Product")
-    @PostMapping(path = "")
-    public void add(@RequestBody ProductForm form) throws ApiException {
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public void add(@RequestBody List<ProductForm> form) throws ApiException {
         productDto.add(form);
     }
 
     @ApiOperation(value = "Gets a Product by ID")
-    @GetMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public ProductData get(@PathVariable int id) throws ApiException {
         return productDto.get(id);
     }
 
     @ApiOperation(value ="Gets all Products")
-    @GetMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<ProductData> getAll() throws ApiException {
         return productDto.getAll();
     }
 
     @ApiOperation(value = "Updates a Product")
-    @PutMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable int id, @RequestBody ProductForm f) throws ApiException {
         productDto.update(id, f);
     }

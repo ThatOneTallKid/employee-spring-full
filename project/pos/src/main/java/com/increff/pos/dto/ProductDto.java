@@ -11,6 +11,7 @@ import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,16 +28,18 @@ public class ProductDto {
     BrandService brandService;
 
 
-
-    public void add(ProductForm form) throws ApiException{
-        ValidationUtil.validateForms(form);
-        normalizeProduct(form);
-        BrandPojo brandPojo  = brandService.getBrandPojofromBrandCategory(form.getBrand(),  form.getCategory());
-        if(Objects.isNull(brandPojo)) {
-            throw new ApiException("Brand and Category not Found");
+    @Transactional(rollbackOn = ApiException.class)
+    public void add(List<ProductForm> forms) throws ApiException{
+        for(ProductForm form: forms) {
+            ValidationUtil.validateForms(form);
+            normalizeProduct(form);
+            BrandPojo brandPojo = brandService.getBrandByParams(form.getBrand(), form.getCategory());
+            if (Objects.isNull(brandPojo)) {
+                throw new ApiException("Brand and Category not Found");
+            }
+            ProductPojo productPojo = convertProductFormToPojo(form, brandPojo.getId());
+            productService.add(productPojo);
         }
-        ProductPojo productPojo = convertProductFormToPojo(form, brandPojo.getId());
-        productService.add(productPojo);
     }
 
     public ProductData get(int id) throws ApiException {

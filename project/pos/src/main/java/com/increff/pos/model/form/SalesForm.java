@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class SalesForm {
-    @NotBlank(message = "Start Date Cannot be empty")
+    @NotBlank
     private String startDate;
-    @NotBlank(message = "End Date Cannot be empty")
+    @NotBlank
     private String endDate;
 }

@@ -53,14 +53,6 @@ public class ProductService {
     }
 
 
-    public ProductPojo getByBarcode(String barcode) throws ApiException {
-        ProductPojo productPojo = productDao.selectByBarcode(barcode);
-        if(Objects.isNull(productPojo)) {
-            throw new ApiException("Product with given Barcode does not exists !");
-        }
-        return productPojo;
-    }
-
     public ProductPojo getCheck(int id) throws ApiException{
         ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);
         if(Objects.isNull(productPojo)) {

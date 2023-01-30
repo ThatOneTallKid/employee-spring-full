@@ -49,10 +49,6 @@ function editOrderItem(id) {
     $("#order-item-form input[name=barcode]").val(JSON.parse(wholeOrder[id]).barcode);
     $("#order-item-form input[name=qty]").val(JSON.parse(wholeOrder[id]).qty);
     $("#order-item-form input[name=sellingPrice]").val(JSON.parse(wholeOrder[id]).sellingPrice);
-    var prev = barcode_qty.get(JSON.parse(wholeOrder[id]).barcode);
-    var cur = parseInt(JSON.parse(wholeOrder[id]).qty);
-    console.log(prev + cur);
-    barcode_qty.set(JSON.parse(wholeOrder[id]).barcode, prev+cur);
     deleteOrderItem(id);
 }
 
@@ -102,6 +98,11 @@ function changeQty(vars) {
         if(temp_barcode == barcode) {
             var prev = parseInt(JSON.parse(wholeOrder[i]).qty);
             var new_qty = prev + qty;
+            if(new_qty > barcode_qty.get(barcode)){
+                alert("Quantity not available in the inventory");
+                return;
+            }
+
             //console.log(new_qty);
             var string1 = new_qty.toString();
             console.log(string1);
@@ -183,6 +184,27 @@ function checkBarcode(data) {
     }
     return false;
 }
+var inv_qty= null;
+var inv_barcode = null;
+
+function getInventory(barcode) {
+    var url = getInventoryUrl() + "/barcode?barcode=" + barcode;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                inv_barcode = data.barcode;
+                inv_qty = data.qty;
+
+                barcode_qty.set(data.barcode, data.qty);
+                return true;
+
+            },
+            error: function(data) {
+                return false;
+            }
+         });
+}
 
 function addOrderItem(event) {
     var $form = $("#order-item-form");
@@ -192,18 +214,18 @@ function addOrderItem(event) {
     var barcode1 = $("#order-item-form input[name=barcode]").val();
     var qty = $("#order-item-form input[name=qty]").val();
     console.log(barcode_qty.get(barcode1));
-    var inv_qty = barcode_qty.get(barcode1);
-    console.log(inv_qty);
-    if (checkBarcode(barcode1) == false) {
+
+    if (getInventory(barcode1) == false) {
         alert("Barcode does not exist in the Inventory");
     }
     else {
-        if (qty > inv_qty) {
+        console.log(qty);
+        console.log(inv_qty);
+        if (qty > barcode_qty.get(barcode1)) {
             alert("Quantity not present in inventory");
         }
         else {
-            var _qty = inv_qty - qty;
-            barcode_qty.set(barcode1, _qty);
+            var _qty = barcode_qty.get(barcode1) - qty;
             var sp = $("#order-item-form input[name=sellingPrice]").val();
 
             if (sp <= 0) {
@@ -380,4 +402,3 @@ function init(){
 $(document).ready(init);
 $(document).ready(getOrderItemList)
 $(document).ready(getOrderList)
-$(document).ready(getProductList)

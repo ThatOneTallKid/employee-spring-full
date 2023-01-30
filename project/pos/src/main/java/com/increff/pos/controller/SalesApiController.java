@@ -20,19 +20,19 @@ public class SalesApiController {
     private SalesDto salesDto;
 
     @ApiOperation(value = "Gets all the Sales data")
-    @GetMapping(path = "")
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<SalesPojo> getAll() throws ApiException {
         return salesDto.getAll();
     }
 
     @ApiOperation(value = "get all sales date between 2 dates")
-    @PostMapping(path = "/filter")
+    @RequestMapping(path = "/filter", method = RequestMethod.POST)
     public List<SalesPojo> getAllByDate(@RequestBody SalesForm salesForm){
         return salesDto.getAllByDate(salesForm);
     }
 
     @ApiOperation(value = "Runs the scheduler")
-    @GetMapping(path = "/scheduler")
+    @RequestMapping(path = "/scheduler", method = RequestMethod.GET)
     public void runScheduler() throws ApiException {
         salesDto.createReport();
     }

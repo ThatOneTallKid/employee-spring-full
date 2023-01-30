@@ -12,21 +12,21 @@ import javax.validation.constraints.Size;
 @Setter
 public class ProductForm {
 
-    @NotBlank(message = "Barcode cannot be empty")
+    @NotBlank
     @Size(min = 1, message = "Barcode must 8 character long")
     private String barcode;
 
-    @NotBlank(message = "Brand Cannot be Empty")
+    @NotBlank
     private String brand;
 
-    @NotBlank(message = "Category cannot be empty")
+    @NotBlank
     private String category;
 
-    @NotBlank(message = "Name cannot be empty")
+    @NotBlank
     private String name;
 
 
-    @NotNull(message = "Mrp cannot be blank")
+    @NotNull
     @Min(value = 1, message = "Mrp must be atleast 1")
     private double mrp;
 }

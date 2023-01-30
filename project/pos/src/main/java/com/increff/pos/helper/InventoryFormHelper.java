@@ -6,23 +6,22 @@ import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ConvertUtil;
 import javafx.util.Pair;
 
+import javax.persistence.Convert;
 import java.util.Map;
 
 public class InventoryFormHelper {
 
     public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm, int id) throws ApiException {
-        InventoryPojo inventoryPojo = new InventoryPojo();
-        inventoryPojo.setQty(inventoryForm.getQty());
+        InventoryPojo inventoryPojo = ConvertUtil.convert(inventoryForm, InventoryPojo.class);
         inventoryPojo.setId(id);
         return inventoryPojo;
     }
 
     public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, BrandPojo brandPojo) throws ApiException {
-        InventoryData inventoryData = new InventoryData();
-        inventoryData.setId(inventoryPojo.getId());
-        inventoryData.setQty(inventoryPojo.getQty());
+        InventoryData inventoryData = ConvertUtil.convert(inventoryPojo, InventoryData.class);
         inventoryData.setName(name);
         inventoryData.setBarcode(barcode);
         inventoryData.setBrand(brandPojo.getBrand());

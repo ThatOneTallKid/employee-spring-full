@@ -5,6 +5,7 @@ import com.increff.pos.service.ApiException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
+@Transactional
 public class OrderDao extends AbstractDao{
 
     private final String SELECT_BY_DATE_FILTER = "select p from OrderPojo p where createdAt>=:startDate and createdAt<=:endDate";

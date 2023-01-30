@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 
 
-//TODO difference between identity vs table
 @Entity
 @Getter
 @Setter
@@ -17,17 +16,16 @@ public class ProductPojo extends AbstractPojo{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(nullable = false,unique = true)
     private String barcode;
-    //TODO use camelCase
 
-    @NotNull
+
+    @Column(nullable = false)
     private int brandCategory;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = false)
     private Double mrp;
 }

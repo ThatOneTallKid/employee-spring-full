@@ -4,10 +4,12 @@ import com.increff.pos.pojo.SalesPojo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
+@Transactional
 public class SalesDao extends AbstractDao{
 
     private final String SELECT_BY_DATE = "select p from SalesPojo p where date=:date";

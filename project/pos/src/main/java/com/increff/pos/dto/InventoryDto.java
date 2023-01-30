@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import com.increff.pos.helper.InventoryFormHelper;
 import com.increff.pos.model.data.InventoryData;
+import com.increff.pos.model.data.InventoryErrorData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.model.form.InventoryReportForm;
@@ -12,6 +13,8 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
+import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.CsvFileGenerator;
 import com.increff.pos.util.ValidationUtil;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.RollbackException;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,18 +51,38 @@ public class InventoryDto {
     @Autowired
     BrandService brandService;
 
+    @Autowired
+    CsvFileGenerator csvGenerator;
 
 
-    //TODO make add inventory list call
-    public void add(InventoryForm form) throws ApiException {
-        ValidationUtil.validateForms(form);
-        InventoryPojo inventoryPojo = convertInventoryFormToPojo(form,productService.getIDByBarcode(form.getBarcode()));
-        inventoryService.add(inventoryPojo);
+    public List<InventoryErrorData> add(List<InventoryForm> forms) throws ApiException {
+        List<InventoryErrorData> inventoryErrorDataList = new ArrayList<>();
+        for (InventoryForm form: forms) {
+            try {
+                ValidationUtil.validateForms(form);
+                InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getIDByBarcode(form.getBarcode()));
+                inventoryService.add(inventoryPojo);
+            }
+            catch (ApiException e) {
+                InventoryErrorData inventoryErrorData = ConvertUtil.convert(form, InventoryErrorData.class);
+                inventoryErrorData.setMessage(e.getMessage());
+                inventoryErrorDataList.add(inventoryErrorData);
+            }
+
+        }
+        return inventoryErrorDataList;
     }
 
     public InventoryData get(int id) throws ApiException{
-        InventoryPojo inventoryPojo = inventoryService.get(id);
+        InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(id);
         ProductPojo productPojo = productService.get(id);
+        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
+        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
+    }
+
+    public InventoryData getByBarcode(String barcode) throws ApiException {
+        InventoryPojo inventoryPojo = inventoryService.getById(productService.getIDByBarcode(barcode));
+        ProductPojo productPojo = productService.get(productService.getIDByBarcode(barcode));
         BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
         return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
     }
@@ -74,12 +100,19 @@ public class InventoryDto {
 
     public void update(int id, InventoryForm inventoryForm) throws ApiException {
         ValidationUtil.validateForms(inventoryForm);
-        int p_id = productService.getIDByBarcode(inventoryForm.getBarcode());
-        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,p_id);
+        int pId = productService.getIDByBarcode(inventoryForm.getBarcode());
+        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,pId);
         inventoryService.update(id,inventoryPojo);
     }
 
-    public ResponseEntity<byte[]> getPDF() throws IOException, ApiException {
+    public void generateCsv(HttpServletResponse response) throws IOException, ApiException {
+        response.setContentType("text/csv");
+        response.addHeader("Content-Disposition", "attachment; filename=\"inventoryReport.csv\"");
+
+        csvGenerator.writeInventoryToCsv(getAllItem(), response.getWriter());
+    }
+
+    public List<InventoryItem> getAllItem() throws ApiException {
         List<InventoryData> inventoryDataList = getAll();
         List<InventoryItem> inventoryItemList = new ArrayList<>();
 
@@ -100,23 +133,6 @@ public class InventoryDto {
             inventoryItemList.add(InventoryFormHelper.convertMapToItem(mapElement));
         }
 
-        InventoryReportForm inventoryReportForm = new InventoryReportForm();
-        inventoryReportForm.setInventoryDataList(inventoryItemList);
-
-        Path pdfPath = Paths.get("./Test/inventoryreport.pdf");
-
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8085/fop/api/inventoryreport";
-
-        byte[] contents = restTemplate.postForEntity(url, inventoryReportForm, byte[].class).getBody();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-
-        return response;
+        return inventoryItemList;
     }
 }

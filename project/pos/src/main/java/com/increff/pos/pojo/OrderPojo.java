@@ -14,6 +14,6 @@ import javax.persistence.Id;
 public class OrderPojo extends AbstractPojo{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 }

@@ -1,8 +1,6 @@
 package com.increff.invoiceapp.service;
 
 
-import com.increff.invoiceapp.model.BrandReportForm;
-import com.increff.invoiceapp.model.InventoryReportForm;
 import com.increff.invoiceapp.model.InvoiceForm;
 import com.increff.invoiceapp.model.OrderItem;
 import org.springframework.stereotype.Service;
@@ -68,23 +66,5 @@ public class GenerateInvoiceService {
         }
     }
 
-    public void generateBrandReport(BrandReportForm form){
-        CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
 
-        createXMLFileJava.createBrandXml(form);
-
-        PDFFromFOP pdfFromFOP = new PDFFromFOP();
-
-        pdfFromFOP.createBrandPDF();
-    }
-
-    public void generateInventoryReport(InventoryReportForm form){
-        CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
-
-        createXMLFileJava.createInventoryXml(form);
-
-        PDFFromFOP pdfFromFOP = new PDFFromFOP();
-
-        pdfFromFOP.createInventoryPDF();
-    }
 }

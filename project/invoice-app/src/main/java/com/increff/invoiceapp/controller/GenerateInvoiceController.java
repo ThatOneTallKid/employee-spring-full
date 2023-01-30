@@ -1,8 +1,6 @@
 package com.increff.invoiceapp.controller;
 
 import com.increff.invoiceapp.dto.InvoiceDto;
-import com.increff.invoiceapp.model.BrandReportForm;
-import com.increff.invoiceapp.model.InventoryReportForm;
 import com.increff.invoiceapp.model.InvoiceForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,18 +24,6 @@ public class GenerateInvoiceController {
     @RequestMapping(path = "/api/invoice", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getPDF(@RequestBody InvoiceForm form) throws IOException {
         return invoiceDto.getInvoicePDF(form);
-    }
-
-    @ApiOperation(value = "Generate Brand Report")
-    @RequestMapping(path = "/api/brandreport", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> getPDF(@RequestBody BrandReportForm form) throws IOException {
-        return invoiceDto.getBrandReport(form);
-    }
-
-    @ApiOperation(value = "Generate Inventory Report")
-    @RequestMapping(path = "/api/inventoryreport", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> getPDF(@RequestBody InventoryReportForm form) throws IOException {
-        return invoiceDto.getInventoryReport(form);
     }
 
 }

@@ -1,7 +1,5 @@
 package com.increff.invoiceapp.dto;
 
-import com.increff.invoiceapp.model.BrandReportForm;
-import com.increff.invoiceapp.model.InventoryReportForm;
 import com.increff.invoiceapp.model.InvoiceForm;
 import com.increff.invoiceapp.service.GenerateInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,37 +39,4 @@ public class InvoiceDto {
         return response;
     }
 
-    public ResponseEntity<byte[]> getBrandReport(@RequestBody BrandReportForm form) throws IOException {
-
-        service.generateBrandReport(form);
-        Path pdfPath = Paths.get("./Test/brandreport.pdf");
-
-        byte[] contents = Files.readAllBytes(pdfPath);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-        return response;
-    }
-
-    public ResponseEntity<byte[]> getInventoryReport(@RequestBody InventoryReportForm form) throws IOException {
-
-        service.generateInventoryReport(form);
-        Path pdfPath = Paths.get("./Test/inventoryreport.pdf");
-
-        byte[] contents = Files.readAllBytes(pdfPath);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-        return response;
-    }
 }

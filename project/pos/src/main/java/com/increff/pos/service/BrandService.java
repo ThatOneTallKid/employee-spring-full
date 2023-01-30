@@ -18,6 +18,9 @@ public class BrandService {
 
 
     public void add(BrandPojo brandPojo) throws ApiException{
+        if(checkBrandExists(brandPojo.getBrand(), brandPojo.getCategory())) {
+            throw new ApiException("Brand and Category Alread Exists");
+        }
         dao.insert(brandPojo);
     }
 
@@ -51,9 +54,9 @@ public class BrandService {
         return true;
     }
 
-    //TODO rename function getBrandByParams
-    public BrandPojo    getBrandPojofromBrandCategory(String brand, String category) throws ApiException {
+    public BrandPojo getBrandByParams(String brand, String category)  {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
         return brandPojo;
     }
+
 }

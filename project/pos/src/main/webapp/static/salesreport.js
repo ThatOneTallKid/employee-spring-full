@@ -15,9 +15,26 @@ function resetForm() {
     element.reset()
 }
 
+function getInventoryReportUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/inventory/exportcsv";
+}
 
+function getBrandReportUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    console.log(baseUrl);
+    return baseUrl + "/api/brand/exportcsv";
+}
+
+function printCSVUrl() {
+var baseUrl = $("meta[name=baseUrl]").attr("content")
+    console.log(baseUrl);
+    return baseUrl + "/api/salesreport/exportcsv";
+}
 
 function getFilteredList(event) {
+    $('#apply-filter').prop('disabled', true);
+    $('#printCSV').prop('disabled', false);
     var $form = $("#sales-report-form");
     var json = toJson($form);
     console.log(json);
@@ -30,8 +47,7 @@ function getFilteredList(event) {
             'Content-Type': 'application/json'
         },
          success: function (response) {
-             resetForm();
-            displaySalesList(response);
+
         },
         error: handleAjaxError
      });
@@ -163,14 +179,30 @@ function getBrandList()
    });
 }
 
+function printBrandCSV() {
+    window.location.href = getBrandReportUrl();
+}
+
+function printInventoryCSV() {
+    window.location.href = getInventoryReportUrl();
+}
+
+function printCSV() {
+resetForm();
+    $('#apply-filter').prop('disabled', false);
+    $('#printCSV').prop('disabled', true);
+    window.location.href = printCSVUrl();
+
+}
+
 function init() {
     $('#refresh-data').click(getSalesList);
     $('#apply-filter').click(getFilteredList);
     $('#inputBrand').on('change', displayCategoryOptions);
+    $('#downloadBrandCSV').click(printBrandCSV);
+    $('#downloadInventoryCSV').click(printInventoryCSV);
+    $('#printCSV').click(printCSV);
 }
-
-
-
 
 $(document).ready(init);
 $(document).ready(getSalesList);
