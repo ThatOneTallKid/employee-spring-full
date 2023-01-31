@@ -1,7 +1,6 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.form.BrandForm;

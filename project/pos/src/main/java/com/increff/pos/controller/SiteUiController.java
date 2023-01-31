@@ -23,4 +23,9 @@ public class SiteUiController extends AbstractUiController {
 		return mav("logout.html");
 	}
 
+	@RequestMapping(value = "/error")
+	public ModelAndView error() {
+		return mav("error.html");
+	}
+
 }

@@ -48,4 +48,6 @@ public class AppUiController extends AbstractUiController {
 		return mav("salesreport.html");
 	}
 
+
+
 }
