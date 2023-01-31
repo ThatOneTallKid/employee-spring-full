@@ -26,6 +26,7 @@ function arrayToJson() {
     return JSON.stringify(json);
 }
 
+
 //BUTTON ACTIONS
 function addBrand(event){
 	//Set the values to update
@@ -48,7 +49,16 @@ function addBrand(event){
 			toastr.success("Brand Added Successfully", "Success : ");
 	   		getBrandList();
 	   },
-	   error: handleAjaxError
+	   error: function (response) {
+	       console.log(response);
+		   var resp = JSON.parse(response.responseText);
+       	//alert(response.message);
+       	    console.log(resp);
+		   var jsonObj = JSON.parse(resp.message);
+		   console.log(jsonObj);
+           toastr.error(jsonObj[0].message, "Error : ");
+           resetForm();
+	   }
 	});
 
 	return false;
@@ -111,7 +121,7 @@ function readFileDataCallback(results){
 	fileData = results.data;
 	var filelen = fileData.length;
 	if(filelen > 5000) {
-	    alert("file length exceeds 5000, Not Allowed");
+	    toastr.error("file length exceeds 5000, Not Allowed");
 	}
 	else {
 
@@ -145,13 +155,18 @@ function uploadRows(){
 	   success: function(response) {
 	   		console.log(response);
             errorData = response;
-            processCount = fileData.length;
-            console.log(response.length);
-            if(response.length > 0) {
-                $("#download-errors").prop('disabled', false);
-            }
             resetForm();
             getBrandList();
+	   },
+		error: function (response) {
+			var resp = JSON.parse(response.responseText);
+			var jsonObj = JSON.parse(resp.message);
+			console.log(jsonObj);
+	        errorData = jsonObj;
+			processCount = fileData.length;
+			console.log(response);
+			$("#download-errors").prop('disabled', false);
+			resetForm();
 	   }
 	});
 

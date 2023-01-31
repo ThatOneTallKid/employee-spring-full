@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.BrandDao;
+import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,7 @@ public class BrandService {
 
 
     public void add(BrandPojo brandPojo) throws ApiException{
-        if(checkBrandExists(brandPojo.getBrand(), brandPojo.getCategory())) {
-            throw new ApiException("Brand and Category Alread Exists");
-        }
-        dao.insert(brandPojo);
+            dao.insert(brandPojo);
     }
 
     public BrandPojo getCheck(int id) throws ApiException {
@@ -38,24 +36,25 @@ public class BrandService {
 
     public void update(int id, BrandPojo newBrandPojo) throws ApiException{
         BrandPojo brandPojo = getCheck(id);
-        if(checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory()) == true) {
-            throw new ApiException("Same brand and category exist");
-        }
+        checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory());
         brandPojo.setCategory(newBrandPojo.getCategory());
         brandPojo.setBrand(newBrandPojo.getBrand());
         dao.update();
     }
 
-    public Boolean checkBrandExists(String brand, String category)  {
+    public void checkBrandExists(String brand, String category) throws ApiException {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
-        if(Objects.isNull(brandPojo)) {
-            return false;
+        if(Objects.isNull(brandPojo)== false) {
+            throw new ApiException("Same brand and category exist");
         }
-        return true;
+
     }
 
-    public BrandPojo getBrandByParams(String brand, String category)  {
+    public BrandPojo getBrandByParams(String brand, String category) throws ApiException {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
+        if(Objects.isNull(brandPojo)) {
+            throw new ApiException("Brand and Category does not exists");
+        }
         return brandPojo;
     }
 

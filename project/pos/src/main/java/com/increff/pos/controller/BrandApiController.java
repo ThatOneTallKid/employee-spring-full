@@ -1,5 +1,6 @@
 package com.increff.pos.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.data.BrandErrorData;
@@ -28,8 +29,8 @@ public class BrandApiController {
 
     @ApiOperation(value= "Adds a brand")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public List<BrandErrorData> add(@RequestBody List<BrandForm> forms) throws ApiException {
-        return brandDto.add(forms);
+    public void add(@RequestBody List<BrandForm> forms) throws ApiException, JsonProcessingException {
+        brandDto.add(forms);
     }
 
 

@@ -99,7 +99,7 @@ function changeQty(vars) {
             var prev = parseInt(JSON.parse(wholeOrder[i]).qty);
             var new_qty = prev + qty;
             if(new_qty > barcode_qty.get(barcode)){
-                alert("Quantity not available in the inventory");
+                toastr.error("Quantity not available in the inventory");
                 return;
             }
 
@@ -216,22 +216,22 @@ function addOrderItem(event) {
     console.log(barcode_qty.get(barcode1));
 
     if (getInventory(barcode1) == false) {
-        alert("Barcode does not exist in the Inventory");
+        toastr.error("Barcode does not exist in the Inventory");
     }
     else {
         console.log(qty);
         console.log(inv_qty);
         if (qty > barcode_qty.get(barcode1)) {
-            alert("Quantity not present in inventory");
+            toastr.error("Quantity not present in inventory");
         }
         else {
             var _qty = barcode_qty.get(barcode1) - qty;
             var sp = $("#order-item-form input[name=sellingPrice]").val();
 
             if (sp <= 0) {
-                alert("Price cannot be negative or zero")
+                toastr.error("Price cannot be negative or zero")
             } else if (qty <= 0) {
-                alert("Quantity cannot be negative or zero")
+                toastr.error("Quantity cannot be negative or zero")
             }
             else {
                 if (checkOrderItemExist()) {
@@ -246,7 +246,7 @@ function addOrderItem(event) {
                     vars.push(qty);
                     vars.push(sp);
                     if (checkSellingPrice(vars) == false) {
-                        alert("Selling price cannot be different");
+                        toastr.error("Selling price cannot be different");
                     }
                     else {
                         changeQty(vars);
@@ -363,7 +363,7 @@ function placeOrder() {
     let len = wholeOrder.length;
     console.log(len);
     if (len == 0) {
-        alert("Cart empty! Order cannot be placed.");
+        toastr.error("Cart empty! Order cannot be placed.");
     }
     else {
         var jsonObj = arrayToJson();

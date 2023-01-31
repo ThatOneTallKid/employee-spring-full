@@ -1,6 +1,9 @@
 package com.increff.pos.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.helper.InventoryFormHelper;
+import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.InventoryErrorData;
 import com.increff.pos.model.data.InventoryItem;
@@ -15,6 +18,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.CsvFileGenerator;
+import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.ValidationUtil;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,22 +59,36 @@ public class InventoryDto {
     CsvFileGenerator csvGenerator;
 
 
-    public List<InventoryErrorData> add(List<InventoryForm> forms) throws ApiException {
+    public void add(List<InventoryForm> forms) throws ApiException, JsonProcessingException {
         List<InventoryErrorData> inventoryErrorDataList = new ArrayList<>();
+        inventoryErrorDataList.clear();
+        int errorSize = 0;
         for (InventoryForm form: forms) {
+            InventoryErrorData inventoryErrorData = ConvertUtil.convert(form, InventoryErrorData.class);
+            inventoryErrorData.setMessage("");
             try {
                 ValidationUtil.validateForms(form);
-                InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getIDByBarcode(form.getBarcode()));
-                inventoryService.add(inventoryPojo);
+                ProductPojo productPojo = productService.getCheck(productService.getIDByBarcode(form.getBarcode()));
             }
             catch (ApiException e) {
-                InventoryErrorData inventoryErrorData = ConvertUtil.convert(form, InventoryErrorData.class);
                 inventoryErrorData.setMessage(e.getMessage());
-                inventoryErrorDataList.add(inventoryErrorData);
+                errorSize++;
             }
-
+            inventoryErrorDataList.add(inventoryErrorData);
         }
-        return inventoryErrorDataList;
+
+        if(errorSize > 0) {
+            ErrorUtil.throwErrors(inventoryErrorDataList);
+        }
+            bulkAdd(forms);
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    private void bulkAdd(List<InventoryForm> forms) throws ApiException {
+        for(InventoryForm form: forms) {
+            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getIDByBarcode(form.getBarcode()));
+            inventoryService.add(inventoryPojo);
+        }
     }
 
     public InventoryData get(int id) throws ApiException{

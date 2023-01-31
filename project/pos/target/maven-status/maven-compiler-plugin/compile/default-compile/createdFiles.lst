@@ -51,6 +51,7 @@ com\increff\pos\dao\OrderDao.class
 com\increff\pos\model\form\SalesForm.class
 com\increff\pos\util\IOUtil.class
 com\increff\pos\util\ConvertUtil.class
+com\increff\pos\model\data\ProductErrorData.class
 com\increff\pos\dao\OrderItemDao.class
 com\increff\pos\model\data\InventoryErrorData.class
 com\increff\pos\dto\BrandDto.class
@@ -83,6 +84,7 @@ com\increff\pos\util\CheckerUtil.class
 com\increff\pos\util\UserPrincipal.class
 com\increff\pos\pojo\AbstractPojo.class
 com\increff\pos\model\form\UserForm.class
+com\increff\pos\util\ErrorUtil.class
 com\increff\pos\util\SecurityUtil.class
 com\increff\pos\helper\InventoryFormHelper.class
 com\increff\pos\model\form\InventoryForm.class

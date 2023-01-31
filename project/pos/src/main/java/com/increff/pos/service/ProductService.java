@@ -52,6 +52,14 @@ public class ProductService {
         return false;
     }
 
+    public void checkSame(String barcode) throws ApiException {
+        ProductPojo productPojo = productDao.selectByBarcode(barcode);
+        if (!Objects.isNull(productPojo)){
+            throw new ApiException("Same Barcode already exists");
+        }
+
+    }
+
 
     public ProductPojo getCheck(int id) throws ApiException{
         ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);

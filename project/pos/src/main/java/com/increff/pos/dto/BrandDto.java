@@ -1,5 +1,7 @@
 package com.increff.pos.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.form.BrandForm;
@@ -8,11 +10,13 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.CsvFileGenerator;
+import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,23 +32,40 @@ public class BrandDto {
     @Autowired
     private CsvFileGenerator csvGenerator;
 
-    public List<BrandErrorData> add(List<BrandForm> brandForms) throws ApiException {
-        List<BrandErrorData> errorData= new ArrayList<>();
-        for(BrandForm brandForm: brandForms) {
-            try{
+    public void add(List<BrandForm> brandForms) throws ApiException, JsonProcessingException {
+        List<BrandErrorData> errorData = new ArrayList<>();
+        errorData.clear();
+        int errorSize = 0;
+        for (BrandForm brandForm : brandForms) {
+            BrandErrorData brandErrorData= ConvertUtil.convert(brandForm, BrandErrorData.class);
+            brandErrorData.setMessage("");
+            try {
                 ValidationUtil.validateForms(brandForm);
                 normalizeBrand(brandForm);
                 BrandPojo b = convertBrandFormToPojo(brandForm);
-                brandService.add(b);
-            }
-            catch (ApiException e) {
-                BrandErrorData brandErrorData = ConvertUtil.convert(brandForm, BrandErrorData.class);
+                brandService.checkBrandExists(brandForm.getBrand(), brandForm.getCategory());
+
+            } catch (ApiException e) {
+                errorSize++;
                 brandErrorData.setMessage(e.getMessage());
-                errorData.add(brandErrorData);
             }
+            errorData.add(brandErrorData);
+        }
+        if (errorSize > 0) {
+            ErrorUtil.throwErrors(errorData);
         }
 
-        return errorData;
+
+        bulkAdd(brandForms);
+
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    private void bulkAdd(List<BrandForm> brandForms) throws ApiException {
+        for (BrandForm brandForm: brandForms){
+            BrandPojo b = convertBrandFormToPojo(brandForm);
+            brandService.add(b);
+        }
     }
 
     public BrandData get(int id) throws ApiException{

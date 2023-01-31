@@ -1,5 +1,6 @@
 package com.increff.pos.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.helper.InventoryFormHelper;
 import com.increff.pos.model.data.InventoryData;
@@ -37,8 +38,8 @@ public class InventoryApiController {
 
     @ApiOperation(value = "Adds a Product")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public List<InventoryErrorData> add(@RequestBody List<InventoryForm> form) throws ApiException {
-        return inventoryDto.add(form);
+    public void add(@RequestBody List<InventoryForm> form) throws ApiException, JsonProcessingException {
+        inventoryDto.add(form);
     }
 
     @ApiOperation(value = "Get a Product by ID")
