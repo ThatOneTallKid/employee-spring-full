@@ -26,6 +26,15 @@ function arrayToJson() {
     return JSON.stringify(json);
 }
 
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 
 //BUTTON ACTIONS
 function addBrand(event){
@@ -46,24 +55,27 @@ function addBrand(event){
 		success: function (response) {
 		    wholeBrand=[];
 			resetForm();
-			toastr.success("Brand Added Successfully", "Success : ");
 	   		getBrandList();
+			toastr.success("Brand Added Successfully", "Success : ");
 	   },
 	   error: function (response) {
-           resetForm();
 	       console.log(response);
 	       if(response.status == 403) {
 	            toastr.error("Error: 403 unauthorized");
 	       }
 	       else {
-
-		   var resp = JSON.parse(response.responseText);
-       	//alert(response.message);
-       	    console.log(resp);
-		   var jsonObj = JSON.parse(resp.message);
-		   console.log(jsonObj);
-           toastr.error(jsonObj[0].message, "Error : ");
+	        var resp = JSON.parse(response.responseText);
+	        if(isJson(resp.message) == true){
+	            var jsonObj = JSON.parse(resp.message);
+      		    console.log(jsonObj);
+                toastr.error(jsonObj[0].message, "Error : ");
+	        }
+	        else {
+	        handleAjaxError(response);
+	        }
 	       }
+           wholeBrand=[];
+           resetForm();
 	   }
 	});
 

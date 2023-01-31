@@ -16,7 +16,6 @@ com\increff\pos\spring\SchedulerInitializer.class
 com\increff\pos\model\data\InfoData.class
 com\increff\pos\service\SalesService.class
 com\increff\pos\controller\InventoryApiController.class
-com\increff\pos\handler\CustomAccessDeniedHandler.class
 com\increff\pos\helper\OrderItemFormHelper.class
 com\increff\pos\dto\SalesReportDto.class
 com\increff\pos\spring\SpringConfig.class
