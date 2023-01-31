@@ -3,10 +3,12 @@ package com.increff.pos.helper;
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
+import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.StringUtil;
 import javafx.util.Pair;
 
 import javax.persistence.Convert;
@@ -36,5 +38,9 @@ public class InventoryFormHelper {
         inventoryItem.setCategory(p.getValue());
         inventoryItem.setQty(mapElement.getValue());
         return inventoryItem;
+    }
+
+    public static void normalizeInventory(InventoryForm inventoryForm) {
+        inventoryForm.setBarcode(StringUtil.toLowerCase(inventoryForm.getBarcode()).trim());
     }
 }

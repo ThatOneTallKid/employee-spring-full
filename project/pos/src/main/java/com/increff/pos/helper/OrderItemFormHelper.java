@@ -22,6 +22,6 @@ public class OrderItemFormHelper {
     }
 
     public static void normalizeOrderItem(OrderItemForm orderItemForm) {
-        orderItemForm.setBarcode(StringUtil.toLowerCase(orderItemForm.getBarcode()));
+        orderItemForm.setBarcode(StringUtil.toLowerCase(orderItemForm.getBarcode()).trim());
     }
 }

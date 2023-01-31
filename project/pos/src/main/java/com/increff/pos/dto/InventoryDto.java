@@ -40,8 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.increff.pos.helper.InventoryFormHelper.convertInventoryFormToPojo;
-import static com.increff.pos.helper.InventoryFormHelper.convertInventoryPojoToData;
+import static com.increff.pos.helper.InventoryFormHelper.*;
 
 @Component
 public class InventoryDto {
@@ -68,6 +67,7 @@ public class InventoryDto {
             inventoryErrorData.setMessage("");
             try {
                 ValidationUtil.validateForms(form);
+                normalizeInventory(form);
                 ProductPojo productPojo = productService.getCheck(productService.getIDByBarcode(form.getBarcode()));
             }
             catch (ApiException e) {
@@ -83,13 +83,6 @@ public class InventoryDto {
             bulkAdd(forms);
     }
 
-    @Transactional(rollbackOn = ApiException.class)
-    private void bulkAdd(List<InventoryForm> forms) throws ApiException {
-        for(InventoryForm form: forms) {
-            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getIDByBarcode(form.getBarcode()));
-            inventoryService.add(inventoryPojo);
-        }
-    }
 
     public InventoryData get(int id) throws ApiException{
         InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(id);
@@ -152,5 +145,13 @@ public class InventoryDto {
         }
 
         return inventoryItemList;
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    private void bulkAdd(List<InventoryForm> forms) throws ApiException {
+        for(InventoryForm form: forms) {
+            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getIDByBarcode(form.getBarcode()));
+            inventoryService.add(inventoryPojo);
+        }
     }
 }

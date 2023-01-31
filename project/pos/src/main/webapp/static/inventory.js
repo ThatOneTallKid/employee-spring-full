@@ -50,14 +50,20 @@ function addInventory(event){
 	   		getInventoryList();
 	   },
 	   error: function (response) {
-		console.log(response);
-		var resp = JSON.parse(response.responseText);
-		//alert(response.message);
-			console.log(resp);
-		var jsonObj = JSON.parse(resp.message);
-		console.log(jsonObj);
-		toastr.error(jsonObj[0].message, "Error : ");
 		resetForm();
+	       console.log(response);
+	       if(response.status == 403) {
+	            toastr.error("Error: 403 unauthorized");
+	       }
+	       else {
+
+		   var resp = JSON.parse(response.responseText);
+       	//alert(response.message);
+       	    console.log(resp);
+		   var jsonObj = JSON.parse(resp.message);
+		   console.log(jsonObj);
+           toastr.error(jsonObj[0].message, "Error : ");
+	       }
 		}
 	});
 
@@ -155,6 +161,10 @@ function uploadRows(){
 	   		getInventoryList();
 		},
 		error: function (response) {
+		    if(response.status == 403){
+                toastr.error("403 FOrbidden");
+            }
+            else {
 			var resp = JSON.parse(response.responseText);
 			var jsonObj = JSON.parse(resp.message);
 			console.log(jsonObj);
@@ -163,6 +173,7 @@ function uploadRows(){
 			console.log(response);
 			$("#download-errors").prop('disabled', false);
 			resetForm();
+			}
 	   }
 	});
 

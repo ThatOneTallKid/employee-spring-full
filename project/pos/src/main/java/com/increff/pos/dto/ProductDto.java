@@ -64,13 +64,6 @@ public class ProductDto {
             bulkAdd(forms);
     }
 
-    @Transactional(rollbackOn = ApiException.class)
-    private void bulkAdd(List<ProductForm> forms) throws ApiException {
-        for(ProductForm form: forms) {
-            productService.add(convertProductFormToPojo(form, brandService.getBrandByParams(form.getBrand(),
-                    form.getCategory()).getId()));
-        }
-    }
 
     public ProductData get(int id) throws ApiException {
         ProductPojo productPojo = productService.get(id);
@@ -93,5 +86,13 @@ public class ProductDto {
         normalizeProduct(form);
         ProductPojo productPojo = convertProductFormToPojo(form, id);
         productService.update(id,productPojo);
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    private void bulkAdd(List<ProductForm> forms) throws ApiException {
+        for(ProductForm form: forms) {
+            productService.add(convertProductFormToPojo(form, brandService.getBrandByParams(form.getBrand(),
+                    form.getCategory()).getId()));
+        }
     }
 }

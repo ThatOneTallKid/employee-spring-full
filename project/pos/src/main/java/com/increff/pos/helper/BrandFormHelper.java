@@ -18,7 +18,7 @@ public class BrandFormHelper {
     }
 
     public static void normalizeBrand(BrandForm brandForm) {
-        brandForm.setBrand(StringUtil.toLowerCase(brandForm.getBrand()));
-        brandForm.setCategory(StringUtil.toLowerCase(brandForm.getCategory()));
+        brandForm.setBrand(StringUtil.toLowerCase(brandForm.getBrand()).trim());
+        brandForm.setCategory(StringUtil.toLowerCase(brandForm.getCategory()).trim());
     }
 }

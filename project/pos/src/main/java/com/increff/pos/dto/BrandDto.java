@@ -60,14 +60,6 @@ public class BrandDto {
 
     }
 
-    @Transactional(rollbackOn = ApiException.class)
-    private void bulkAdd(List<BrandForm> brandForms) throws ApiException {
-        for (BrandForm brandForm: brandForms){
-            BrandPojo b = convertBrandFormToPojo(brandForm);
-            brandService.add(b);
-        }
-    }
-
     public BrandData get(int id) throws ApiException{
         return convertBrandPojoToData(brandService.getCheck(id));
     }
@@ -92,6 +84,14 @@ public class BrandDto {
         response.setContentType("text/csv");
         response.addHeader("Content-Disposition", "attachment; filename=\"brandReport.csv\"");
         csvGenerator.writeBrandsToCsv(brandService.getAll(), response.getWriter());
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    private void bulkAdd(List<BrandForm> brandForms) throws ApiException {
+        for (BrandForm brandForm: brandForms){
+            BrandPojo b = convertBrandFormToPojo(brandForm);
+            brandService.add(b);
+        }
     }
 
 }

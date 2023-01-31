@@ -23,7 +23,7 @@ public class ProductFormHelper {
     }
 
     public static void normalizeProduct(ProductForm productForm) {
-        productForm.setBarcode(StringUtil.toLowerCase(productForm.getBarcode()));
-        productForm.setName(StringUtil.toLowerCase(productForm.getName()));
+        productForm.setBarcode(StringUtil.toLowerCase(productForm.getBarcode()).trim());
+        productForm.setName(StringUtil.toLowerCase(productForm.getName()).trim());
     }
 }

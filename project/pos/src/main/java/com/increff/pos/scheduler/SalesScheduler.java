@@ -13,7 +13,7 @@ public class SalesScheduler {
     SalesDto salesDto;
 
     @Async
-    @Scheduled(cron = "0 59 11 * * *")
+    @Scheduled(cron = "0 59 23 * * *")
     public void createReport() throws ApiException {
         salesDto.createReport();;
     }
