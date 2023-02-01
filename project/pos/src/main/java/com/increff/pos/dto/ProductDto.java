@@ -67,7 +67,7 @@ public class ProductDto {
 
     public ProductData get(int id) throws ApiException {
         ProductPojo productPojo = productService.get(id);
-        BrandPojo brandPojo= brandService.getCheck(id);
+        BrandPojo brandPojo= brandService.getCheck(productPojo.getBrandCategory());
         return convertProductPojoToData(productPojo, brandPojo);
     }
 

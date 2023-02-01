@@ -28,23 +28,9 @@ public class OrderService {
         orderItemDao.insert(orderItemPojo);
     }
 
-    public OrderItemPojo get(int id) throws ApiException {
-        OrderItemPojo orderItemPojo = orderItemDao.selectByID(id, OrderItemPojo.class);
-        if(Objects.isNull(orderItemPojo)){
-            throw new ApiException("Order Item with given Id does not exists.;");
-        }
-        return orderItemPojo;
-    }
 
     public List<OrderItemPojo> getAll() {
         return orderItemDao.selectALL(OrderItemPojo.class);
-    }
-
-    public void update(int id, OrderItemPojo newOrderItemPojo) throws ApiException{
-        OrderItemPojo orderItemPojo = get(id);
-        orderItemPojo.setQty(newOrderItemPojo.getQty());
-        orderItemPojo.setSellingPrice(newOrderItemPojo.getSellingPrice());
-        orderItemDao.update();
     }
 
     public List<OrderItemPojo> getOrderItemsByOrderId(int orderId){

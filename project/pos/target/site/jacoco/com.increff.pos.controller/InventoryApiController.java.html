@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryApiController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.pos.controller</a> &gt; <span class="el_source">InventoryApiController.java</span></div><h1>InventoryApiController.java</h1><pre class="source lang-java linenums">package com.increff.pos.controller;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.increff.pos.dto.InventoryDto;
+import com.increff.pos.helper.InventoryFormHelper;
+import com.increff.pos.model.data.InventoryData;
+import com.increff.pos.model.data.InventoryErrorData;
+import com.increff.pos.model.data.InventoryItem;
+import com.increff.pos.model.form.InventoryForm;
+import com.increff.pos.model.form.InventoryReportForm;
+import com.increff.pos.service.ApiException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+@Api
+@RestController
+@RequestMapping(path = &quot;/api/inventory&quot;)
+<span class="fc" id="L33">public class InventoryApiController {</span>
+    @Autowired
+    private InventoryDto inventoryDto;
+
+
+
+    @ApiOperation(value = &quot;Adds a Product&quot;)
+    @RequestMapping(path = &quot;&quot;, method = RequestMethod.POST)
+    public void add(@RequestBody List&lt;InventoryForm&gt; form) throws ApiException, JsonProcessingException {
+<span class="nc" id="L42">        inventoryDto.add(form);</span>
+<span class="nc" id="L43">    }</span>
+
+    @ApiOperation(value = &quot;Get a Product by ID&quot;)
+    @RequestMapping(path = &quot;/{id}&quot;, method = RequestMethod.GET)
+    public InventoryData get(@PathVariable int id)  throws ApiException {
+<span class="nc" id="L48">        return inventoryDto.get(id);</span>
+    }
+
+    @ApiOperation(value = &quot;Get a Product by Barcode&quot;)
+    @RequestMapping(path = &quot;/barcode&quot;,method = RequestMethod.GET)
+    public InventoryData getByBarcode(@RequestParam(value=&quot;barcode&quot;) String barcode)  throws ApiException {
+<span class="nc" id="L54">        return inventoryDto.getByBarcode(barcode);</span>
+    }
+
+    @ApiOperation(value = &quot;Get All Products&quot;)
+    @RequestMapping(path = &quot;&quot;, method = RequestMethod.GET)
+    public  List&lt;InventoryData&gt; getAll() throws ApiException {
+<span class="nc" id="L60">        return inventoryDto.getAll();</span>
+    }
+
+    @ApiOperation(value = &quot;Updates a Product&quot;)
+    @RequestMapping(path = &quot;/{id}&quot;, method = RequestMethod.PUT)
+    public void update(@PathVariable int id, @RequestBody InventoryForm f) throws ApiException {
+<span class="nc" id="L66">        inventoryDto.update(id, f);</span>
+<span class="nc" id="L67">    }</span>
+
+    @ApiOperation(value = &quot;Export Product Report to CSV&quot;)
+    @RequestMapping(path = &quot;/exportcsv&quot;, method = RequestMethod.GET)
+    public void exportToCSV(HttpServletResponse response) throws IOException, ApiException {
+<span class="nc" id="L72">        inventoryDto.generateCsv(response);</span>
+<span class="nc" id="L73">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

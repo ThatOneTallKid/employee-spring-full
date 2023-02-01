@@ -8,6 +8,7 @@ import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/order")
 public class OrderApiController {
+
+    @Value("${invoice.url}")
+    private String url;
 
     @Autowired
     private OrderDto orderDto;
@@ -43,7 +47,7 @@ public class OrderApiController {
     @ApiOperation(value = "Download Invoice")
     @RequestMapping(path = "/invoice/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getPDF(@PathVariable int id) throws Exception{
-        return orderDto.getPDF(id);
+        return orderDto.getPDF(id, this.url);
     }
 
 }

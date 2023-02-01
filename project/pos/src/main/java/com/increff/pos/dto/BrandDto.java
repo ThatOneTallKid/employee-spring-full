@@ -11,6 +11,7 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.CsvFileGenerator;
 import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.ValidationUtil;
+import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -78,6 +79,7 @@ public class BrandDto {
         BrandPojo p = convertBrandFormToPojo(brandForm);
         brandService.update(id,p);
     }
+
 
     public void generateCsv(HttpServletResponse response) throws IOException {
         response.setContentType("text/csv");

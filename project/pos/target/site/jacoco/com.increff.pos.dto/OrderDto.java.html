@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.pos.dto</a> &gt; <span class="el_source">OrderDto.java</span></div><h1>OrderDto.java</h1><pre class="source lang-java linenums">package com.increff.pos.dto;
+
+import com.increff.pos.model.data.OrderData;
+import com.increff.pos.model.data.OrderItem;
+import com.increff.pos.model.data.OrderItemData;
+import com.increff.pos.model.form.InvoiceForm;
+import com.increff.pos.model.form.OrderItemForm;
+import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.service.ApiException;
+import com.increff.pos.service.InventoryService;
+import com.increff.pos.service.OrderService;
+import com.increff.pos.service.ProductService;
+import com.increff.pos.util.ValidationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import javax.transaction.Transactional;
+import java.util.*;
+
+import static com.increff.pos.helper.OrderFormHelper.convertOrderPojoToData;
+import static com.increff.pos.helper.OrderItemFormHelper.*;
+
+@Component
+<span class="fc" id="L33">public class OrderDto {</span>
+
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    InventoryService inventoryService;
+
+    @Autowired
+    ProductService productService;
+
+    @Value(&quot;${invoice.url}&quot;)
+    private String url;
+
+    @Transactional(rollbackOn = ApiException.class)
+    public void add(List&lt;OrderItemForm&gt; forms) throws ApiException {
+<span class="fc" id="L49">        Map&lt;String, ProductPojo&gt; productList = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L50">        productList.clear();</span>
+<span class="fc" id="L51">        productList= getProductList(productList);</span>
+
+<span class="fc" id="L53">        checkDuplicates(forms);</span>
+<span class="fc" id="L54">        checkInventory(forms, productList);</span>
+
+<span class="fc" id="L56">        OrderPojo orderPojo = new OrderPojo();</span>
+<span class="fc" id="L57">        orderService.addOrder(orderPojo);</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (OrderItemForm f : forms) {</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            if(productList.containsKey(f.getBarcode())) {</span>
+<span class="fc" id="L61">                ProductPojo productPojo = productList.get(f.getBarcode());</span>
+<span class="fc" id="L62">                OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());</span>
+<span class="fc" id="L63">                orderItemPojo.setOrderId(orderPojo.getId());</span>
+<span class="fc" id="L64">                reduceInventory(orderItemPojo, productPojo.getId(), f);</span>
+<span class="fc" id="L65">            }</span>
+            else {
+<span class="nc" id="L67">                throw new ApiException(&quot;Product with given Barcode does not exists !&quot;);</span>
+            }
+<span class="fc" id="L69">        }</span>
+<span class="fc" id="L70">    }</span>
+
+
+    public List&lt;OrderData&gt; getAll() {
+<span class="fc" id="L74">        List&lt;OrderPojo&gt; list = orderService.getAllOrders();</span>
+<span class="fc" id="L75">        List&lt;OrderData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for(OrderPojo orderPojo : list) {</span>
+<span class="fc" id="L77">            list2.add(convertOrderPojoToData(orderPojo));</span>
+<span class="fc" id="L78">        }</span>
+<span class="fc" id="L79">        return list2;</span>
+    }
+
+    public ResponseEntity&lt;byte[]&gt; getPDF(int id, String _url) throws Exception {
+<span class="fc" id="L83">        InvoiceForm invoiceForm = generateInvoiceForOrder(id);</span>
+
+<span class="fc" id="L85">        RestTemplate restTemplate = new RestTemplate();</span>
+<span class="fc" id="L86">        byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(_url, invoiceForm, byte[].class).getBody());</span>
+
+<span class="fc" id="L88">        HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L89">        headers.setContentType(MediaType.APPLICATION_PDF);</span>
+
+<span class="fc" id="L91">        String filename = &quot;invoice.pdf&quot;;</span>
+<span class="fc" id="L92">        headers.setContentDispositionFormData(filename, filename);</span>
+
+<span class="fc" id="L94">        headers.setCacheControl(&quot;must-revalidate, post-check=0, pre-check=0&quot;);</span>
+<span class="fc" id="L95">        ResponseEntity&lt;byte[]&gt; response = new ResponseEntity&lt;&gt;(contents, headers, HttpStatus.OK);</span>
+<span class="fc" id="L96">        return response;</span>
+    }
+
+    public List&lt;OrderItemData&gt; getOrderItemsByID(int id) throws ApiException {
+<span class="fc" id="L100">        List&lt;OrderItemPojo&gt; list = orderService.getOrderItemsByOrderId(id);</span>
+<span class="fc" id="L101">        List&lt;OrderItemData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        for (OrderItemPojo orderItemPojo : list) {</span>
+<span class="fc" id="L103">            ProductPojo px = productService.get(orderItemPojo.getProductId());</span>
+<span class="fc" id="L104">            list2.add(convertOrderItemPojoToData(orderItemPojo, px.getBarcode(), px.getName()));</span>
+<span class="fc" id="L105">        }</span>
+<span class="fc" id="L106">        return list2;</span>
+    }
+
+
+    private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
+<span class="fc" id="L111">        int prev_qty = inventoryService.getQtyById(id);</span>
+<span class="fc" id="L112">        int remaining_qty = prev_qty - orderItemForm.getQty();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if(remaining_qty &lt; 0) {</span>
+<span class="nc" id="L114">            throw new ApiException(&quot;Not enough items in the inventory&quot;);</span>
+        }
+<span class="fc" id="L116">        InventoryPojo inventoryPojo = new InventoryPojo();</span>
+<span class="fc" id="L117">        inventoryPojo.setQty(remaining_qty);</span>
+<span class="fc" id="L118">        orderService.add(orderItemPojo);</span>
+<span class="fc" id="L119">        inventoryService.update(id, inventoryPojo);</span>
+<span class="fc" id="L120">    }</span>
+
+    private void checkDuplicates(List&lt;OrderItemForm&gt; forms) throws ApiException{
+<span class="fc" id="L123">        Set&lt;String&gt; set = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        for(OrderItemForm f : forms) {</span>
+<span class="fc" id="L125">            ValidationUtil.validateForms(f);</span>
+<span class="fc" id="L126">            normalizeOrderItem(f);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            if(set.contains(f.getBarcode())) {</span>
+<span class="fc" id="L128">                throw new ApiException(&quot;Duplicate Barcode Detected&quot;);</span>
+            }
+<span class="fc" id="L130">            set.add(f.getBarcode());</span>
+<span class="fc" id="L131">        }</span>
+<span class="fc" id="L132">    }</span>
+
+    private void checkInventory(List&lt;OrderItemForm&gt; orderItemFormList, Map&lt;String, ProductPojo&gt; productPojoList) throws ApiException {
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        for (OrderItemForm form: orderItemFormList) {</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">            if(productPojoList.containsKey(form.getBarcode())) {</span>
+<span class="fc" id="L137">                InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(productPojoList.get(form.getBarcode()).getId());</span>
+<span class="fc" id="L138">            }</span>
+            else {
+<span class="nc" id="L140">                throw new ApiException(&quot;Product is not in the Inventory&quot;);</span>
+            }
+<span class="fc" id="L142">            int prev_qty = inventoryService.getQtyById(productPojoList.get(form.getBarcode()).getId());</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            if (prev_qty &lt; form.getQty()) {</span>
+<span class="fc" id="L144">                throw new ApiException(&quot;Not enough quantity present in the inventory&quot;);</span>
+            }
+<span class="fc" id="L146">        }</span>
+<span class="fc" id="L147">    }</span>
+
+    private Map&lt;String, ProductPojo&gt; getProductList(Map&lt;String, ProductPojo&gt; productList) {
+<span class="fc" id="L150">        List&lt;ProductPojo&gt; list = productService.getAll();</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for (ProductPojo productPojo: list){</span>
+<span class="fc" id="L152">            productList.put(productPojo.getBarcode(), productPojo);</span>
+<span class="fc" id="L153">        }</span>
+<span class="fc" id="L154">        return productList;</span>
+    }
+
+    private InvoiceForm generateInvoiceForOrder(int orderId) throws ApiException
+    {
+<span class="fc" id="L159">        InvoiceForm invoiceForm = new InvoiceForm();</span>
+<span class="fc" id="L160">        OrderPojo orderPojo = orderService.getOrderById(orderId);</span>
+
+<span class="fc" id="L162">        invoiceForm.setOrderId(orderPojo.getId());</span>
+<span class="fc" id="L163">        invoiceForm.setPlaceDate(orderPojo.getCreatedAt().toString());</span>
+
+<span class="fc" id="L165">        List&lt;OrderItemPojo&gt; orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());</span>
+<span class="fc" id="L166">        List&lt;OrderItem&gt; orderItemList = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        for(OrderItemPojo p: orderItemPojoList)</span>
+        {
+<span class="fc" id="L170">            OrderItem orderItem = new OrderItem();</span>
+<span class="fc" id="L171">            orderItem.setOrderItemId(p.getId());</span>
+<span class="fc" id="L172">            String productName = productService.get(p.getProductId()).getName();</span>
+<span class="fc" id="L173">            orderItem.setProductName(productName);</span>
+<span class="fc" id="L174">            orderItem.setQuantity(p.getQty());</span>
+<span class="fc" id="L175">            orderItem.setSellingPrice(p.getSellingPrice());</span>
+<span class="fc" id="L176">            orderItemList.add(orderItem);</span>
+<span class="fc" id="L177">        }</span>
+
+<span class="fc" id="L179">        invoiceForm.setOrderItemList(orderItemList);</span>
+
+<span class="fc" id="L181">        return invoiceForm;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import com.increff.pos.helper.SalesReportFormHelper;
 import com.increff.pos.model.data.SalesReportData;
 import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -37,15 +38,12 @@ public class    SalesReportDto {
 
     protected List<SalesReportData> salesList = new ArrayList<>();
 
-    public List<SalesReportData> getAll() throws ApiException {
-        List<OrderPojo> list = orderService.getAllOrders();
-        return getFilterSalesReport(list, "all", "all");
-    }
 
     public List<SalesReportData> getFilteredData(SalesReportForm salesReportForm) throws ApiException {
         String startDate = salesReportForm.getStartDate() + " 00:00:00";
         String endDate = salesReportForm.getEndDate() + " 23:59:59";
         ValidationUtil.validateForms(salesReportForm);
+        SalesReportFormHelper.normalizeSalesReportForm(salesReportForm);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime sDate = LocalDateTime.parse(startDate, formatter);
         LocalDateTime eDate = LocalDateTime.parse(endDate, formatter);

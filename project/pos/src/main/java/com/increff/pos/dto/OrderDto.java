@@ -70,13 +70,6 @@ public class OrderDto {
     }
 
 
-
-    public OrderItemData get(int id) throws ApiException {
-        OrderItemPojo orderItemPojo = orderService.get(id);
-        ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
-        return convertOrderItemPojoToData(orderItemPojo, productPojo.getBarcode(), productPojo.getName());
-    }
-
     public List<OrderData> getAll() {
         List<OrderPojo> list = orderService.getAllOrders();
         List<OrderData> list2 = new ArrayList<>();
@@ -86,11 +79,11 @@ public class OrderDto {
         return list2;
     }
 
-    public ResponseEntity<byte[]> getPDF(int id) throws Exception {
+    public ResponseEntity<byte[]> getPDF(int id, String _url) throws Exception {
         InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 
         RestTemplate restTemplate = new RestTemplate();
-        byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody());
+        byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(_url, invoiceForm, byte[].class).getBody());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
