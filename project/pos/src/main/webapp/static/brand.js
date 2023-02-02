@@ -152,12 +152,11 @@ function uploadRows(){
 	updateUploadDialog();
 
     $("#process-data").prop('disabled', true);
-	//If everything processed then return
+
 	if(processCount==fileData.length){
 		return;
 	}
 
-	//Process next row
 
 	var json = JSON.stringify(fileData);
 	var url = getBrandUrl();
@@ -202,6 +201,7 @@ function downloadErrors(){
 //UI DISPLAY METHODS
 
 function displayBrandList(data){
+    $('#Brand-table').DataTable().destroy();
 	var $tbody = $('#Brand-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
@@ -214,6 +214,7 @@ function displayBrandList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
+	pagenation();
 }
 
 function displayEditBrand(id){
@@ -268,7 +269,10 @@ function displayBrand(data){
 	$("#brand-edit-form input[name=id]").val(data.id);
 	$('#edit-brand-modal').modal('toggle');
 }
-
+function pagenation(){
+    $('#Brand-table').DataTable();
+    $('.dataTables_length').addClass("bs-select");
+}
 function printReport() {
     window.location.href = getBrandReportUrl();
 }

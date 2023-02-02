@@ -27,12 +27,12 @@ import com.increff.pos.pojo.UserPojo;
 
 	@Transactional(rollbackOn = ApiException.class)
 	public UserPojo get(String email) throws ApiException {
-<span class="nc" id="L30">		return dao.select(email);</span>
+<span class="fc" id="L30">		return dao.select(email);</span>
 	}
 
 	@Transactional
 	public List&lt;UserPojo&gt; getAll() {
-<span class="fc" id="L35">		return dao.selectAll();</span>
+<span class="fc" id="L35">		return dao.selectALL(UserPojo.class);</span>
 	}
 
 	@Transactional

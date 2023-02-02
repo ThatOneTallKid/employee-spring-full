@@ -12,30 +12,36 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
-<span class="fc" id="L17">public class UserDto {</span>
+<span class="fc" id="L18">public class UserDto {</span>
 
     @Autowired
     private UserService userService;
 
     public void add(UserForm userForm) throws ApiException {
-<span class="fc" id="L23">        ValidationUtil.validateForms(userForm);</span>
-<span class="fc" id="L24">        UserFormHelper.normalizeUser(userForm);</span>
-<span class="fc" id="L25">        userService.add(UserFormHelper.convertUserFormToPojo(userForm));</span>
-<span class="fc" id="L26">    }</span>
+<span class="fc" id="L24">        ValidationUtil.validateForms(userForm);</span>
+<span class="fc" id="L25">        UserFormHelper.normalizeUser(userForm);</span>
+<span class="fc" id="L26">        userService.add(UserFormHelper.convertUserFormToPojo(userForm));</span>
+<span class="fc" id="L27">    }</span>
 
     public void delete(int id) {
-<span class="fc" id="L29">        userService.delete(id);</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L30">        userService.delete(id);</span>
+<span class="fc" id="L31">    }</span>
 
     public List&lt;UserData&gt; getAllUser() {
-<span class="fc" id="L33">        List&lt;UserPojo&gt; list = userService.getAll();</span>
-<span class="fc" id="L34">        List&lt;UserData&gt; list2 = new ArrayList&lt;UserData&gt;();</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (UserPojo p : list) {</span>
-<span class="fc" id="L36">            list2.add(UserFormHelper.convertUserPojoToData(p));</span>
-<span class="fc" id="L37">        }</span>
-<span class="fc" id="L38">        return list2;</span>
+<span class="fc" id="L34">        List&lt;UserPojo&gt; list = userService.getAll();</span>
+<span class="fc" id="L35">        List&lt;UserData&gt; list2 = new ArrayList&lt;UserData&gt;();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (UserPojo p : list) {</span>
+<span class="fc" id="L37">            list2.add(UserFormHelper.convertUserPojoToData(p));</span>
+<span class="fc" id="L38">        }</span>
+<span class="fc" id="L39">        return list2;</span>
+    }
+
+    public boolean checkEmailExists(String email) throws ApiException {
+<span class="fc" id="L43">    	UserPojo userPojo= userService.get(email);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        return !Objects.isNull(userPojo);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

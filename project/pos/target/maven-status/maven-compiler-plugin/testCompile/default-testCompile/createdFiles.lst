@@ -9,6 +9,7 @@ com\increff\pos\dto\BrandDtoTest.class
 com\increff\pos\service\OrderServiceTest.class
 com\increff\pos\dto\SalesReportDtoTest.class
 com\increff\pos\dto\UserDtoTest.class
+com\increff\pos\service\UserServiceTest.class
 com\increff\pos\QaConfig.class
 com\increff\pos\service\ProductServiceTest.class
 com\increff\pos\dto\SalesDtoTest.class

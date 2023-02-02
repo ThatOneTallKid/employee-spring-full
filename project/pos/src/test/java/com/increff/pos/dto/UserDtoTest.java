@@ -44,4 +44,29 @@ public class UserDtoTest extends AbstractUnitTest {
 
     }
 
+    @Test
+    public void userGetTest() throws ApiException {
+        UserForm userForm = new UserForm();
+        userForm.setEmail("ax@fake.com");
+        userForm.setPassword("12345678");
+        userForm.setRole("supervisor");
+        userDto.add(userForm);
+
+        List<UserData> userDataList = userDto.getAllUser();
+        assertEquals(1, userDataList.size());
+
+        assertEquals(true, userDto.checkEmailExists("ax@fake.com"));
+    }
+
+    @Test
+    public void checkIllegalEmailTest() throws ApiException {
+        UserForm userForm = new UserForm();
+        userForm.setEmail("ax@fake.com");
+        userForm.setPassword("12345678");
+        userForm.setRole("supervisor");
+        userDto.add(userForm);
+
+        assertEquals(false, userDto.checkEmailExists("adi@fake.com"));
+    }
+
 }
