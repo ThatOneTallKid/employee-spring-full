@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.BrandForm;
@@ -251,5 +252,41 @@ public class InventoryDtoTest extends AbstractUnitTest {
         inventoryDto.add(inventoryFormList);
 
     }
+
+    @Test
+    public void testGetByBarcode() throws JsonProcessingException, ApiException {
+        List<ProductForm> productFormList = new ArrayList<>();
+        List<BrandForm> brandFormList = new ArrayList<>();
+        List<InventoryForm> inventoryFormList = new ArrayList<>();
+        BrandForm brandForm = new BrandForm();
+        brandForm.setBrand("Brand");
+        brandForm.setCategory("CateGory");
+        brandFormList.add(brandForm);
+
+        brandDto.add(brandFormList);
+
+        ProductForm productForm = new ProductForm();
+        productForm.setBrand("brand");
+        productForm.setCategory("category");
+        productForm.setBarcode("12345678");
+        productForm.setName("name");
+        productForm.setMrp(23.00);
+        productFormList.add(productForm);
+
+        productDto.add(productFormList);
+
+        InventoryForm inventoryForm = new InventoryForm();
+        inventoryForm.setBarcode("12345678");
+        inventoryForm.setQty(3);
+        inventoryFormList.add(inventoryForm);
+
+        inventoryDto.add(inventoryFormList);
+
+        String expectedBarcode = "12345678";
+        InventoryData inventoryData = inventoryDto.get(inventoryDto.getByBarcode(expectedBarcode).getId());
+        assertEquals(expectedBarcode, inventoryData.getBarcode());
+    }
+
+
 
 }

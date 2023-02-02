@@ -1,16 +1,16 @@
 package com.increff.pos.service;
 
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProductServiceTest extends AbstractUnitTest{
+public class ProductServiceTest extends AbstractUnitTest {
     @Autowired
     ProductService productService;
 
@@ -124,4 +124,6 @@ public class ProductServiceTest extends AbstractUnitTest{
 
         ProductPojo pojo = productService.getCheck(9);
     }
+
+
 }

@@ -8,16 +8,16 @@ import com.increff.pos.util.ConvertUtil;
 <span class="nc" id="L8">public class UserFormHelper {</span>
 
     public static UserPojo convertUserFormToPojo(UserForm f) {
-<span class="nc" id="L11">        UserPojo p = ConvertUtil.convert(f,UserPojo.class);</span>
-<span class="nc" id="L12">        return p;</span>
+<span class="fc" id="L11">        UserPojo p = ConvertUtil.convert(f,UserPojo.class);</span>
+<span class="fc" id="L12">        return p;</span>
     }
     public static void normalizeUser(UserForm p) {
-<span class="nc" id="L15">        p.setEmail(p.getEmail().toLowerCase().trim());</span>
-<span class="nc" id="L16">        p.setRole(p.getRole().toLowerCase().trim());</span>
-<span class="nc" id="L17">    }</span>
+<span class="fc" id="L15">        p.setEmail(p.getEmail().toLowerCase().trim());</span>
+<span class="fc" id="L16">        p.setRole(p.getRole().toLowerCase().trim());</span>
+<span class="fc" id="L17">    }</span>
     public static UserData convertUserPojoToData(UserPojo p) {
-<span class="nc" id="L19">        UserData d = ConvertUtil.convert(p,UserData.class);</span>
-<span class="nc" id="L20">        return d;</span>
+<span class="fc" id="L19">        UserData d = ConvertUtil.convert(p,UserData.class);</span>
+<span class="fc" id="L20">        return d;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

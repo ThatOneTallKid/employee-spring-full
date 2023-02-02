@@ -187,6 +187,7 @@ function checkBarcode(data) {
 var inv_qty= null;
 var inv_barcode = null;
 
+    var check = 1;
 function getInventory(barcode) {
     var url = getInventoryUrl() + "/barcode?barcode=" + barcode;
         $.ajax({
@@ -197,70 +198,85 @@ function getInventory(barcode) {
                 inv_qty = data.qty;
 
                 barcode_qty.set(data.barcode, data.qty);
-                return true;
+                addItem();
+                resetForm();
+
 
             },
             error: function(data) {
-                return false;
+                toastr.error("Barcode does not exist in the Inventory");
+                        resetForm();
             }
          });
+
+}
+
+function addItem() {
+        var $form = $("#order-item-form");
+            var json = toJson($form);
+            var jsonObj = $.parseJSON(json);
+        var barcode1 = $("#order-item-form input[name=barcode]").val();
+
+        var qty = $("#order-item-form input[name=qty]").val();
+
+        console.log(check);
+
+            console.log(qty);
+            console.log(inv_qty);
+            if (qty > barcode_qty.get(barcode1)) {
+                toastr.error("Quantity not present in inventory");
+                resetForm();
+            }
+            else {
+                var _qty = barcode_qty.get(barcode1) - qty;
+                var sp = $("#order-item-form input[name=sellingPrice]").val();
+
+                if (sp <= 0) {
+                    toastr.error("Price cannot be negative or zero")
+                } else if (qty <= 0) {
+                    toastr.error("Quantity cannot be negative or zero")
+                }
+                else {
+                    if (checkOrderItemExist()) {
+                        console.log("inside check");
+                        let vars = []
+
+                        var barcode = $("#order-item-form input[name=barcode]").val();
+                        var qty = $("#order-item-form input[name=qty]").val();
+                        var sp = $("#order-item-form input[name=sellingPrice]").val();
+
+                        vars.push(barcode);
+                        vars.push(qty);
+                        vars.push(sp);
+                        if (checkSellingPrice(vars) == false) {
+                            toastr.error("Selling price cannot be different");
+                        }
+                        else {
+                            changeQty(vars);
+                        }
+                    }
+                    else {
+                        wholeOrder.push(json)
+                    }
+                    resetForm();
+
+                    displayOrderItemList(wholeOrder)
+                }
+            }
+
+
 }
 
 function addOrderItem(event) {
+    check = 1;
     var $form = $("#order-item-form");
     var json = toJson($form);
     var jsonObj = $.parseJSON(json);
-    
+
     var barcode1 = $("#order-item-form input[name=barcode]").val();
+    getInventory(barcode1)
     var qty = $("#order-item-form input[name=qty]").val();
-    console.log(barcode_qty.get(barcode1));
 
-    if (getInventory(barcode1) == false) {
-        toastr.error("Barcode does not exist in the Inventory");
-    }
-    else {
-        console.log(qty);
-        console.log(inv_qty);
-        if (qty > barcode_qty.get(barcode1)) {
-            toastr.error("Quantity not present in inventory");
-        }
-        else {
-            var _qty = barcode_qty.get(barcode1) - qty;
-            var sp = $("#order-item-form input[name=sellingPrice]").val();
-
-            if (sp <= 0) {
-                toastr.error("Price cannot be negative or zero")
-            } else if (qty <= 0) {
-                toastr.error("Quantity cannot be negative or zero")
-            }
-            else {
-                if (checkOrderItemExist()) {
-                    console.log("inside check");
-                    let vars = []
-        
-                    var barcode = $("#order-item-form input[name=barcode]").val();
-                    var qty = $("#order-item-form input[name=qty]").val();
-                    var sp = $("#order-item-form input[name=sellingPrice]").val();
-        
-                    vars.push(barcode);
-                    vars.push(qty);
-                    vars.push(sp);
-                    if (checkSellingPrice(vars) == false) {
-                        toastr.error("Selling price cannot be different");
-                    }
-                    else {
-                        changeQty(vars);
-                    }
-                }
-                else {
-                    wholeOrder.push(json)
-                }
-                resetForm();
-
-                displayOrderItemList(wholeOrder)
-            }
-        }
-    }
 
 }
 

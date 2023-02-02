@@ -90,5 +90,6 @@ com\increff\pos\spring\ControllerConfig.class
 com\increff\pos\pojo\SalesPojo.class
 com\increff\pos\dto\UserDto.class
 com\increff\pos\model\form\ProductForm.class
+com\increff\pos\helper\SalesReportFormHelper.class
 com\increff\pos\util\ValidationUtil.class
 com\increff\pos\helper\OrderFormHelper.class

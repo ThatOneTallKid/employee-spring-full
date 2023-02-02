@@ -1,5 +1,6 @@
 package com.increff.pos.service;
 
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.pojo.BrandPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class BrandServiceTest extends AbstractUnitTest{
+public class BrandServiceTest extends AbstractUnitTest {
     @Autowired
     BrandService brandService;
 
@@ -47,7 +48,7 @@ public class BrandServiceTest extends AbstractUnitTest{
     }
 
     @Test(expected = ApiException.class)
-    public void checkId() throws ApiException {
+    public void checkIllegalId() throws ApiException {
         BrandPojo brandPojo = new BrandPojo();
         brandPojo.setBrand("brand");
         brandPojo.setCategory("category");
@@ -76,6 +77,7 @@ public class BrandServiceTest extends AbstractUnitTest{
         BrandPojo pojo1 = brandService.getCheck(pojo.getId());
         assertEquals(expectedBrand, pojo1.getBrand());
         assertEquals(expectedCategory, pojo1.getCategory());
+        // throws exception if same brand and category exists
         brandService.checkBrandExists("brand1", "category1");
     }
 
@@ -87,8 +89,24 @@ public class BrandServiceTest extends AbstractUnitTest{
         brandService.add(brandPojo);
 
         BrandPojo pojo = brandService.getBrandByParams("brand", "category");
+        // illegal
         BrandPojo pojo1 = brandService.getBrandByParams("brand1", "category1");
     }
+
+    @Test(expected = Exception.class)
+    public void checkDuplicateBrandExists() throws Exception {
+        BrandPojo brandPojo = new BrandPojo();
+        brandPojo.setBrand("brand");
+        brandPojo.setCategory("category");
+        brandService.add(brandPojo);
+
+        BrandPojo brandPojo1 = new BrandPojo();
+        brandPojo1.setBrand("brand");
+        brandPojo1.setCategory("category");
+        brandService.add(brandPojo1);
+    }
+
+
 
 
 }

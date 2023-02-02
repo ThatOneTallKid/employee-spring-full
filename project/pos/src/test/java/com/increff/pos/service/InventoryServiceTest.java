@@ -1,5 +1,6 @@
 package com.increff.pos.service;
 
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.pojo.InventoryPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class InventoryServiceTest extends AbstractUnitTest{
+public class InventoryServiceTest extends AbstractUnitTest {
     @Autowired
     InventoryService inventoryService;
 
@@ -94,6 +95,8 @@ public class InventoryServiceTest extends AbstractUnitTest{
 
 
     }
+
+
 
 
 }

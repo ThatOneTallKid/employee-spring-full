@@ -1,4 +1,4 @@
-package com.increff.pos.service;
+package com.increff.pos;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -21,3 +21,4 @@ public class QaConfig {
 
 
 }
+	

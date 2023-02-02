@@ -1,5 +1,6 @@
 package com.increff.pos.service;
 
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderServiceTest extends AbstractUnitTest{
+public class OrderServiceTest extends AbstractUnitTest {
     @Autowired
     OrderService orderService;
 

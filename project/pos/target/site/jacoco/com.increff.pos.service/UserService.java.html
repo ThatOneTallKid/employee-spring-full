@@ -18,12 +18,12 @@ import com.increff.pos.pojo.UserPojo;
 
 	@Transactional
 	public void add(UserPojo p) throws ApiException {
-<span class="nc" id="L21">		UserPojo existing = dao.select(p.getEmail());</span>
-<span class="nc bnc" id="L22" title="All 2 branches missed.">		if (existing != null) {</span>
+<span class="fc" id="L21">		UserPojo existing = dao.select(p.getEmail());</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">		if (existing != null) {</span>
 <span class="nc" id="L23">			throw new ApiException(&quot;User with given email already exists&quot;);</span>
 		}
-<span class="nc" id="L25">		dao.insert(p);</span>
-<span class="nc" id="L26">	}</span>
+<span class="fc" id="L25">		dao.insert(p);</span>
+<span class="fc" id="L26">	}</span>
 
 	@Transactional(rollbackOn = ApiException.class)
 	public UserPojo get(String email) throws ApiException {
@@ -32,13 +32,13 @@ import com.increff.pos.pojo.UserPojo;
 
 	@Transactional
 	public List&lt;UserPojo&gt; getAll() {
-<span class="nc" id="L35">		return dao.selectAll();</span>
+<span class="fc" id="L35">		return dao.selectAll();</span>
 	}
 
 	@Transactional
 	public void delete(int id) {
-<span class="nc" id="L40">		dao.delete(id);</span>
-<span class="nc" id="L41">	}</span>
+<span class="fc" id="L40">		dao.delete(id);</span>
+<span class="fc" id="L41">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

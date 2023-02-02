@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.increff.pos.dto.ProductDtoTest" time="0.421" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="com.increff.pos.dto.ProductDtoTest" time="0.46" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.3.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -64,8 +64,10 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="addProductTest" time="0.088"/>
-  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="addDuplicate" time="0.111"/>
-  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="updateProductTest" time="0.112"/>
-  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="getAllProductTest" time="0.11"/>
+  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="updateDuplicate" time="0.074"/>
+  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="addProductTest" time="0.072"/>
+  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="addIllegal" time="0.051"/>
+  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="addDuplicate" time="0.089"/>
+  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="updateProductTest" time="0.083"/>
+  <testcase classname="com.increff.pos.dto.ProductDtoTest" name="getAllProductTest" time="0.091"/>
 </testsuite>

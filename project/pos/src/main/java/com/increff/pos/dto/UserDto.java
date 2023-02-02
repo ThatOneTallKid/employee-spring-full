@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class UserDto {
@@ -36,5 +37,10 @@ public class UserDto {
             list2.add(UserFormHelper.convertUserPojoToData(p));
         }
         return list2;
+    }
+
+    public boolean checkEmailExists(String email) throws ApiException {
+    	UserPojo userPojo= userService.get(email);
+        return !Objects.isNull(userPojo);
     }
 }

@@ -24,6 +24,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static com.increff.pos.helper.OrderFormHelper.convertOrderPojoToData;
@@ -43,6 +46,9 @@ public class OrderDto {
 
     @Value("${invoice.url}")
     private String url;
+
+    private static String PDF_PATH = "./src/main/resources/pdf/";
+
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderItemForm> forms) throws ApiException {
@@ -85,6 +91,9 @@ public class OrderDto {
         RestTemplate restTemplate = new RestTemplate();
         byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(_url, invoiceForm, byte[].class).getBody());
 
+        Path pdfPath = Paths.get(PDF_PATH +id+    "invoice.pdf");
+
+        Files.write(pdfPath, contents);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
 

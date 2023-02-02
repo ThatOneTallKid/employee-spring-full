@@ -3,7 +3,7 @@ package com.increff.pos.dto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.model.form.*;
 import com.increff.pos.pojo.SalesPojo;
-import com.increff.pos.service.AbstractUnitTest;
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.SalesService;
 import org.junit.Test;
@@ -182,4 +182,5 @@ public class SalesDtoTest extends AbstractUnitTest {
         List<SalesPojo> list = salesDto.getAllByDate(salesForm);
         assertEquals(1,list.size());
     }
+
 }

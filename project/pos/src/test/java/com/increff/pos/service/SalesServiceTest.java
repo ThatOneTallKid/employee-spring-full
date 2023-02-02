@@ -1,5 +1,6 @@
 package com.increff.pos.service;
 
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.pojo.SalesPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class SalesServiceTest extends  AbstractUnitTest{
+public class SalesServiceTest extends AbstractUnitTest {
     @Autowired
     SalesService salesService;
 
@@ -76,4 +77,6 @@ public class SalesServiceTest extends  AbstractUnitTest{
         assertEquals(expectedOrders,order);
         assertEquals(expectedRevenue, revenue,0.001);
     }
+
+
 }

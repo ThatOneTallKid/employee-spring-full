@@ -20,22 +20,22 @@ import java.util.List;
     private UserService userService;
 
     public void add(UserForm userForm) throws ApiException {
-<span class="nc" id="L23">        ValidationUtil.validateForms(userForm);</span>
-<span class="nc" id="L24">        UserFormHelper.normalizeUser(userForm);</span>
-<span class="nc" id="L25">        userService.add(UserFormHelper.convertUserFormToPojo(userForm));</span>
-<span class="nc" id="L26">    }</span>
+<span class="fc" id="L23">        ValidationUtil.validateForms(userForm);</span>
+<span class="fc" id="L24">        UserFormHelper.normalizeUser(userForm);</span>
+<span class="fc" id="L25">        userService.add(UserFormHelper.convertUserFormToPojo(userForm));</span>
+<span class="fc" id="L26">    }</span>
 
     public void delete(int id) {
-<span class="nc" id="L29">        userService.delete(id);</span>
-<span class="nc" id="L30">    }</span>
+<span class="fc" id="L29">        userService.delete(id);</span>
+<span class="fc" id="L30">    }</span>
 
     public List&lt;UserData&gt; getAllUser() {
-<span class="nc" id="L33">        List&lt;UserPojo&gt; list = userService.getAll();</span>
-<span class="nc" id="L34">        List&lt;UserData&gt; list2 = new ArrayList&lt;UserData&gt;();</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (UserPojo p : list) {</span>
-<span class="nc" id="L36">            list2.add(UserFormHelper.convertUserPojoToData(p));</span>
-<span class="nc" id="L37">        }</span>
-<span class="nc" id="L38">        return list2;</span>
+<span class="fc" id="L33">        List&lt;UserPojo&gt; list = userService.getAll();</span>
+<span class="fc" id="L34">        List&lt;UserData&gt; list2 = new ArrayList&lt;UserData&gt;();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (UserPojo p : list) {</span>
+<span class="fc" id="L36">            list2.add(UserFormHelper.convertUserPojoToData(p));</span>
+<span class="fc" id="L37">        }</span>
+<span class="fc" id="L38">        return list2;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

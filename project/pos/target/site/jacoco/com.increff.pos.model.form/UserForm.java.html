@@ -7,20 +7,20 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-<span class="nc" id="L10">@Setter</span>
+<span class="fc" id="L10">@Setter</span>
 @Getter
-<span class="nc" id="L12">public class UserForm {</span>
+<span class="fc" id="L12">public class UserForm {</span>
 
 	@Email
 	@NotBlank
-<span class="nc" id="L16">	private String email;</span>
+<span class="fc" id="L16">	private String email;</span>
 
 	@NotBlank
 	@Size(min = 8, message = &quot;Password must be atleast 8 character!&quot;)
-<span class="nc" id="L20">	private String password;</span>
+<span class="fc" id="L20">	private String password;</span>
 
 	@NotBlank
-<span class="nc" id="L23">	private String role;</span>
+<span class="fc" id="L23">	private String role;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

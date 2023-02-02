@@ -32,7 +32,7 @@ public class UserService {
 
 	@Transactional
 	public List<UserPojo> getAll() {
-		return dao.selectAll();
+		return dao.selectALL(UserPojo.class);
 	}
 
 	@Transactional

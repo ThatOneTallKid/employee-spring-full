@@ -4,14 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
-import com.increff.pos.service.AbstractUnitTest;
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
@@ -47,7 +46,6 @@ public class BrandDtoTest extends AbstractUnitTest {
         BrandPojo brandPojo = brandService.getBrandByParams(expectedBrand, expectedCategory);
         assertEquals(expectedBrand, brandPojo.getBrand());
         assertEquals(expectedCategory, brandPojo.getCategory());
-
     }
 
     @Test
