@@ -87,11 +87,6 @@ public class CreateXMLFileJava {
             DOMSource domSource = new DOMSource(document);
             StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
-            // If you use
-            // StreamResult result = new StreamResult(System.out);
-            // the output will be pushed to the standard output ...
-            // You can use that for debugging
-
             transformer.transform(domSource, streamResult);
 
             System.out.println("Done creating XML File");

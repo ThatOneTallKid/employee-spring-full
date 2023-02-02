@@ -11,25 +11,6 @@ import java.util.List;
 public class GenerateInvoiceService {
     public void generateInvoice(InvoiceForm form)
     {
-//        print(form);
-//        InvoiceForm invoiceForm = new InvoiceForm();
-//        invoiceForm.setCustomerName("Aayush");
-//        invoiceForm.setOrderId(1);
-//        invoiceForm.setPlaceDate("12/12/12");
-//
-//        List<OrderItem> orderItemList = new ArrayList<>();
-//
-//        for(int i=1; i<=5; i++)
-//        {
-//            OrderItem p = new OrderItem();
-//            p.setOrderItemId(i);
-//            p.setProductName("string" + i);
-//            p.setSellingPrice(10.00 + i);
-//            p.setQuantity(1+i);
-//            orderItemList.add(p);
-//        }
-//
-//        invoiceForm.setOrderItemList(orderItemList);
         List<OrderItem> items = form.getOrderItemList();
         Double amt = 0.0;
         for(OrderItem i : items) {
@@ -47,24 +28,5 @@ public class GenerateInvoiceService {
 
         pdfFromFOP.createPDF();
     }
-
-    private void print(InvoiceForm form)
-    {
-        System.out.println(form.getOrderId());
-        System.out.println(form.getPlaceDate());
-
-        List<OrderItem> orderItemList = form.getOrderItemList();
-
-        System.out.println(orderItemList.size());
-
-        for(OrderItem o :orderItemList)
-        {
-            System.out.println(o.getProductName());
-            System.out.println(o.getOrderItemId());
-            System.out.println(o.getQuantity());
-            System.out.println(o.getSellingPrice());
-        }
-    }
-
 
 }
