@@ -132,7 +132,12 @@ var processCount = 0;
 function processData(){
 	var file = $('#brandFile')[0].files[0];
 	console.log(file);
+	if(file.name.split('.').pop() != "tsv"){
+	    toastr.error("file format is not tsv, Not Allowed");
+	}
+	else {
 	readFileData(file, readFileDataCallback);
+	}
 }
 
 function readFileDataCallback(results){
@@ -159,6 +164,7 @@ function uploadRows(){
 
 
 	var json = JSON.stringify(fileData);
+	console.log(json);
 	var url = getBrandUrl();
 
 	//Make ajax call
@@ -174,6 +180,7 @@ function uploadRows(){
             errorData = response;
             resetForm();
             getBrandList();
+            toastr.success("Brand.tsv uploaded Successfully");
 	   },
 		error: function (response) {
 		    if(response.status == 403){
@@ -186,6 +193,7 @@ function uploadRows(){
 	        errorData = jsonObj;
 			processCount = fileData.length;
 			console.log(response);
+			toastr.error("Error in uploading Brand.tsv, Download Error File");
 			$("#download-errors").prop('disabled', false);
 			resetForm();
 			}
@@ -201,7 +209,6 @@ function downloadErrors(){
 //UI DISPLAY METHODS
 
 function displayBrandList(data){
-    $('#Brand-table').DataTable().destroy();
 	var $tbody = $('#Brand-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
@@ -214,7 +221,6 @@ function displayBrandList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
-	pagenation();
 }
 
 function displayEditBrand(id){
@@ -268,10 +274,6 @@ function displayBrand(data){
 	$("#brand-edit-form input[name=category]").val(data.category);
 	$("#brand-edit-form input[name=id]").val(data.id);
 	$('#edit-brand-modal').modal('toggle');
-}
-function pagenation(){
-    $('#Brand-table').DataTable();
-    $('.dataTables_length').addClass("bs-select");
 }
 function printReport() {
     window.location.href = getBrandReportUrl();

@@ -26,14 +26,12 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Autowired
     BrandService brandService;
 
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void addBrandTest() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
         BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
+        brandForm.setBrand("Brand ");
         brandForm.setCategory("CateGory");
         brandFormList.add(brandForm);
 

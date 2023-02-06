@@ -9,7 +9,8 @@ function displaySalesList(data) {
     console.log(last_run);
 
     $("#last-run input[name=lastRun]").val(last_run);
-    $("#Sales-table").DataTable().destroy();
+
+
     var $tbody = $('#Sales-table').find('tbody');
     $tbody.empty();
     for (var i in data) {
@@ -22,7 +23,28 @@ function displaySalesList(data) {
 		+ '</tr>';
         $tbody.append(row);
     }
-    pagenation();
+}
+
+function autoFillDate() {
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+
+  var today = year + "-" + month + "-" + day;
+  $("#inputED").attr("value", today);
+  $("#sales-form input[name=endDate]").val(today);
+    $("#inputED").attr("max", today);
+
+}
+
+function disableDate() {
+  var sd = $("#sales-form input[name=startDate]").val();
+  $("#inputED").prop('disabled', false);
+  $("#inputED").attr("min", sd);
 }
 
 function getSalesList() {
@@ -65,10 +87,6 @@ function getFilteredList(event) {
   return false;
 }
 
-function pagenation(){
-    $('#Sales-table').DataTable();
-    $('.dataTables_length').addClass("bs-select");
-}
 
 function refreshData() {
   var url = getSalesUrl() + "/scheduler";
@@ -94,3 +112,4 @@ function init() {
 
 $(document).ready(init);
 $(document).ready(getSalesList);
+$(document).ready(autoFillDate);

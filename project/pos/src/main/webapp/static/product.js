@@ -138,7 +138,13 @@ var processCount = 0;
 function processData() {
   var file = $("#productFile")[0].files[0];
   console.log(file);
-  readFileData(file, readFileDataCallback);
+  if(file.name.split('.').pop() != "tsv"){
+  	    toastr.error("file format is not tsv, Not Allowed");
+  	}
+  	else {
+  	readFileData(file, readFileDataCallback);
+  	}
+
 }
 
 function readFileDataCallback(results) {
@@ -179,6 +185,7 @@ function uploadRows() {
       processCount = fileData.length;
       resetForm();
       getProductList();
+      toastr.success("Product.tsv Uploaded Successfully");
     },
     error: function (response) {
       if (response.status == 403) {
@@ -190,6 +197,7 @@ function uploadRows() {
         errorData = jsonObj;
         processCount = fileData.length;
         console.log(response);
+        toastr.error("Error in uploading Product.tsv, Download Error File");
         $("#download-errors").prop("disabled", false);
         resetForm();
       }
@@ -204,7 +212,6 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayProductList(data){
-    $('#Product-table').DataTable().destroy();
    var $tbody = $('#Product-table').find('tbody');
    $tbody.empty();
    for(var i in data){
@@ -221,7 +228,6 @@ function displayProductList(data){
       + '</tr>';
         $tbody.append(row);
    }
-   pagenation();
 }
 
 var editProduct = null;
@@ -336,10 +342,6 @@ function displayCategoryOptions() {
   }
 }
 
-function pagenation(){
-    $('#Product-table').DataTable();
-    $('.dataTables_length').addClass("bs-select");
-}
 
 function activateUpload() {
   $("#process-data").prop("disabled", false);

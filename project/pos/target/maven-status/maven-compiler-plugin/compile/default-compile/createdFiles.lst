@@ -5,6 +5,7 @@ com\increff\pos\model\data\MessageData.class
 com\increff\pos\util\CookieUtil.class
 com\increff\pos\model\data\UserData.class
 com\increff\pos\pojo\InventoryPojo.class
+com\increff\pos\util\DateValidatorUtil.class
 com\increff\pos\dto\InventoryDto.class
 com\increff\pos\helper\UserFormHelper.class
 com\increff\pos\spring\SchedulerConfig.class

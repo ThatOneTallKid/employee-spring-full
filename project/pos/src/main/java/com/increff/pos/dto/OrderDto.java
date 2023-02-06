@@ -52,26 +52,20 @@ public class OrderDto {
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderItemForm> forms) throws ApiException {
-        Map<String, ProductPojo> productList = new HashMap<>();
-        productList.clear();
-        productList= getProductList(productList);
-
         checkDuplicates(forms);
+        Map<String, ProductPojo> productList = new HashMap<>();
+        productList= getProductList(productList, forms);
+
         checkInventory(forms, productList);
 
         OrderPojo orderPojo = new OrderPojo();
         orderService.addOrder(orderPojo);
 
         for (OrderItemForm f : forms) {
-            if(productList.containsKey(f.getBarcode())) {
                 ProductPojo productPojo = productList.get(f.getBarcode());
                 OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
                 orderItemPojo.setOrderId(orderPojo.getId());
                 reduceInventory(orderItemPojo, productPojo.getId(), f);
-            }
-            else {
-                throw new ApiException("Product with given Barcode does not exists !");
-            }
         }
     }
 
@@ -115,17 +109,11 @@ public class OrderDto {
         return list2;
     }
 
-
+    // IMprove
+    // TODO: MOve this to inventory service
     private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
-        int prev_qty = inventoryService.getQtyById(id);
-        int remaining_qty = prev_qty - orderItemForm.getQty();
-        if(remaining_qty < 0) {
-            throw new ApiException("Not enough items in the inventory");
-        }
-        InventoryPojo inventoryPojo = new InventoryPojo();
-        inventoryPojo.setQty(remaining_qty);
+        inventoryService.reduceInventory(id, orderItemForm.getQty());
         orderService.add(orderItemPojo);
-        inventoryService.update(id, inventoryPojo);
     }
 
     private void checkDuplicates(List<OrderItemForm> forms) throws ApiException{
@@ -139,26 +127,25 @@ public class OrderDto {
             set.add(f.getBarcode());
         }
     }
-
+    //TODO: Improve this method
     private void checkInventory(List<OrderItemForm> orderItemFormList, Map<String, ProductPojo> productPojoList) throws ApiException {
         for (OrderItemForm form: orderItemFormList) {
-            if(productPojoList.containsKey(form.getBarcode())) {
-                InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(productPojoList.get(form.getBarcode()).getId());
-            }
-            else {
-                throw new ApiException("Product is not in the Inventory");
-            }
-            int prev_qty = inventoryService.getQtyById(productPojoList.get(form.getBarcode()).getId());
-            if (prev_qty < form.getQty()) {
+            InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(productPojoList.get(form.getBarcode()).getId());
+            if (inventoryPojo.getQty() < form.getQty()) {
                 throw new ApiException("Not enough quantity present in the inventory");
             }
         }
     }
 
-    private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList) {
-        List<ProductPojo> list = productService.getAll();
-        for (ProductPojo productPojo: list){
-            productList.put(productPojo.getBarcode(), productPojo);
+    private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList, List<OrderItemForm> forms ) throws ApiException {
+        // TODO: Improve this method, IN query
+        List<String> barcodeList = new ArrayList<>();
+        for(OrderItemForm f: forms) {
+            barcodeList.add(f.getBarcode());
+        }
+        List<ProductPojo> productPojoList = productService.selectInBarcode(barcodeList);
+        for(ProductPojo p: productPojoList) {
+            productList.put(p.getBarcode(), p);
         }
         return productList;
     }

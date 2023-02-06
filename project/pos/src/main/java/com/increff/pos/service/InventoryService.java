@@ -53,12 +53,14 @@ public class InventoryService {
         return inventoryPojo;
     }
 
-    public Integer getQtyById(int id) throws ApiException {
-        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
-        if(Objects.isNull(inventoryPojo)) {
-            throw new ApiException("The product is not in the inventory");
+    public void reduceInventory(int id, int qty) throws ApiException {
+        InventoryPojo inventoryPojo = getById(id);
+        if(inventoryPojo.getQty() < qty) {
+            throw new ApiException("The product is not in sufficient quantity");
         }
-        return inventoryPojo.getQty();
+        int newQty = inventoryPojo.getQty() - qty;
+        inventoryPojo.setQty(newQty);
+        inventoryDao.update();
     }
 
 }

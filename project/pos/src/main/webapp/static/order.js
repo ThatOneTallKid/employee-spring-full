@@ -333,7 +333,6 @@ function OrderView(id) {
 }
 
 function displayOrderList(data) {
-    $('#Order-table').DataTable().destroy();
     var $tbody = $('#Order-table').find('tbody');
     $tbody.empty();
     for(var i in data){
@@ -347,7 +346,6 @@ function displayOrderList(data) {
    		+ '</tr>';
    		$tbody.append(row);
     }
-    pagenation();
 }
 
 function getOrderList() {
@@ -403,10 +401,6 @@ function placeOrder() {
   return false;
 }
 
-function pagenation(){
-    $('#Order-table').DataTable();
-    $('.dataTables_length').addClass("bs-select");
-}
 
 function emptyCart() {
   wholeOrder = [];

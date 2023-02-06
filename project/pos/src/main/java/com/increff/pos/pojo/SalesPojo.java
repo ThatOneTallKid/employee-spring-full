@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-//TODO add snakeCaseNamingStratergy for hibernate
 @Entity
 @Getter
 @Setter
@@ -20,15 +19,15 @@ public class SalesPojo extends AbstractPojo{
     private int id;
 
     @JsonFormat(pattern="yyyy-MM-dd ")
-    @Column(nullable = false, name = "date")
+    @Column(nullable = false)
     private LocalDate date;
-    @Column(nullable = false, name = "invoiced_orders_count")
+    @Column(nullable = false)
     private Integer invoicedOrderCount;
-    @Column(nullable = false, name = "invoiced_items_count")
+    @Column(nullable = false)
     private Integer invoicedItemsCount;
-    @Column(nullable = false, name = "total_revenue")
+    @Column(nullable = false)
     private Double totalRevenue;
-    @Column(nullable = false, name = "last_run")
+    @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastRun;
 

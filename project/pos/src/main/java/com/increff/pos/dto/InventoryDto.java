@@ -59,8 +59,8 @@ public class InventoryDto {
 
 
     public void add(List<InventoryForm> forms) throws ApiException, JsonProcessingException {
+        //TODO: ask about this part
         List<InventoryErrorData> inventoryErrorDataList = new ArrayList<>();
-        inventoryErrorDataList.clear();
         int errorSize = 0;
         for (InventoryForm form: forms) {
             InventoryErrorData inventoryErrorData = ConvertUtil.convert(form, InventoryErrorData.class);
@@ -68,19 +68,18 @@ public class InventoryDto {
             try {
                 ValidationUtil.validateForms(form);
                 normalizeInventory(form);
-                ProductPojo productPojo = productService.getCheck(productService.getIDByBarcode(form.getBarcode()));
+                productService.getCheck(productService.getIDByBarcode(form.getBarcode()));
             }
-            catch (ApiException e) {
+            catch (Exception e) {
                 inventoryErrorData.setMessage(e.getMessage());
                 errorSize++;
             }
             inventoryErrorDataList.add(inventoryErrorData);
         }
-
         if(errorSize > 0) {
             ErrorUtil.throwErrors(inventoryErrorDataList);
         }
-            bulkAdd(forms);
+        bulkAdd(forms);
     }
 
 
@@ -119,31 +118,21 @@ public class InventoryDto {
     public void generateCsv(HttpServletResponse response) throws IOException, ApiException {
         response.setContentType("text/csv");
         response.addHeader("Content-Disposition", "attachment; filename=\"inventoryReport.csv\"");
-
         csvGenerator.writeInventoryToCsv(getAllItem(), response.getWriter());
     }
 
     public List<InventoryItem> getAllItem() throws ApiException {
         List<InventoryData> inventoryDataList = getAll();
         List<InventoryItem> inventoryItemList = new ArrayList<>();
-
         HashMap<Pair<String, String>, Integer> map = new HashMap<>();
         for(InventoryData inventoryData : inventoryDataList) {
             BrandPojo brandPojo = brandService.getCheck(productService.get(inventoryData.getId()).getBrandCategory());
             Pair<String, String> pair= new Pair<>(brandPojo.getBrand(), brandPojo.getCategory());
-            if(map.containsKey(pair)) {
-                int prev = map.get(pair);
-                map.replace(pair, prev+inventoryData.getQty());
-            }
-            else {
-                map.put(pair,inventoryData.getQty());
-            }
+            map.merge(pair, inventoryData.getQty(), Integer::sum);
         }
-
         for(Map.Entry<Pair<String,String>, Integer> mapElement : map.entrySet()) {
             inventoryItemList.add(InventoryFormHelper.convertMapToItem(mapElement));
         }
-
         return inventoryItemList;
     }
 

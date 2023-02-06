@@ -34,7 +34,6 @@ public class BrandDto {
 
     public void add(List<BrandForm> brandForms) throws ApiException, JsonProcessingException {
         List<BrandErrorData> errorData = new ArrayList<>();
-        errorData.clear();
         int errorSize = 0;
         for (BrandForm brandForm : brandForms) {
             BrandErrorData brandErrorData= ConvertUtil.convert(brandForm, BrandErrorData.class);
@@ -45,7 +44,7 @@ public class BrandDto {
                 BrandPojo b = convertBrandFormToPojo(brandForm);
                 brandService.checkBrandExists(brandForm.getBrand(), brandForm.getCategory());
 
-            } catch (ApiException e) {
+            } catch (Exception e) {
                 errorSize++;
                 brandErrorData.setMessage(e.getMessage());
             }

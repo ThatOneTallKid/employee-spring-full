@@ -127,7 +127,13 @@ var processCount = 0;
 function processData() {
   var file = $("#inventoryFile")[0].files[0];
   console.log(file);
-  readFileData(file, readFileDataCallback);
+  if(file.name.split('.').pop() != "tsv"){
+  	    toastr.error("file format is not tsv, Not Allowed");
+  	}
+  	else {
+  	readFileData(file, readFileDataCallback);
+  	}
+
 }
 
 function readFileDataCallback(results) {
@@ -163,6 +169,7 @@ function uploadRows() {
       console.log(response);
       errorData = response;
       resetForm();
+      toastr.success("Inventory.tsv uploaded Successfully" );
       getInventoryList();
     },
     error: function (response) {
@@ -175,6 +182,7 @@ function uploadRows() {
         errorData = jsonObj;
         processCount = fileData.length;
         console.log(response);
+        toastr.error("Error in uploading Inventory.tsv, Download Error File");
         $("#download-errors").prop("disabled", false);
         resetForm();
       }
@@ -189,7 +197,6 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayInventoryList(data){
-    $('#inventory-table').DataTable().destroy();
 	var $tbody = $('#inventory-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
@@ -205,7 +212,6 @@ function displayInventoryList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
-	pagenation();
 }
 
 function displayEditInventory(id) {
@@ -258,10 +264,6 @@ function displayInventory(data) {
   $("#edit-inventory-modal").modal("toggle");
 }
 
-function pagenation(){
-    $('#inventory-table').DataTable();
-    $('.dataTables_length').addClass("bs-select");
-}
 
 function printReport() {
   window.location.href = getInventoryReportUrl();

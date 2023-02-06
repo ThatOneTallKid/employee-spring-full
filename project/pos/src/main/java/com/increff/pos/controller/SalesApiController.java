@@ -27,7 +27,7 @@ public class SalesApiController {
 
     @ApiOperation(value = "get all sales date between 2 dates")
     @RequestMapping(path = "/filter", method = RequestMethod.POST)
-    public List<SalesPojo> getAllByDate(@RequestBody SalesForm salesForm){
+    public List<SalesPojo> getAllByDate(@RequestBody SalesForm salesForm) throws ApiException {
         return salesDto.getAllByDate(salesForm);
     }
 

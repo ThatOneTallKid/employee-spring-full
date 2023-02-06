@@ -9,28 +9,27 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-//TODO add snakeCaseNamingStratergy for hibernate
 @Entity
 @Getter
-<span class="pc" id="L15">@Setter</span>
+<span class="pc" id="L14">@Setter</span>
 @Table(name = &quot;pos_day_sales&quot;)
-<span class="fc" id="L17">public class SalesPojo extends AbstractPojo{</span>
+<span class="fc" id="L16">public class SalesPojo extends AbstractPojo{</span>
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="nc" id="L20">    private int id;</span>
+<span class="nc" id="L19">    private int id;</span>
 
     @JsonFormat(pattern=&quot;yyyy-MM-dd &quot;)
-    @Column(nullable = false, name = &quot;date&quot;)
-<span class="nc" id="L24">    private LocalDate date;</span>
-    @Column(nullable = false, name = &quot;invoiced_orders_count&quot;)
-<span class="fc" id="L26">    private Integer invoicedOrderCount;</span>
-    @Column(nullable = false, name = &quot;invoiced_items_count&quot;)
-<span class="fc" id="L28">    private Integer invoicedItemsCount;</span>
-    @Column(nullable = false, name = &quot;total_revenue&quot;)
-<span class="fc" id="L30">    private Double totalRevenue;</span>
-    @Column(nullable = false, name = &quot;last_run&quot;)
+    @Column(nullable = false)
+<span class="nc" id="L23">    private LocalDate date;</span>
+    @Column(nullable = false)
+<span class="fc" id="L25">    private Integer invoicedOrderCount;</span>
+    @Column(nullable = false)
+<span class="fc" id="L27">    private Integer invoicedItemsCount;</span>
+    @Column(nullable = false)
+<span class="fc" id="L29">    private Double totalRevenue;</span>
+    @Column(nullable = false)
     @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
-<span class="fc" id="L33">    private LocalDateTime lastRun;</span>
+<span class="fc" id="L32">    private LocalDateTime lastRun;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

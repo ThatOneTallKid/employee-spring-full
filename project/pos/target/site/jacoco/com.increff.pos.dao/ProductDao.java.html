@@ -5,23 +5,36 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
-<span class="fc" id="L11">public class ProductDao extends AbstractDao{</span>
+<span class="fc" id="L12">public class ProductDao extends AbstractDao{</span>
 
-<span class="fc" id="L13">    private final String SELECT_BY_BARCODE = &quot;select p from ProductPojo p where barcode=:barcode&quot;;</span>
+<span class="fc" id="L14">    private final String SELECT_BY_BARCODE = &quot;select p from ProductPojo p where barcode=:barcode&quot;;</span>
+<span class="fc" id="L15">    private final String SELECT_IN_BARCODE = &quot;select p from ProductPojo p where barcode in (:barcode)&quot;;</span>
 
     public ProductPojo selectByBarcode(String barcode) {
-<span class="fc" id="L16">        TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
-<span class="fc" id="L17">        query.setParameter(&quot;barcode&quot;, barcode);</span>
-<span class="fc" id="L18">        return getSingle(query);</span>
+<span class="fc" id="L18">        TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
+<span class="fc" id="L19">        query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="fc" id="L20">        return getSingle(query);</span>
     }
 
 
     public  void update(){
         // empty function just for service class
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L26">    }</span>
+
+    public List&lt;ProductPojo&gt; selectInBarcode(List&lt;String&gt; barcode) {
+<span class="fc" id="L29">        TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_IN_BARCODE, ProductPojo.class);</span>
+<span class="fc" id="L30">        query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="fc" id="L31">        return query.getResultList();</span>
+    }
 
 }
+/*
+*
+*
+*
+* */
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

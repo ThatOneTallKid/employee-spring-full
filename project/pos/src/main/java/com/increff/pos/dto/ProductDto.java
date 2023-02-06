@@ -51,7 +51,7 @@ public class ProductDto {
                 BrandPojo brandPojo = brandService.getBrandByParams(form.getBrand(), form.getCategory());
                 productService.checkSame(form.getBarcode());
             }
-            catch (ApiException e) {
+            catch (Exception e) {
                 errorSize++;
                 productErrorData.setMessage(e.getMessage());
             }

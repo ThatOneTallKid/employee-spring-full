@@ -51,7 +51,7 @@ import static com.increff.pos.helper.ProductFormHelper.*;
 <span class="fc" id="L51">                BrandPojo brandPojo = brandService.getBrandByParams(form.getBrand(), form.getCategory());</span>
 <span class="fc" id="L52">                productService.checkSame(form.getBarcode());</span>
             }
-<span class="fc" id="L54">            catch (ApiException e) {</span>
+<span class="fc" id="L54">            catch (Exception e) {</span>
 <span class="fc" id="L55">                errorSize++;</span>
 <span class="fc" id="L56">                productErrorData.setMessage(e.getMessage());</span>
 <span class="fc" id="L57">            }</span>

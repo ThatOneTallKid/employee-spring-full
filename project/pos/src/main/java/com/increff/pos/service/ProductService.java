@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.ProductDao;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,14 @@ public class ProductService {
         }
     }
 
+    public List<ProductPojo> selectInBarcode(List<String> barcode) throws ApiException {
+        List<ProductPojo> productPojoList = productDao.selectInBarcode(barcode);
+        if(productPojoList.size()!=barcode.size()){
+            throw new ApiException("Barcode Not found in Product Database!");
+        }
+        return productPojoList;
+    }
+
     public Boolean checkBarcode(String barcode){
         ProductPojo productPojo = productDao.selectByBarcode(barcode);
         if(Objects.isNull(productPojo)) {
@@ -76,4 +85,5 @@ public class ProductService {
         }
         return productPojo.getId();
     }
+
 }

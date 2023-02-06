@@ -53,13 +53,15 @@ import java.util.Objects;
 <span class="fc" id="L53">        return inventoryPojo;</span>
     }
 
-    public Integer getQtyById(int id) throws ApiException {
-<span class="fc" id="L57">        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">        if(Objects.isNull(inventoryPojo)) {</span>
-<span class="fc" id="L59">            throw new ApiException(&quot;The product is not in the inventory&quot;);</span>
+    public void reduceInventory(int id, int qty) throws ApiException {
+<span class="fc" id="L57">        InventoryPojo inventoryPojo = getById(id);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if(inventoryPojo.getQty() &lt; qty) {</span>
+<span class="nc" id="L59">            throw new ApiException(&quot;The product is not in sufficient quantity&quot;);</span>
         }
-<span class="fc" id="L61">        return inventoryPojo.getQty();</span>
-    }
+<span class="fc" id="L61">        int newQty = inventoryPojo.getQty() - qty;</span>
+<span class="fc" id="L62">        inventoryPojo.setQty(newQty);</span>
+<span class="fc" id="L63">        inventoryDao.update();</span>
+<span class="fc" id="L64">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

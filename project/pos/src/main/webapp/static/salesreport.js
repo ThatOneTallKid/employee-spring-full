@@ -46,7 +46,10 @@ function getFilteredList(event) {
     headers: {
       "Content-Type": "application/json",
     },
-    success: function (response) {},
+    success: function (response) {
+          toastr.success("Printing CSV successfully");
+          window.location.href = printCSVUrl();
+    },
     error: handleAjaxError,
   });
 
@@ -163,11 +166,34 @@ function getBrandList() {
 }
 
 function printBrandCSV() {
+  toastr.success("Printing Brand CSV successfully");
   window.location.href = getBrandReportUrl();
 }
 
 function printInventoryCSV() {
+  toastr.success("Printing Inventory CSV successfully");
   window.location.href = getInventoryReportUrl();
+}
+
+function autoFillDate() {
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+
+  var today = year + "-" + month + "-" + day;
+  $("#inputED").attr("value", today);
+  $("#sales-report-form input[name=endDate]").val(today);
+      $("#inputED").attr("max", today);
+}
+
+function disableDate() {
+  var sd = $("#sales-report-form input[name=startDate]").val();
+  $("#inputED").prop('disabled', false);
+  $("#inputED").attr("min", sd);
 }
 
 function printCSV() {
@@ -178,7 +204,6 @@ function printCSV() {
 }
 
 function init() {
-  $("#refresh-data").click(getSalesList);
   $("#apply-filter").click(getFilteredList);
   $("#inputBrand").on("change", displayCategoryOptions);
   $("#downloadBrandCSV").click(printBrandCSV);
@@ -187,6 +212,6 @@ function init() {
 }
 
 $(document).ready(init);
-$(document).ready(getSalesList);
 $(document).ready(getBrandList);
 $(document).ready(initlists);
+$(document).ready(autoFillDate);

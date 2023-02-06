@@ -12,6 +12,7 @@ import com.increff.pos.service.BrandService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.CsvFileGenerator;
+import com.increff.pos.util.DateValidatorUtil;
 import com.increff.pos.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,7 @@ public class    SalesReportDto {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime sDate = LocalDateTime.parse(startDate, formatter);
         LocalDateTime eDate = LocalDateTime.parse(endDate, formatter);
+        DateValidatorUtil.isValidDateTimeRange(sDate, eDate);
         List<OrderPojo> list = orderService.getOrderByDateFilter(sDate,eDate);
         return getFilterSalesReport(list,salesReportForm.getBrand(), salesReportForm.getCategory());
     }

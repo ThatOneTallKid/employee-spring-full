@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="com.increff.pos.service.ProductServiceTest" time="0.085" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="com.increff.pos.service.ProductServiceTest" time="0.064" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.3.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -64,9 +64,9 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.pos.service.ProductServiceTest" name="addTest" time="0.014"/>
-  <testcase classname="com.increff.pos.service.ProductServiceTest" name="updateTest" time="0.03"/>
-  <testcase classname="com.increff.pos.service.ProductServiceTest" name="getAllTest" time="0.014"/>
-  <testcase classname="com.increff.pos.service.ProductServiceTest" name="checkId" time="0.014"/>
-  <testcase classname="com.increff.pos.service.ProductServiceTest" name="CheckIllegal" time="0.013"/>
+  <testcase classname="com.increff.pos.service.ProductServiceTest" name="addTest" time="0.012"/>
+  <testcase classname="com.increff.pos.service.ProductServiceTest" name="updateTest" time="0.016"/>
+  <testcase classname="com.increff.pos.service.ProductServiceTest" name="getAllTest" time="0.012"/>
+  <testcase classname="com.increff.pos.service.ProductServiceTest" name="checkId" time="0.013"/>
+  <testcase classname="com.increff.pos.service.ProductServiceTest" name="CheckIllegal" time="0.011"/>
 </testsuite>
