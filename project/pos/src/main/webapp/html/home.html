@@ -3,34 +3,45 @@
 <html lang="en">
 
 <head th:replace="snippets.html :: name_head"></head>
+<title>Home</title>
 
 <body>
 
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 
-<div class="container">
+<div class="container py-5">
 
-<h3>Home</h3>
+	<div class="row">&nbsp;</div>
 
- <!-- Top row with form-->
+	<!-- Top row with form-->
 	<div class="row">
-		<div class="col-2">
-			<a th:href="@{/ui/admin}" title="Admin"> <i class="fa-solid fa-unlock fas"></i> </a>
-		</div>
-		<div class="col-2">
+		<div class="col-sm d-flex flex-column align-items-center">
 			<a th:href="@{/ui/brand}" title="Brand"> <i class="fa-sharp fa-solid fa-trademark fas"></i> </a>
+			<label class="icon-label">Brand</label>
 		</div>
-		<div class="col-2">
+		<div class="col-sm d-flex flex-column align-items-center">
 			<a th:href="@{/ui/product}" title="Product"> <i class="fa-brands fa-product-hunt fas"></i> </a>
+			<label class="icon-label">Product</label>
 		</div>
-		<div class="col-2">
+		<div class="col-sm d-flex flex-column align-items-center">
 			<a th:href="@{/ui/inventory}" title="Inventory"> <i class="fa-solid fa-store fas"></i> </a>
+			<label class="icon-label">Inventory</label>
 		</div>
-		<div class="col-2">
+		<div class="col-sm d-flex flex-column align-items-center">
 			<a th:href="@{/ui/order}" title="Order"> <i class="fa-solid fa-cart-shopping fas"></i> </a>
+			<label class="icon-label">Order</label>
 		</div>
-		<div class="col-2">
-			<a th:href="@{/ui/salesreport}" title="Sales-Report"> <i class="fa-solid fa-file fas"></i> </a>
+		<div class="supervisor col-sm d-flex flex-column align-items-center">
+			<a th:href="@{/ui/salesreport}" title="Sales-Report"> <i class="fa-solid fa-file-invoice fas supervisor"></i> </a>
+			<label class="icon-label supervisor">Sales Report</label>
+		</div>
+		<div class="supervisor col-sm d-flex flex-column align-items-center">
+			<a th:href="@{/ui/sales}" title="Daily-Sales"> <i class="fa-solid fa-filter fas supervisor"></i> </a>
+			<label class="icon-label supervisor">Daily Sales</label>
+		</div>
+		<div class="supervisor col-sm d-flex flex-column align-items-center">
+			<a th:href="@{/ui/admin}" title="Admin"> <i class="fa-solid fa-unlock fas supervisor"></i> </a>
+			<label class="icon-label supervisor">Admin</label>
 		</div>
 	</div>
 
@@ -41,6 +52,6 @@
 <footer th:replace="snippets.html :: name_footer"></footer>
 
 
-</body>	
+</body>
 
 </html>

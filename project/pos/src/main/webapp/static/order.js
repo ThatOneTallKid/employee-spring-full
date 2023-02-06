@@ -58,6 +58,8 @@ function displayOrderItemList(data) {
   var $tbody = $("#order-item-table").find("tbody");
   $tbody.empty();
   for (var i in wholeOrder) {
+
+
     var e = wholeOrder[i];
     var buttonHtml =
       '<button onclick="deleteOrderItem(' +
@@ -139,7 +141,7 @@ function checkSellingPrice(vars) {
   for (i in wholeOrder) {
     var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
     if (temp_barcode == barcode) {
-      var cur_sp = parseInt(JSON.parse(wholeOrder[i]).sellingPrice);
+      var cur_sp = parseFloat(JSON.parse(wholeOrder[i]).sellingPrice).toFixed(2);
       if (cur_sp == sp) {
         return true;
       }
@@ -297,18 +299,34 @@ function getOrderItemList() {
 
 function displayOrderView(data) {
     console.log(data);
+    var totalAmount = 0.0;
     var $tbody = $('#order-view-table').find('tbody');
     $tbody.empty();
     for(var i in data){
         var e = data[i];
+        var qty =parseInt(e.qty);
+        var sp = parseFloat(e.sellingPrice).toFixed(2);
+        var total = qty * sp;
+        totalAmount += total;
    		var row = '<tr>'
    		+ '<td>' + e.barcode + '</td>'
    		+ '<td>' + e.name + '</td>'
     	+ '<td>'  + e.qty + '</td>'
     	+ '<td>'  + parseFloat(e.sellingPrice).toFixed(2) + '</td>'
+    	+ '<td>'  + parseFloat(total).toFixed(2) + '</td>'
    		+ '</tr>';
    		$tbody.append(row);
     }
+    console.log(totalAmount);
+    var $tfoot = $('#order-view-table').find('tfoot');
+    $tfoot.empty();
+    var row = '<tr>'
+            + '<td colspan=3></td>'
+       		+ '<td> <b>Total</b> </td>'
+        	+ '<td><b>'  + parseFloat(totalAmount).toFixed(2) + '</b></td>'
+       		+ '</tr>';
+    $tfoot.append(row);
+
 }
 
 function getOrderInfoForView(id) {

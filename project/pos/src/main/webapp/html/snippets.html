@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="baseUrl" th:attr="content=${baseUrl}">
+  <meta name="role" th:attr="content=${info.getRole()}">
 
-<script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
+
+  <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -78,13 +80,13 @@
         <li class="nav-item">
             <a class="nav-link" th:href="@{/ui/order}">Order</a>
         </li>
-      <li class="nav-item">
+      <li class="nav-item supervisor">
         <a class="nav-link" th:href="@{/ui/sales}">Daily Sales</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item supervisor">
         <a class="nav-link" th:href="@{/ui/salesreport}">Report</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item supervisor">
         <a class="nav-link" th:href="@{/ui/admin}">Admin</a>
       </li>
     </ul>

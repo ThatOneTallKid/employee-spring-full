@@ -1,4 +1,4 @@
-package com.increff.pos.helper;
+package com.increff.pos.dtoUtil;
 
 import com.increff.pos.model.data.ProductData;
 import com.increff.pos.model.form.ProductForm;

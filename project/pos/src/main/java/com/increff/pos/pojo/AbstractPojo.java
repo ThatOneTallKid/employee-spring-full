@@ -28,5 +28,5 @@ public abstract class AbstractPojo implements Serializable {
 
     @Version
     @Column
-    private Integer version;
+    private int version;
 }

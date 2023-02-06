@@ -2,29 +2,16 @@ package com.increff.pos.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.InventoryDto;
-import com.increff.pos.helper.InventoryFormHelper;
 import com.increff.pos.model.data.InventoryData;
-import com.increff.pos.model.data.InventoryErrorData;
-import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
-import com.increff.pos.model.form.InventoryReportForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 @Api

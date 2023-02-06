@@ -11,7 +11,6 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.CsvFileGenerator;
 import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.ValidationUtil;
-import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.increff.pos.helper.BrandFormHelper.*;
+import static com.increff.pos.dtoUtil.BrandFormHelper.*;
 
 
 @Component

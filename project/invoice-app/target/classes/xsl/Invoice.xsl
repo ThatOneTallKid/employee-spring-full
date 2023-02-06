@@ -86,19 +86,19 @@
         <fo:table-header>
           <fo:table-row background-color="#f5f5f5" text-align="center" font-weight="bold">
             <fo:table-cell border="1px solid #b8b6b6">
-              <fo:block>ID</fo:block>
+              <fo:block>S.No</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
               <fo:block>Name</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
-              <fo:block>QTY</fo:block>
+              <fo:block>Qty</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
               <fo:block>Unit Price</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
-              <fo:block>AMOUNT</fo:block>
+              <fo:block>Amount</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-header>
@@ -125,7 +125,7 @@
     <fo:table-row>
       <fo:table-cell border="1px solid #b8b6b6" padding-left="3pt">
         <fo:block>
-          <xsl:value-of select="id"/>
+          <xsl:value-of select="sn"/>
         </fo:block>
       </fo:table-cell>
       <fo:table-cell border="1px solid #b8b6b6" padding-left="3pt">

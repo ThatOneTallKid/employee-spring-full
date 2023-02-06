@@ -1,14 +1,10 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.data.ProductData;
 import com.increff.pos.model.data.ProductErrorData;
-import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.model.form.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
-import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
@@ -22,10 +18,8 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static com.increff.pos.helper.InventoryFormHelper.convertInventoryFormToPojo;
-import static com.increff.pos.helper.ProductFormHelper.*;
+import static com.increff.pos.dtoUtil.ProductFormHelper.*;
 
 
 @Component

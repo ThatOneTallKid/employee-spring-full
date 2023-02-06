@@ -5,6 +5,7 @@ import com.increff.pos.model.data.InfoData;
 import com.increff.pos.model.form.UserForm;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.util.StringUtil;
+import com.increff.pos.util.ValidationUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,9 @@ public class InitApiController extends AbstractUiController {
 		else if (userDto.checkEmailExists(form.getEmail())) {
 			info.setMessage("You already have an account, please use existing credentials");
 		}
+		else if(form.getPassword().length() < 8){
+			info.setMessage("Password must be at least 8 characters");
+		}
 		else if(Objects.equals(form.getEmail(), admin_email))
 		{
 			form.setRole("supervisor");
@@ -54,6 +58,8 @@ public class InitApiController extends AbstractUiController {
 			userDto.add(form);
 			info.setMessage("Signed Up Successfully, you can login now");
 		}
+
+
 		return mav("init.html");
 
 	}

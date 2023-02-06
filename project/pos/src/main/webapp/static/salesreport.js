@@ -186,6 +186,7 @@ function autoFillDate() {
 
   var today = year + "-" + month + "-" + day;
   $("#inputED").attr("value", today);
+  $("#inputSD").attr("max", today);
   $("#sales-report-form input[name=endDate]").val(today);
       $("#inputED").attr("max", today);
 }

@@ -30,6 +30,13 @@ function readFileData(file, callback){
 	Papa.parse(file, config);
 }
 
+function hideSupervisorView(){
+    var appBanners = document.getElementsByClassName('supervisor');
+
+    for (var i = 0; i < appBanners.length; i ++) {
+        appBanners[i].style.display = 'none';
+    }
+}
 
 function writeFileData(arr){
 	var config = {
@@ -52,3 +59,13 @@ function writeFileData(arr){
     tempLink.setAttribute('download', 'download.tsv');
     tempLink.click(); 
 }
+
+function init(){
+
+    if($("meta[name=role]").attr("content") == "operator") {
+
+        hideSupervisorView();
+    }
+}
+
+$(document).ready(init);

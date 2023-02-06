@@ -1,14 +1,11 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.increff.pos.helper.InventoryFormHelper;
-import com.increff.pos.model.data.BrandErrorData;
+import com.increff.pos.dtoUtil.InventoryFormHelper;
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.InventoryErrorData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
-import com.increff.pos.model.form.InventoryReportForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
@@ -22,25 +19,17 @@ import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.ValidationUtil;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.RollbackException;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.increff.pos.helper.InventoryFormHelper.*;
+import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 
 @Component
 public class InventoryDto {

@@ -1,6 +1,5 @@
-package com.increff.pos.helper;
+package com.increff.pos.dtoUtil;
 
-import com.increff.pos.model.form.ProductForm;
 import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.util.StringUtil;
 

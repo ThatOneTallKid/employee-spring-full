@@ -1,6 +1,6 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.helper.SalesReportFormHelper;
+import com.increff.pos.dtoUtil.SalesReportFormHelper;
 import com.increff.pos.model.data.SalesReportData;
 import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.pojo.BrandPojo;

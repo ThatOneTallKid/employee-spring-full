@@ -1,9 +1,8 @@
-package com.increff.pos.helper;
+package com.increff.pos.dtoUtil;
 
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.InventoryItem;
 import com.increff.pos.model.form.InventoryForm;
-import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
@@ -11,7 +10,6 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.StringUtil;
 import javafx.util.Pair;
 
-import javax.persistence.Convert;
 import java.util.Map;
 
 public class InventoryFormHelper {

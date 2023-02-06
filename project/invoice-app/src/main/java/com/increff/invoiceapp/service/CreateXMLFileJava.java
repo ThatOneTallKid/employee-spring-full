@@ -31,6 +31,7 @@ public class CreateXMLFileJava {
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 
             Document document = documentBuilder.newDocument();
+            DecimalFormat df = new DecimalFormat("#.##");
 
             // root element
             Element root = document.createElement("invoice");
@@ -44,17 +45,16 @@ public class CreateXMLFileJava {
             Element order_date = document.createElement("order_date");
             order_date.appendChild(document.createTextNode(invoiceForm.getPlaceDate()));
             root.appendChild(order_date);
-
+            int sn = 0;
             // order item element
             for (OrderItem o : invoiceForm.getOrderItemList()){
-                DecimalFormat df = new DecimalFormat("#.##");
                 Element order_item = document.createElement("order_item");
-
+                sn++;
                 root.appendChild(order_item);
 
                 // set an attribute to staff element
-                Element id = document.createElement("id");
-                id.appendChild(document.createTextNode(o.getOrderItemId().toString()));
+                Element id = document.createElement("sn");
+                id.appendChild(document.createTextNode(Integer.toString(sn)));
                 order_item.appendChild(id);
 
                 // firstname element
@@ -78,7 +78,7 @@ public class CreateXMLFileJava {
             }
 
             Element amount = document.createElement("amount");
-            amount.appendChild(document.createTextNode(invoiceForm.getAmount().toString()));
+            amount.appendChild(document.createTextNode(Double.valueOf(df.format(invoiceForm.getAmount())).toString()));
             root.appendChild(amount);
             // create the xml file
             //transform the DOM Object to an XML File

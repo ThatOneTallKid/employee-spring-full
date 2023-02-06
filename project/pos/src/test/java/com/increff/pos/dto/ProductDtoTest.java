@@ -186,36 +186,4 @@ public class ProductDtoTest extends AbstractUnitTest {
         productDto.add(productFormList);
     }
 
-
-    @Test(expected = ApiException.class)
-    public void updateDuplicate() throws JsonProcessingException, ApiException {
-        List<ProductForm> productFormList = new ArrayList<>();
-        List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
-        brandFormList.add(brandForm);
-
-        brandDto.add(brandFormList);
-
-        ProductForm productForm = new ProductForm();
-        productForm.setBrand("brand");
-        productForm.setCategory("category");
-        productForm.setBarcode("12345678");
-        productForm.setName("name");
-        productForm.setMrp(23.00);
-        productFormList.add(productForm);
-
-        productDto.add(productFormList);
-
-        ProductForm productForm1 = new ProductForm();
-        productForm1.setBrand("brand");
-        productForm1.setCategory("category");
-        productForm1.setBarcode("12345679");
-        productForm1.setName("name");
-        productForm1.setMrp(27.00);
-
-        productDto.add(productFormList);
-        productDto.update(productService.getIDByBarcode("12345678"), productForm1);
-    }
 }

@@ -29,8 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static com.increff.pos.helper.OrderFormHelper.convertOrderPojoToData;
-import static com.increff.pos.helper.OrderItemFormHelper.*;
+import static com.increff.pos.dtoUtil.OrderFormHelper.convertOrderPojoToData;
+import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 
 @Component
 public class OrderDto {
@@ -47,8 +47,12 @@ public class OrderDto {
     @Value("${invoice.url}")
     private String url;
 
-    private static String PDF_PATH = "./src/main/resources/pdf/";
+    @Value("${invoice.pdf_path}")
+    private static String PDF_PATH;
 
+    // TODO: ask doubts
+    // icons and buttons
+    // total rows
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderItemForm> forms) throws ApiException {
@@ -85,7 +89,7 @@ public class OrderDto {
         RestTemplate restTemplate = new RestTemplate();
         byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(_url, invoiceForm, byte[].class).getBody());
 
-        Path pdfPath = Paths.get(PDF_PATH +id+    "invoice.pdf");
+        Path pdfPath = Paths.get(PDF_PATH +id+"invoice.pdf");
 
         Files.write(pdfPath, contents);
         HttpHeaders headers = new HttpHeaders();
@@ -110,7 +114,7 @@ public class OrderDto {
     }
 
     // IMprove
-    // TODO: MOve this to inventory service
+    // TODO: MOve this to inventory service - done
     private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
         inventoryService.reduceInventory(id, orderItemForm.getQty());
         orderService.add(orderItemPojo);
@@ -127,7 +131,7 @@ public class OrderDto {
             set.add(f.getBarcode());
         }
     }
-    //TODO: Improve this method
+    //TODO: Improve this method - Done
     private void checkInventory(List<OrderItemForm> orderItemFormList, Map<String, ProductPojo> productPojoList) throws ApiException {
         for (OrderItemForm form: orderItemFormList) {
             InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(productPojoList.get(form.getBarcode()).getId());
@@ -138,7 +142,7 @@ public class OrderDto {
     }
 
     private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList, List<OrderItemForm> forms ) throws ApiException {
-        // TODO: Improve this method, IN query
+        // TODO: Improve this method, IN query - done
         List<String> barcodeList = new ArrayList<>();
         for(OrderItemForm f: forms) {
             barcodeList.add(f.getBarcode());

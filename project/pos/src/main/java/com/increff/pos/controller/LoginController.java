@@ -40,6 +40,7 @@ public class LoginController {
 	public ModelAndView login(HttpServletRequest req, LoginForm f) throws ApiException {
 		UserPojo p = service.get(f.getEmail());
 		boolean authenticated = (p != null && Objects.equals(p.getPassword(), f.getPassword()));
+		info.setRole(p.getRole());
 		if (!authenticated) {
 			info.setMessage("Invalid username or password");
 			return new ModelAndView("redirect:/site/login");
@@ -69,6 +70,7 @@ public class LoginController {
 		UserPrincipal principal = new UserPrincipal();
 		principal.setEmail(p.getEmail());
 		principal.setId(p.getId());
+		principal.setRole(p.getRole());
 
 		// Create Authorities
 		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();

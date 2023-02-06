@@ -22,11 +22,11 @@ public class SalesPojo extends AbstractPojo{
     @Column(nullable = false)
     private LocalDate date;
     @Column(nullable = false)
-    private Integer invoicedOrderCount;
+    private int invoicedOrderCount;
     @Column(nullable = false)
-    private Integer invoicedItemsCount;
+    private int invoicedItemsCount;
     @Column(nullable = false)
-    private Double totalRevenue;
+    private double totalRevenue;
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastRun;

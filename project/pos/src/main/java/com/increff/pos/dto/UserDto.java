@@ -1,6 +1,6 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.helper.UserFormHelper;
+import com.increff.pos.dtoUtil.UserFormHelper;
 import com.increff.pos.model.data.UserData;
 import com.increff.pos.model.form.UserForm;
 import com.increff.pos.pojo.UserPojo;
