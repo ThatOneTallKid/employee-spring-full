@@ -36,16 +36,16 @@ public class InventoryService {
     }
 
     public void update(int id, InventoryPojo newInventoryPojo) throws ApiException{
-        InventoryPojo inventoryPojo = CheckIdInventory(id);
+        InventoryPojo inventoryPojo = getCheckInventory(id);
         inventoryPojo.setQty(newInventoryPojo.getQty());
         inventoryDao.update();
     }
 
     public InventoryPojo getById(int id) throws ApiException {
-        return inventoryDao.selectByID(id, InventoryPojo.class);
+        return getCheckInventory(id);
     }
 
-    public InventoryPojo CheckIdInventory(int id) throws ApiException {
+    public InventoryPojo getCheckInventory(int id) throws ApiException {
         InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
         if(Objects.isNull(inventoryPojo)) {
             throw new ApiException("Product is not there in the inventory");
@@ -58,8 +58,7 @@ public class InventoryService {
         if(inventoryPojo.getQty() < qty) {
             throw new ApiException("The product is not in sufficient quantity");
         }
-        int newQty = inventoryPojo.getQty() - qty;
-        inventoryPojo.setQty(newQty);
+        inventoryPojo.setQty(inventoryPojo.getQty() - qty);
         inventoryDao.update();
     }
 

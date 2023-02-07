@@ -48,7 +48,6 @@ public class InventoryDto {
 
 
     public void add(List<InventoryForm> forms) throws ApiException, JsonProcessingException {
-        //TODO: ask about this part
         List<InventoryErrorData> inventoryErrorDataList = new ArrayList<>();
         int errorSize = 0;
         for (InventoryForm form: forms) {
@@ -57,7 +56,7 @@ public class InventoryDto {
             try {
                 ValidationUtil.validateForms(form);
                 normalizeInventory(form);
-                productService.getCheck(productService.getIDByBarcode(form.getBarcode()));
+                productService.getByBarcode(form.getBarcode());
             }
             catch (Exception e) {
                 inventoryErrorData.setMessage(e.getMessage());
@@ -73,17 +72,15 @@ public class InventoryDto {
 
 
     public InventoryData get(int id) throws ApiException{
-        InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(id);
+        InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);
         ProductPojo productPojo = productService.get(id);
         BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
         return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
     }
 
     public InventoryData getByBarcode(String barcode) throws ApiException {
-        InventoryPojo inventoryPojo = inventoryService.getById(productService.getIDByBarcode(barcode));
-        ProductPojo productPojo = productService.get(productService.getIDByBarcode(barcode));
-        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
-        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
+        InventoryPojo inventoryPojo = inventoryService.getById(productService.getByBarcode(barcode).getId());
+        return get(inventoryPojo.getId());
     }
 
     public List<InventoryData> getAll() throws ApiException {
@@ -99,8 +96,7 @@ public class InventoryDto {
 
     public void update(int id, InventoryForm inventoryForm) throws ApiException {
         ValidationUtil.validateForms(inventoryForm);
-        int pId = productService.getIDByBarcode(inventoryForm.getBarcode());
-        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,pId);
+        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm, productService.getByBarcode(inventoryForm.getBarcode()).getId());
         inventoryService.update(id,inventoryPojo);
     }
 
@@ -128,7 +124,7 @@ public class InventoryDto {
     @Transactional(rollbackOn = ApiException.class)
     private void bulkAdd(List<InventoryForm> forms) throws ApiException {
         for(InventoryForm form: forms) {
-            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getIDByBarcode(form.getBarcode()));
+            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService.getByBarcode(form.getBarcode()).getId());
             inventoryService.add(inventoryPojo);
         }
     }

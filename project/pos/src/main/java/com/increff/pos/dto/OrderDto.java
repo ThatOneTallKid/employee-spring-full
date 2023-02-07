@@ -48,11 +48,9 @@ public class OrderDto {
     private String url;
 
     @Value("${invoice.pdf_path}")
-    private static String PDF_PATH;
+    private String PDF_PATH;
 
-    // TODO: ask doubts
-    // icons and buttons
-    // total rows
+
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderItemForm> forms) throws ApiException {
@@ -69,7 +67,7 @@ public class OrderDto {
                 ProductPojo productPojo = productList.get(f.getBarcode());
                 OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
                 orderItemPojo.setOrderId(orderPojo.getId());
-                reduceInventory(orderItemPojo, productPojo.getId(), f);
+                saveOrderItem(orderItemPojo, productPojo.getId(), f);
         }
     }
 
@@ -113,9 +111,8 @@ public class OrderDto {
         return list2;
     }
 
-    // IMprove
-    // TODO: MOve this to inventory service - done
-    private void reduceInventory(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
+
+    private void saveOrderItem(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
         inventoryService.reduceInventory(id, orderItemForm.getQty());
         orderService.add(orderItemPojo);
     }
@@ -131,18 +128,17 @@ public class OrderDto {
             set.add(f.getBarcode());
         }
     }
-    //TODO: Improve this method - Done
+
     private void checkInventory(List<OrderItemForm> orderItemFormList, Map<String, ProductPojo> productPojoList) throws ApiException {
         for (OrderItemForm form: orderItemFormList) {
-            InventoryPojo inventoryPojo = inventoryService.CheckIdInventory(productPojoList.get(form.getBarcode()).getId());
+            InventoryPojo inventoryPojo = inventoryService.getCheckInventory(productPojoList.get(form.getBarcode()).getId());
             if (inventoryPojo.getQty() < form.getQty()) {
-                throw new ApiException("Not enough quantity present in the inventory");
+                throw new ApiException("Not enough quantity present in the inventory for " + form.getBarcode());
             }
         }
     }
 
     private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList, List<OrderItemForm> forms ) throws ApiException {
-        // TODO: Improve this method, IN query - done
         List<String> barcodeList = new ArrayList<>();
         for(OrderItemForm f: forms) {
             barcodeList.add(f.getBarcode());

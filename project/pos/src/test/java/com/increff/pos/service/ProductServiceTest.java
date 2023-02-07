@@ -31,7 +31,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         Double expectedMrp = 23.00;
         String expectedBarcode = "12345678";
 
-        ProductPojo data = productService.get(productService.getIDByBarcode(expectedBarcode));
+        ProductPojo data = productService.get(productService.getByBarcode(expectedBarcode).getId());
         assertEquals(expectedBarcode, data.getBarcode());
         assertEquals(expectedName, data.getName());
         assertEquals(expectedMrp, data.getMrp(), 0.001);
@@ -80,7 +80,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         Double expectedMrp = 27.00;
         String expectedBarcode = "12345678";
 
-        ProductPojo pojo = productService.get(productService.getIDByBarcode(expectedBarcode));
+        ProductPojo pojo = productService.get(productService.getByBarcode(expectedBarcode).getId());
         productService.update(pojo.getId(), productPojo1);
         ProductPojo data = productService.get(pojo.getId());
         assertEquals(expectedBarcode, data.getBarcode());
@@ -103,9 +103,8 @@ public class ProductServiceTest extends AbstractUnitTest {
         productPojo.setBrandCategory(brandService.getBrandByParams(brandPojo.getBrand(),brandPojo.getCategory()).getId());
         productPojo.setMrp(23.00);
         productService.add(productPojo);
-        productService.add(productPojo);
 
-        int id = productService.getIDByBarcode("23456789");
+        int id = productService.getByBarcode("23456789").getId();
     }
 
     @Test(expected = ApiException.class)

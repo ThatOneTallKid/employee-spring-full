@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -53,42 +54,66 @@ public class    SalesReportDto {
         return getFilterSalesReport(list,salesReportForm.getBrand(), salesReportForm.getCategory());
     }
 
-    public List<SalesReportData> getFilterSalesReport(List<OrderPojo> list, String brand, String category) throws ApiException {
+    public List<SalesReportData> getFilterSalesReport(List<OrderPojo> list, String brand, String category)  {
         HashMap<Integer, SalesReportData> map = new HashMap<Integer, SalesReportData>();
+        HashMap<Integer, ProductPojo> productMap = new HashMap<Integer, ProductPojo>();
+        productMap = getProductMap(productMap);
+        HashMap<Integer, BrandPojo> brandMap = new HashMap<Integer, BrandPojo>();
+        brandMap = getBrandMap(brandMap);
+        DecimalFormat df = new DecimalFormat("#.##");
+
         for(OrderPojo orderPojo: list){
             List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());
             for (OrderItemPojo orderItemPojo: orderItemPojoList) {
-                ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
-                BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
-                if(!map.containsKey(brandPojo.getId())) {
-                    map.put(brandPojo.getId(), new SalesReportData());
+                ProductPojo productPojo = productMap.get(orderItemPojo.getProductId());
+                BrandPojo brandPojo = brandMap.get(productPojo.getBrandCategory());
+                if((Objects.equals(brand,brandPojo.getBrand()) || Objects.equals(brand,"all")) &&
+                        (Objects.equals(category,brandPojo.getCategory()) || Objects.equals(category,"all"))) {
+                    if(!map.containsKey(brandPojo.getId())) {
+                        map.put(brandPojo.getId(), new SalesReportData());
+                    }
+                    SalesReportData salesReportData = map.get(brandPojo.getId());
+                    salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQty() );
+                    salesReportData.setRevenue(Double.parseDouble(df.format(salesReportData.getRevenue()
+                            + (orderItemPojo.getQty() * orderItemPojo.getSellingPrice()))));
                 }
-                SalesReportData salesReportData = map.get(brandPojo.getId());
-                salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQty() );
-                salesReportData.setRevenue(salesReportData.getRevenue() + (orderItemPojo.getQty() * orderItemPojo.getSellingPrice()));
-
             }
         }
 
         List<SalesReportData> salesReportDataList = new ArrayList<>();
 
         for(Map.Entry<Integer, SalesReportData> entry: map.entrySet()) {
-            BrandPojo bp = brandService.getCheck(entry.getKey());
-            if((Objects.equals(brand,bp.getBrand()) || Objects.equals(brand,"all")) && (Objects.equals(category,bp.getCategory()) || Objects.equals(category,"all"))){
-                SalesReportData d = entry.getValue();
-                d.setBrand(bp.getBrand());
-                d.setCategory(bp.getCategory());
-                salesReportDataList.add(d);
-            }
+            BrandPojo bp = brandMap.get(entry.getKey());
+            SalesReportData d = entry.getValue();
+            d.setBrand(bp.getBrand());
+            d.setCategory(bp.getCategory());
+            salesReportDataList.add(d);
         }
         salesList = salesReportDataList;
         return salesReportDataList;
     }
+
     public void generateCsv(HttpServletResponse response) throws  IOException {
         response.setContentType("text/csv");
         response.addHeader("Content-Disposition", "attachment; filename=\"salesReport.csv\"");
 
         csvGenerator.writeSalesToCsv(salesList, response.getWriter());
         salesList.clear();
+    }
+
+    private HashMap<Integer, ProductPojo> getProductMap(HashMap<Integer, ProductPojo> productMap)  {
+        List<ProductPojo> productPojoList = productService.getAll();
+        for (ProductPojo productPojo: productPojoList) {
+            productMap.put(productPojo.getId(), productPojo);
+        }
+        return productMap;
+    }
+
+    private HashMap<Integer, BrandPojo> getBrandMap(HashMap<Integer, BrandPojo> brandMap)  {
+        List<BrandPojo> brandPojoList = brandService.getAll();
+        for (BrandPojo brandPojo: brandPojoList) {
+            brandMap.put(brandPojo.getId(), brandPojo);
+        }
+        return brandMap;
     }
 }

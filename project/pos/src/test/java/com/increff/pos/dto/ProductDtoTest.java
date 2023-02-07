@@ -52,7 +52,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         Double expectedMrp = 23.00;
         String expectedBarcode = "12345678";
 
-        ProductData data = productDto.get(productService.getIDByBarcode(expectedBarcode));
+        ProductData data = productDto.get(productService.getByBarcode(expectedBarcode).getId());
         assertEquals(expectedBarcode, data.getBarcode());
         assertEquals(expectedName, data.getName());
         assertEquals(expectedBrandName, data.getBrand());
@@ -128,9 +128,9 @@ public class ProductDtoTest extends AbstractUnitTest {
         Double expectedMrp = 27.00;
         String expectedBarcode = "12345678";
 
-        productDto.update(productService.getIDByBarcode(expectedBarcode), productForm1);
+        productDto.update(productService.getByBarcode(expectedBarcode).getId(), productForm1);
 
-        ProductData data = productDto.get(productService.getIDByBarcode(expectedBarcode));
+        ProductData data = productDto.get(productService.getByBarcode(expectedBarcode).getId());
         assertEquals(expectedBarcode, data.getBarcode());
         assertEquals(expectedName, data.getName());
         assertEquals(expectedBrandName, data.getBrand());

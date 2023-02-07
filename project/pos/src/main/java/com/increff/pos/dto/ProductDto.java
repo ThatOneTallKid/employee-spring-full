@@ -42,7 +42,7 @@ public class ProductDto {
             try{
                 ValidationUtil.validateForms(form);
                 normalizeProduct(form);
-                BrandPojo brandPojo = brandService.getBrandByParams(form.getBrand(), form.getCategory());
+                brandService.getBrandByParams(form.getBrand(), form.getCategory());
                 productService.checkSame(form.getBarcode());
             }
             catch (Exception e) {
@@ -74,6 +74,7 @@ public class ProductDto {
         }
         return list2;
     }
+
 
     public void update(int id, ProductForm form) throws ApiException {
         ValidationUtil.validateForms(form);

@@ -1,7 +1,6 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.ProductDao;
-import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,7 @@ public class ProductService {
 
 
     public void add(ProductPojo productPojo) throws ApiException {
-        if(checkBarcode(productPojo.getBarcode())==false){
-            throw new ApiException("Barcode already exists");
-        }
+        checkSame(productPojo.getBarcode());
         productDao.insert(productPojo);
     }
 
@@ -38,27 +35,19 @@ public class ProductService {
 
     public void update(int id, ProductPojo newProductPojo) throws ApiException {
         ProductPojo productPojo = get(id);
-        if(checkBarcode(newProductPojo.getBarcode())==false) {
+        if(productPojo.getBarcode().contentEquals(newProductPojo.getBarcode())) {
             productPojo.setName(newProductPojo.getName());
             productPojo.setMrp(newProductPojo.getMrp());
             productDao.update();
         }
     }
-
+    // error message for individual barcode
     public List<ProductPojo> selectInBarcode(List<String> barcode) throws ApiException {
         List<ProductPojo> productPojoList = productDao.selectInBarcode(barcode);
-        if(productPojoList.size()!=barcode.size()){
+        if(productPojoList.size() != barcode.size()){
             throw new ApiException("Barcode Not found in Product Database!");
         }
         return productPojoList;
-    }
-
-    public Boolean checkBarcode(String barcode){
-        ProductPojo productPojo = productDao.selectByBarcode(barcode);
-        if(Objects.isNull(productPojo)) {
-            return true;
-        }
-        return false;
     }
 
     public void checkSame(String barcode) throws ApiException {
@@ -69,7 +58,6 @@ public class ProductService {
 
     }
 
-
     public ProductPojo getCheck(int id) throws ApiException{
         ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);
         if(Objects.isNull(productPojo)) {
@@ -78,12 +66,12 @@ public class ProductService {
         return productPojo;
     }
 
-    public Integer getIDByBarcode(String barcode) throws ApiException {
+    public ProductPojo getByBarcode(String barcode) throws ApiException {
         ProductPojo productPojo = productDao.selectByBarcode(barcode);
         if(Objects.isNull(productPojo)) {
             throw new ApiException("Barcode Not found in Product Database!");
         }
-        return productPojo.getId();
+        return productPojo;
     }
 
 }

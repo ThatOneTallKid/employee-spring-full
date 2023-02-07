@@ -87,11 +87,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
         inventoryPojo.setQty(3);
         inventoryService.add(inventoryPojo);
         int expextedQty = 3;
-        InventoryPojo pojo = inventoryService.CheckIdInventory(1);
+        InventoryPojo pojo = inventoryService.getCheckInventory(1);
         assertEquals(expextedQty, pojo.getQty());
 
 
-        InventoryPojo pojo2 = inventoryService.CheckIdInventory(3);
+        InventoryPojo pojo2 = inventoryService.getCheckInventory(3);
 
 
     }

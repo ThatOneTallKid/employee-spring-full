@@ -33,8 +33,6 @@ function printCSVUrl() {
 }
 
 function getFilteredList(event) {
-  $("#apply-filter").prop("disabled", true);
-  $("#printCSV").prop("disabled", false);
   var $form = $("#sales-report-form");
   var json = toJson($form);
   console.log(json);

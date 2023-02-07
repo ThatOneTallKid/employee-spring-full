@@ -5,9 +5,9 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/project/pos/pom.xml" />
         <option value="$PROJECT_DIR$/project/fop/pom.xml" />
         <option value="$PROJECT_DIR$/project/invoice-app/pom.xml" />
+        <option value="$PROJECT_DIR$/project/pos/pom.xml" />
       </list>
     </option>
   </component>
