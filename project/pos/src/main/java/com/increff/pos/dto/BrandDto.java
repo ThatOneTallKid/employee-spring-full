@@ -52,6 +52,7 @@ public class BrandDto {
         if (errorSize > 0) {
             ErrorUtil.throwErrors(errorData);
         }
+
         bulkAdd(brandForms);
 
     }

@@ -41,11 +41,17 @@ public class ProductService {
             productDao.update();
         }
     }
-    // error message for individual barcode
+
     public List<ProductPojo> selectInBarcode(List<String> barcode) throws ApiException {
         List<ProductPojo> productPojoList = productDao.selectInBarcode(barcode);
+        String error = "Following Barcode not found in Product Database: ";
+        for (String s : barcode) {
+            if (!productPojoList.stream().anyMatch(productPojo -> productPojo.getBarcode().contentEquals(s))) {
+                error += s + ", ";
+            }
+        }
         if(productPojoList.size() != barcode.size()){
-            throw new ApiException("Barcode Not found in Product Database!");
+            throw new ApiException(error);
         }
         return productPojoList;
     }

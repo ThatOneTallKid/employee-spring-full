@@ -150,7 +150,10 @@ function processData() {
 function readFileDataCallback(results) {
   fileData = results.data;
   var filelen = fileData.length;
-  if (filelen > 5000) {
+  if (filelen == 0) {
+    toastr.error("file length is 0, Not Allowed");
+  }
+  else if (filelen > 5000) {
     toastr.error("file length exceeds 5000, Not Allowed");
   } else {
     uploadRows();

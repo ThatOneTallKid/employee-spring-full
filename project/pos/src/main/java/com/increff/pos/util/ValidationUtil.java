@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class ValidationUtil {
 
-
+    // Utility function for generic validation of forms
     public static <T> void validateForms(T form){
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
@@ -14,5 +14,4 @@ public class ValidationUtil {
             throw new ConstraintViolationException(violations);
         }
     }
-
 }

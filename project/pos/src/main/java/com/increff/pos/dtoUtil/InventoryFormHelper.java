@@ -14,13 +14,13 @@ import java.util.Map;
 
 public class InventoryFormHelper {
 
-    public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm, int id) throws ApiException {
+    public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm, int id) {
         InventoryPojo inventoryPojo = ConvertUtil.convert(inventoryForm, InventoryPojo.class);
         inventoryPojo.setId(id);
         return inventoryPojo;
     }
 
-    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, BrandPojo brandPojo) throws ApiException {
+    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, BrandPojo brandPojo) {
         InventoryData inventoryData = ConvertUtil.convert(inventoryPojo, InventoryData.class);
         inventoryData.setName(name);
         inventoryData.setBarcode(barcode);
