@@ -11,8 +11,10 @@ public class DateValidatorUtil {
         if (start.isAfter(end)) {
             throw new ApiException("Start date cannot be after end date");
         }
-        Period period = Period.between(start.toLocalDate(), end.toLocalDate());
-        if(period.getDays() > 30) {
+        LocalDate startDate = start.toLocalDate();
+        LocalDate endDate = end.toLocalDate();
+        long days = endDate.toEpochDay() - startDate.toEpochDay();
+        if(days > 30) {
             throw new ApiException("Date range cannot be more than 30 days");
         }
     }
@@ -20,8 +22,8 @@ public class DateValidatorUtil {
         if (start.isAfter(end)) {
             throw new ApiException("Start date cannot be after end date");
         }
-        Period period = Period.between(start, end);
-        if(period.getDays() > 30) {
+        long days = end.toEpochDay() - start.toEpochDay();
+        if(days > 30) {
             throw new ApiException("Date range cannot be more than 30 days");
         }
     }

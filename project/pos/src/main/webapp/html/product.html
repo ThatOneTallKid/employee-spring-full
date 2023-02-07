@@ -22,7 +22,7 @@
                         <label for="inputBrand" class=" ">Brand</label>
 
                             <select type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
-                                <option value="none" selected disabled hidden>Select a Brand</option>
+                                <option value="none" selected disabled hidden>Select Brand</option>
                             </select>
 
                     </div>
@@ -30,7 +30,7 @@
                         <label for="inputCategory" class="">Category</label>
 
                             <select type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
-                                <option value="none" selected disabled hidden>Select a Category</option>
+                                <option value="none" selected disabled hidden>Select Category</option>
                             </select>
 
                     </div>
@@ -59,8 +59,6 @@
                         <div class="col-md-4"> &nbsp; </div>
                         <div class="col-md-4">  </div>
                         <button type="button" class="btn btn-primary mt-2" id="add-product">Add</button>
-                        &nbsp;
-                        <button type="button" class="btn btn-primary mt-2" id="refresh-data">Refresh</button>
                         &nbsp;
                         <button type="button" class="btn btn-primary mt-2" id="upload-data">Upload</button>
                     </div>
@@ -148,7 +146,7 @@
                         <div class="form-group">
                             <label for="inputMrp" class="col-sm-2 col-form-label">MRP</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="mrp" placeholder="enter mrp">
+                                <input type="number" min="0" max="2147483647" class="form-control" name="mrp" placeholder="enter mrp">
                             </div>
                         </div>
                         <input type="hidden" name="id" >

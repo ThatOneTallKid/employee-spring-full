@@ -40,6 +40,9 @@ public class ProductService {
             productPojo.setMrp(newProductPojo.getMrp());
             productDao.update();
         }
+        else {
+            throw new ApiException("Barcode cannot be different");
+        }
     }
 
     public List<ProductPojo> selectInBarcode(List<String> barcode) throws ApiException {

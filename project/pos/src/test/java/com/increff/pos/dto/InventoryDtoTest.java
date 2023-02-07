@@ -8,6 +8,7 @@ import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.model.form.ProductForm;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Autowired
     InventoryService inventoryService;
 
+    @Autowired
+    ProductService productService;
+
 
     @Test
     public void addInventoryTest() throws JsonProcessingException, ApiException {
@@ -54,13 +58,19 @@ public class InventoryDtoTest extends AbstractUnitTest {
         productFormList.add(productForm);
 
         productDto.add(productFormList);
-
+        List<ProductPojo> productPojoList = productService.getAll();
+        assertEquals(1, productPojoList.size());
+        ProductPojo productPojo = productPojoList.get(0);
+        assertEquals(1, productPojo.getId());
         InventoryForm inventoryForm = new InventoryForm();
         inventoryForm.setBarcode("12345678");
         inventoryForm.setQty(3);
         inventoryFormList.add(inventoryForm);
 
         inventoryDto.add(inventoryFormList);
+        List<InventoryPojo> inventoryPojoList = inventoryService.getAll();
+
+
 
         String expectedBrandName = "brand";
         String expectedCategoryName = "category";

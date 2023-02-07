@@ -48,6 +48,7 @@ function isJson(str) {
 //BUTTON ACTIONS
 function addProduct(event) {
   //Set the values to update
+
   var $form = $("#product-form");
   var json = toJson($form);
   var url = getProductUrl();
@@ -82,7 +83,6 @@ function addProduct(event) {
         }
       }
       wholeProduct = [];
-      resetForm();
     },
   });
 
@@ -90,7 +90,6 @@ function addProduct(event) {
 }
 
 function updateProduct(event) {
-  $("#edit-product-modal").modal("toggle");
   //Get the ID
   var id = $("#product-edit-form input[name=id]").val();
   var url = getProductUrl() + "/" + id;
@@ -109,6 +108,7 @@ function updateProduct(event) {
       "Content-Type": "application/json",
     },
     success: function (response) {
+  $("#edit-product-modal").modal("toggle");
       toastr.success("Product Updated Successfully", "Success : ");
       getProductList();
     },
@@ -172,6 +172,17 @@ function uploadRows() {
   //Process next row
 
   var json = JSON.stringify(fileData);
+  var headers = ["brand", "category", "name", "mrp", "barcode"];
+  	if(Object.keys(json).length != headers.length){
+  	    toastr.error("File columns do not match. Please check the file and try again");
+          return;
+  	}
+  	for(var i in headerColumns){
+          if(!json.hasOwnProperty(headerColumns[i])){
+              toastr.error('File columns do not match. Please check the file and try again');
+              return;
+          }
+      }
   var url = getProductUrl();
 
   //Make ajax call
@@ -317,7 +328,7 @@ function displayBrandOptions(data) {
   $elB.empty();
 
   $elB.append(
-    `<option value="none" selected disabled hidden>Select a Brand</option>`
+    `<option value="none" selected disabled hidden>Select Brand</option>`
   );
 
   $.each(brandData, function (key, value) {
@@ -332,7 +343,7 @@ function displayCategoryOptions() {
 
   $elC.empty();
   $elC.append(
-    `<option value="none" selected disabled hidden>Select a Category</option>`
+    `<option value="none" selected disabled hidden>Select Category</option>`
   );
   var a = getBrandOption();
   var len = brandData[a].length;

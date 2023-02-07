@@ -22,11 +22,11 @@ import java.time.LocalDateTime;
     @Column(nullable = false)
 <span class="nc" id="L23">    private LocalDate date;</span>
     @Column(nullable = false)
-<span class="fc" id="L25">    private Integer invoicedOrderCount;</span>
+<span class="fc" id="L25">    private int invoicedOrderCount;</span>
     @Column(nullable = false)
-<span class="fc" id="L27">    private Integer invoicedItemsCount;</span>
+<span class="fc" id="L27">    private int invoicedItemsCount;</span>
     @Column(nullable = false)
-<span class="fc" id="L29">    private Double totalRevenue;</span>
+<span class="fc" id="L29">    private double totalRevenue;</span>
     @Column(nullable = false)
     @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
 <span class="fc" id="L32">    private LocalDateTime lastRun;</span>

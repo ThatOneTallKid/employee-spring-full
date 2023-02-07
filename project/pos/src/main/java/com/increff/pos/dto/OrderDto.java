@@ -93,7 +93,7 @@ public class OrderDto {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
 
-        String filename = "invoice.pdf";
+        String filename ="Invoice_"+id+".pdf";
         headers.setContentDispositionFormData(filename, filename);
 
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
@@ -123,7 +123,7 @@ public class OrderDto {
             ValidationUtil.validateForms(f);
             normalizeOrderItem(f);
             if(set.contains(f.getBarcode())) {
-                throw new ApiException("Duplicate Barcode Detected");
+                throw new ApiException("Duplicate Barcode Detected : "+ f.getBarcode());
             }
             set.add(f.getBarcode());
         }

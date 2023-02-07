@@ -6,6 +6,7 @@ import com.increff.pos.pojo.ProductPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -124,5 +125,82 @@ public class ProductServiceTest extends AbstractUnitTest {
         ProductPojo pojo = productService.getCheck(9);
     }
 
+    @Test(expected = ApiException.class)
+    public void updateIllegalBarcode() throws ApiException {
+        ProductPojo productPojo = new ProductPojo();
+        productPojo.setBarcode("12345678");
+        productPojo.setName("name");
+        productPojo.setBrandCategory(2);
+        productPojo.setMrp(23.00);
+        productService.add(productPojo);
+
+        ProductPojo productPojo1 = new ProductPojo();
+        productPojo1.setBarcode("12375678");
+        productPojo1.setName("name2");
+        productPojo1.setBrandCategory(2);
+        productPojo1.setMrp(27.00);
+
+        int expectedBrandCategory = 2;
+        String expectedName = "name2";
+        Double expectedMrp = 27.00;
+        String expectedBarcode = "12345678";
+
+        ProductPojo pojo = productService.get(productService.getByBarcode(expectedBarcode).getId());
+        productService.update(pojo.getId(), productPojo1);
+        ProductPojo data = productService.get(pojo.getId());
+        assertEquals(expectedBarcode, data.getBarcode());
+        assertEquals(expectedName, data.getName());
+        assertEquals(expectedMrp, data.getMrp(), 0.001);
+        assertEquals(expectedBrandCategory, data.getBrandCategory());
+    }
+
+    @Test
+    public void selectInBarcodeTest() throws ApiException {
+        ProductPojo productPojo = new ProductPojo();
+        productPojo.setBarcode("12345678");
+        productPojo.setName("name");
+        productPojo.setBrandCategory(2);
+        productPojo.setMrp(23.00);
+        productService.add(productPojo);
+
+        ProductPojo productPojo1 = new ProductPojo();
+        productPojo1.setBarcode("12345679");
+        productPojo1.setName("name");
+        productPojo1.setBrandCategory(3);
+        productPojo1.setMrp(23.00);
+        productService.add(productPojo1);
+
+        List<String> barcodes = new ArrayList<>();
+        barcodes.add("12345678");
+        barcodes.add("12345679");
+        List<ProductPojo> list = productService.selectInBarcode(barcodes);
+        assertEquals(2, list.size());
+
+    }
+
+    @Test(expected = ApiException.class)
+    public void selectInBarcodeIllegaTest() throws ApiException {
+        ProductPojo productPojo = new ProductPojo();
+        productPojo.setBarcode("12345678");
+        productPojo.setName("name");
+        productPojo.setBrandCategory(2);
+        productPojo.setMrp(23.00);
+        productService.add(productPojo);
+
+        ProductPojo productPojo1 = new ProductPojo();
+        productPojo1.setBarcode("12345679");
+        productPojo1.setName("name");
+        productPojo1.setBrandCategory(3);
+        productPojo1.setMrp(23.00);
+        productService.add(productPojo1);
+
+        List<String> barcodes = new ArrayList<>();
+        barcodes.add("12345678");
+        barcodes.add("12345679");
+        barcodes.add("12345680");
+        List<ProductPojo> list = productService.selectInBarcode(barcodes);
+        assertEquals(3, list.size());
+
+    }
 
 }

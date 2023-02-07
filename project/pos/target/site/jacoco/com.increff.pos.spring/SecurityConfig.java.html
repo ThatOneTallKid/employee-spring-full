@@ -36,19 +36,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 <span class="fc" id="L36">				.antMatchers(&quot;/api/**&quot;).hasAnyAuthority(&quot;supervisor&quot;, &quot;operator&quot;)//</span>
 
 <span class="fc" id="L38">				.antMatchers(&quot;/ui/admin/**&quot;).hasAuthority(&quot;supervisor&quot;)//</span>
-<span class="fc" id="L39">				.antMatchers(&quot;/ui/**&quot;).hasAnyAuthority(&quot;supervisor&quot;, &quot;operator&quot;)//</span>
+<span class="fc" id="L39">				.antMatchers(&quot;/ui/sales/**&quot;).hasAuthority(&quot;supervisor&quot;)//</span>
+<span class="fc" id="L40">				.antMatchers(&quot;/ui/salesreport/**&quot;).hasAuthority(&quot;supervisor&quot;)//</span>
+<span class="fc" id="L41">				.antMatchers(&quot;/ui/**&quot;).hasAnyAuthority(&quot;supervisor&quot;, &quot;operator&quot;)//</span>
 
 
 				// Ignore CSRF and CORS
-<span class="fc" id="L43">				.and().csrf().disable().cors().disable();</span>
-<span class="fc" id="L44">		logger.info(&quot;Configuration complete&quot;);</span>
-<span class="fc" id="L45">	}</span>
+<span class="fc" id="L45">				.and().csrf().disable().cors().disable();</span>
+<span class="fc" id="L46">		logger.info(&quot;Configuration complete&quot;);</span>
+<span class="fc" id="L47">	}</span>
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-<span class="fc" id="L49">		web.ignoring().antMatchers(&quot;/v2/api-docs&quot;, &quot;/configuration/ui&quot;, &quot;/swagger-resources&quot;, &quot;/configuration/security&quot;,</span>
+<span class="fc" id="L51">		web.ignoring().antMatchers(&quot;/v2/api-docs&quot;, &quot;/configuration/ui&quot;, &quot;/swagger-resources&quot;, &quot;/configuration/security&quot;,</span>
 				&quot;/swagger-ui.html&quot;, &quot;/webjars/**&quot;);
-<span class="fc" id="L51">	}</span>
+<span class="fc" id="L53">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

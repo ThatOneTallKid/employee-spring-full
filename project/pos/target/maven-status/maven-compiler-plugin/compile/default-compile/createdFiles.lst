@@ -37,7 +37,6 @@ com\increff\pos\controller\OrderApiController.class
 com\increff\pos\dao\BrandDao.class
 com\increff\pos\model\data\BrandErrorData.class
 com\increff\pos\controller\SalesApiController.class
-com\increff\pos\util\CheckerUtil.class
 com\increff\pos\util\UserPrincipal.class
 com\increff\pos\pojo\AbstractPojo.class
 com\increff\pos\dtoUtil\InventoryFormHelper.class

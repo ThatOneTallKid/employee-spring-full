@@ -136,4 +136,15 @@ public class BrandDtoTest extends AbstractUnitTest {
         brandDto.add(brandFormList);
         brandDto.add(brandFormList);
     }
+
+    @Test(expected = ApiException.class)
+    public void emptyBrand() throws JsonProcessingException, ApiException {
+        List<BrandForm> brandFormList = new ArrayList<>();
+        BrandForm brandForm = new BrandForm();
+        brandForm.setBrand("");
+        brandForm.setCategory("CateGory");
+        brandFormList.add(brandForm);
+
+        brandDto.add(brandFormList);
+    }
 }

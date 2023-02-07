@@ -73,7 +73,6 @@ function addInventory(event) {
         }
       }
       wholeInventory = [];
-      resetForm();
     },
   });
 
@@ -81,7 +80,6 @@ function addInventory(event) {
 }
 
 function updateInventory(event) {
-  $("#edit-inventory-modal").modal("toggle");
   //Get the ID
   var id = $("#inventory-edit-form input[name=id]").val();
   var url = getInventoryUrl() + "/" + id;
@@ -98,6 +96,7 @@ function updateInventory(event) {
       "Content-Type": "application/json",
     },
     success: function (response) {
+  $("#edit-inventory-modal").modal("toggle");
       toastr.success("Inventory updated Successfully", "Success : ");
       getInventoryList();
     },
@@ -159,6 +158,17 @@ function uploadRows() {
 
   var json = JSON.stringify(fileData);
   console.log(json);
+  var headers = ["barcode", "qty"];
+  	if(Object.keys(json).length != headers.length){
+  	    toastr.error("File columns do not match. Please check the file and try again");
+          return;
+  	}
+  	for(var i in headerColumns){
+          if(!json.hasOwnProperty(headerColumns[i])){
+              toastr.error('File columns do not match. Please check the file and try again');
+              return;
+          }
+      }
   var url = getInventoryUrl();
 
   //Make ajax call

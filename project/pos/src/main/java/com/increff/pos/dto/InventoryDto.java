@@ -79,8 +79,7 @@ public class InventoryDto {
     }
 
     public InventoryData getByBarcode(String barcode) throws ApiException {
-        InventoryPojo inventoryPojo = inventoryService.getById(productService.getByBarcode(barcode).getId());
-        return get(inventoryPojo.getId());
+        return get(productService.getByBarcode(barcode).getId());
     }
 
     public List<InventoryData> getAll() throws ApiException {

@@ -7,10 +7,14 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.StringUtil;
 
+import java.text.DecimalFormat;
+
 public class ProductFormHelper {
 
     public static ProductPojo convertProductFormToPojo(ProductForm productForm, int id) {
         ProductPojo productPojo = ConvertUtil.convert(productForm, ProductPojo.class);
+        DecimalFormat df = new DecimalFormat("#.##");
+        productPojo.setMrp(Double.parseDouble(df.format(productPojo.getMrp())));
         productPojo.setBrandCategory(id);
         return productPojo;
     }

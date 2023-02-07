@@ -65,21 +65,6 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     }
 
-//    @Test(expected = ApiException.class)
-//    public void getQtyTest() throws ApiException {
-//        InventoryPojo inventoryPojo = new InventoryPojo();
-//        inventoryPojo.setId(1);
-//        inventoryPojo.setQty(3);
-//        inventoryService.add(inventoryPojo);
-//        int expextedQty = 3;
-//        int qty = inventoryService.getQtyById(1);
-//        assertEquals(expextedQty, qty);
-//
-//        int qty2 = inventoryService.getQtyById(2);
-//        assertEquals(expextedQty, qty2);
-//
-//    }
-
     @Test(expected = ApiException.class)
     public void checkIdTest() throws ApiException {
         InventoryPojo inventoryPojo = new InventoryPojo();
@@ -96,7 +81,15 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     }
 
+    @Test(expected = ApiException.class)
+    public void checkReduceInventory() throws ApiException {
+        InventoryPojo inventoryPojo = new InventoryPojo();
+        inventoryPojo.setId(1);
+        inventoryPojo.setQty(3);
+        inventoryService.add(inventoryPojo);
 
+        inventoryService.reduceInventory(1, 4);
+    }
 
 
 }

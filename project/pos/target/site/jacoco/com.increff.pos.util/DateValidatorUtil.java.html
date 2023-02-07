@@ -4,17 +4,28 @@ import com.increff.pos.service.ApiException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
-<span class="nc" id="L8">public class DateValidatorUtil {</span>
+<span class="nc" id="L9">public class DateValidatorUtil {</span>
     public static void isValidDateTimeRange(LocalDateTime start, LocalDateTime end) throws ApiException {
-<span class="pc bpc" id="L10" title="1 of 2 branches missed.">        if (start.isAfter(end)) {</span>
-<span class="nc" id="L11">            throw new ApiException(&quot;Start date cannot be after end date&quot;);</span>
+<span class="pc bpc" id="L11" title="1 of 2 branches missed.">        if (start.isAfter(end)) {</span>
+<span class="nc" id="L12">            throw new ApiException(&quot;Start date cannot be after end date&quot;);</span>
         }
-<span class="fc" id="L13">    }</span>
+<span class="fc" id="L14">        LocalDate startDate = start.toLocalDate();</span>
+<span class="fc" id="L15">        LocalDate endDate = end.toLocalDate();</span>
+<span class="fc" id="L16">        long days = endDate.toEpochDay() - startDate.toEpochDay();</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        if(days &gt; 30) {</span>
+<span class="nc" id="L18">            throw new ApiException(&quot;Date range cannot be more than 30 days&quot;);</span>
+        }
+<span class="fc" id="L20">    }</span>
     public static void isValidDateRange(LocalDate start, LocalDate end) throws ApiException {
-<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        if (start.isAfter(end)) {</span>
-<span class="nc" id="L16">            throw new ApiException(&quot;Start date cannot be after end date&quot;);</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        if (start.isAfter(end)) {</span>
+<span class="nc" id="L23">            throw new ApiException(&quot;Start date cannot be after end date&quot;);</span>
         }
-<span class="fc" id="L18">    }</span>
+<span class="fc" id="L25">        long days = end.toEpochDay() - start.toEpochDay();</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if(days &gt; 30) {</span>
+<span class="nc" id="L27">            throw new ApiException(&quot;Date range cannot be more than 30 days&quot;);</span>
+        }
+<span class="fc" id="L29">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

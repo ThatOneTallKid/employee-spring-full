@@ -35,7 +35,7 @@
             <table class="table table-striped" id="Order-table">
                 <thead>
                 <tr>
-                    <th scope="col">OrderId</th>
+                    <th scope="col">Order Id</th>
                     <th scope="col">Order Date</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <label for="inputSellingPrice" class="col-sm-2 col-form-label">Price</label>
                             <div class="col-sm-10">
-                                <input type="number" step="1.00" class="form-control" id="inputSellingPrice" name="sellingPrice" placeholder="Enter Price">
+                                <input type="number" min="0.00" max="2147483647.0" step="1.00" class="form-control" id="inputSellingPrice" name="sellingPrice" placeholder="Enter Price">
                             </div>
                         </div>
 

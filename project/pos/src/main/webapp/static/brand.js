@@ -75,7 +75,7 @@ function addBrand(event){
 	        }
 	       }
            wholeBrand=[];
-           resetForm();
+
 	   }
 	});
 
@@ -83,7 +83,6 @@ function addBrand(event){
 }
 
 function updateBrand(event){
-	$('#edit-brand-modal').modal('toggle');
 	//Get the ID
 	var id = $("#brand-edit-form input[name=id]").val();
 	var url = getBrandUrl() + "/" + id;
@@ -100,6 +99,7 @@ function updateBrand(event){
        	'Content-Type': 'application/json'
        },
 		success: function (response) {
+	$('#edit-brand-modal').modal('toggle');
 			toastr.success("Brand Updated Successfully", "Success : ");
 	   		getBrandList();
 	   },
@@ -167,6 +167,17 @@ function uploadRows(){
 
 
 	var json = JSON.stringify(fileData);
+	var headers = ["brand", "category"];
+	if(Object.keys(json).length != headers.length){
+	    toastr.error("File columns do not match. Please check the file and try again");
+        return;
+	}
+	for(var i in headerColumns){
+        if(!json.hasOwnProperty(headerColumns[i])){
+            toastr.error('File columns do not match. Please check the file and try again');
+            return;
+        }
+    }
 	console.log(json);
 	var url = getBrandUrl();
 

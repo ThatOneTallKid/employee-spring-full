@@ -42,7 +42,8 @@ public class InventoryService {
     }
 
     public InventoryPojo getById(int id) throws ApiException {
-        return getCheckInventory(id);
+        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
+        return inventoryPojo;
     }
 
     public InventoryPojo getCheckInventory(int id) throws ApiException {
@@ -61,5 +62,6 @@ public class InventoryService {
         inventoryPojo.setQty(inventoryPojo.getQty() - qty);
         inventoryDao.update();
     }
+
 
 }
