@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class GenerateInvoiceService {
-    public void generateInvoice(InvoiceForm form)
+    public String generateInvoice(InvoiceForm form)
     {
         List<OrderItem> items = form.getOrderItemList();
         Double amt = 0.0;
@@ -26,6 +26,6 @@ public class GenerateInvoiceService {
 
         PDFFromFOP pdfFromFOP = new PDFFromFOP();
 
-        pdfFromFOP.createPDF();
+        return pdfFromFOP.createPDF();
     }
 }

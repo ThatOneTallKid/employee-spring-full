@@ -21,22 +21,8 @@ public class InvoiceDto {
     @Autowired
     private GenerateInvoiceService service;
 
-    public ResponseEntity<byte[]> getInvoicePDF(@RequestBody InvoiceForm form) throws IOException {
-
-        service.generateInvoice(form);
-        String _filename = "./Test/invoice_"+form.getOrderId() +".pdf";
-        Path pdfPath = Paths.get("./Test/invoice.pdf");
-
-        byte[] contents = Base64.getEncoder().encode(Files.readAllBytes(pdfPath));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
-        String filename = "output.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-        return response;
+    public String getInvoicePDF(@RequestBody InvoiceForm form) throws IOException {
+        return service.generateInvoice(form);
     }
 
 }

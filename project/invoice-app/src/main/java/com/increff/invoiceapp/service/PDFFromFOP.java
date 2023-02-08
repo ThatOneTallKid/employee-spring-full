@@ -5,12 +5,14 @@ import org.apache.fop.apps.*;
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Base64;
 
 public class PDFFromFOP {
-    public void createPDF() {
+    public String createPDF() {
         try {
             File xmlfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xml\\Invoice.xml");
             File xsltfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xsl\\Invoice.xsl");
@@ -23,8 +25,8 @@ public class PDFFromFOP {
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
             // configure foUserAgent as desired
             // Setup output
-            OutputStream out = new FileOutputStream(pdfFile);
-            out = new java.io.BufferedOutputStream(out);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
             try {
                 // Construct fop with desired output format
                 Fop fop;
@@ -41,10 +43,13 @@ public class PDFFromFOP {
             } catch (FOPException | TransformerException e) {
                 e.printStackTrace();
             } finally {
-                out.close();
+                byte[] pdf = out.toByteArray();
+                String base64 = Base64.getEncoder().encodeToString(pdf);
+                return base64;
             }
         }catch(Exception exp){
             exp.printStackTrace();
         }
+        return null;
     }
 }

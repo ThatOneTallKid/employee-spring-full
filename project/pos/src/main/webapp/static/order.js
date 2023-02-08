@@ -228,7 +228,7 @@ function getInventory(barcode) {
     success: function (data) {
       inv_barcode = data.barcode;
       inv_qty = data.qty;
-
+        mrp=data.mrp;
       barcode_qty.set(data.barcode, data.qty);
       addItem();
 
@@ -246,6 +246,12 @@ var qty = $("#order-item-form input[name=qty]").val();
     toastr.error("Invalid Quantity");
     return;
   }
+  var sellP = $("#order-item-form input[name=sellingPrice]").val();
+ if(sellP > mrp){
+    toastr.error("Selling Price cannot be greater than MRP");
+    return;
+    }
+
   var $form = $("#order-item-form");
   var json = toJson($form);
   var jsonObj = $.parseJSON(json);

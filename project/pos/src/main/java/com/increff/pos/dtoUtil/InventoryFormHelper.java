@@ -20,12 +20,13 @@ public class InventoryFormHelper {
         return inventoryPojo;
     }
 
-    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, BrandPojo brandPojo) {
+    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name,double mrp, BrandPojo brandPojo) {
         InventoryData inventoryData = ConvertUtil.convert(inventoryPojo, InventoryData.class);
         inventoryData.setName(name);
         inventoryData.setBarcode(barcode);
         inventoryData.setBrand(brandPojo.getBrand());
         inventoryData.setCategory(brandPojo.getCategory());
+        inventoryData.setMrp(mrp);
         return inventoryData;
     }
 

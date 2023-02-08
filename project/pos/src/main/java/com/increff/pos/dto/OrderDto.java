@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -85,9 +86,9 @@ public class OrderDto {
         InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 
         RestTemplate restTemplate = new RestTemplate();
-        byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(_url, invoiceForm, byte[].class).getBody());
-
+        String base64 = restTemplate.postForObject(_url, invoiceForm, String.class);
         Path pdfPath = Paths.get(PDF_PATH +id+"invoice.pdf");
+        byte[] contents = Base64.getDecoder().decode(base64);
 
         Files.write(pdfPath, contents);
         HttpHeaders headers = new HttpHeaders();

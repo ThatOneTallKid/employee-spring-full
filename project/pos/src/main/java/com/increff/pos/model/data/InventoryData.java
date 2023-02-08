@@ -12,4 +12,6 @@ public class InventoryData extends InventoryForm {
     private String name;
     private String brand;
     private String category;
+
+    private double mrp;
 }

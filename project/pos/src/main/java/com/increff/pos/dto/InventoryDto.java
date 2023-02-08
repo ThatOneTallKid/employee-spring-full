@@ -75,7 +75,7 @@ public class InventoryDto {
         InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);
         ProductPojo productPojo = productService.get(id);
         BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
-        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);
+        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), productPojo.getMrp() ,brandPojo);
     }
 
     public InventoryData getByBarcode(String barcode) throws ApiException {
@@ -88,7 +88,7 @@ public class InventoryDto {
         for(InventoryPojo inventoryPojo : list) {
             ProductPojo productPojo = productService.get(inventoryPojo.getId());
             BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
-            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName(), brandPojo));
+            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName(),productPojo.getMrp(), brandPojo));
         }
         return list2;
     }
