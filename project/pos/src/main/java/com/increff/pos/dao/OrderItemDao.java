@@ -11,9 +11,6 @@ import java.util.List;
 public class OrderItemDao extends AbstractDao{
 
     private final String SELECT_BY_ORDER_ID = "select o from OrderItemPojo o where orderId=:orderId";
-    private final String SELECT_BY_ORDER_ID_PRODUCT_ID = "select o from OrderItemPojo o where orderId=:orderId and" +
-            " productId=:productId";
-
 
     public List<OrderItemPojo> selectOrderItemByOrderId(int orderId) {
         TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);

@@ -173,16 +173,21 @@ function uploadRows() {
 
   var json = JSON.stringify(fileData);
   var headers = ["brand", "category", "name", "mrp", "barcode"];
-  	if(Object.keys(json).length != headers.length){
-  	    toastr.error("File columns do not match. Please check the file and try again");
-          return;
-  	}
-  	for(var i in headerColumns){
-          if(!json.hasOwnProperty(headerColumns[i])){
-              toastr.error('File columns do not match. Please check the file and try again');
-              return;
-          }
-      }
+  	jsonq = JSON.parse(json);
+    	console.log(jsonq[0]);
+    	console.log(Object.keys(jsonq).length);
+    	console.log(Object.keys(jsonq[0]));
+    	if(Object.keys(jsonq[0]).length != headers.length){
+    	    toastr.error("File column number do not match. Please check the file and try again");
+            return;
+    	}
+    	for(var i in headers){
+            if(!jsonq[0].hasOwnProperty(headers[i])){
+                toastr.error('File columns do not match. Please check the file and try again');
+                return;
+            }
+        }
+
   var url = getProductUrl();
 
   //Make ajax call
@@ -359,6 +364,7 @@ function displayCategoryOptions() {
 
 function activateUpload() {
   $("#process-data").prop("disabled", false);
+  $("#download-errors").prop('disabled', true);
 }
 
 //INITIALIZATION CODE

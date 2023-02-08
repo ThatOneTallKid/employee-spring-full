@@ -21,6 +21,9 @@ public class UserDto {
     private UserService userService;
 
     public void add(UserForm userForm) throws ApiException {
+        if(userForm.getRole().equals("")){
+            userForm.setRole("operator");
+        }
         ValidationUtil.validateForms(userForm);
         UserFormHelper.normalizeUser(userForm);
         userService.add(UserFormHelper.convertUserFormToPojo(userForm));

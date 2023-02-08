@@ -43,15 +43,30 @@ function deleteOrderItem(id) {
 }
 
 function editOrderItem(id) {
-  console.log(JSON.parse(wholeOrder[id]).barcode);
-  $("#order-item-form input[name=barcode]").val(
-    JSON.parse(wholeOrder[id]).barcode
-  );
-  $("#order-item-form input[name=qty]").val(JSON.parse(wholeOrder[id]).qty);
-  $("#order-item-form input[name=sellingPrice]").val(
-    JSON.parse(wholeOrder[id]).sellingPrice
-  );
-  deleteOrderItem(id);
+
+   var $form= $("#order-item-form");
+   console.log($form);
+    var json = toJson($form);
+    console.log(json);
+    var bCode = JSON.parse(json).barcode;
+    var qty = JSON.parse(json).qty;
+    var sellingPrice = JSON.parse(json).sellingPrice;
+    // check if form is empty
+    if (bCode == "" && qty == "" && sellingPrice == "") {
+        console.log(JSON.parse(wholeOrder[id]).barcode);
+          $("#order-item-form input[name=barcode]").val(
+            JSON.parse(wholeOrder[id]).barcode);
+          $("#order-item-form input[name=qty]").val(JSON.parse(wholeOrder[id]).qty);
+          $("#order-item-form input[name=sellingPrice]").val(
+            JSON.parse(wholeOrder[id]).sellingPrice
+          );
+          deleteOrderItem(id);
+    }
+    else{
+        toastr.error("Please add item to cart before editing");
+        return;
+    }
+
 }
 
 function displayOrderItemList(data) {
@@ -137,7 +152,7 @@ function changeQty(vars) {
 
 function checkSellingPrice(vars) {
   var barcode = vars[0];
-  var sp = vars[2];
+  var sp = parseFloat(vars[2]).toFixed(2);
   for (i in wholeOrder) {
     var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
     if (temp_barcode == barcode) {
@@ -201,9 +216,11 @@ function checkBarcode(data) {
 }
 var inv_qty = null;
 var inv_barcode = null;
+var mrp = null;
 
 var check = 1;
 function getInventory(barcode) {
+    mrp = null;
   var url = getInventoryUrl() + "/barcode?barcode=" + barcode;
   $.ajax({
     url: url,
@@ -214,30 +231,33 @@ function getInventory(barcode) {
 
       barcode_qty.set(data.barcode, data.qty);
       addItem();
-      resetForm();
+
     },
     error: function (data) {
       toastr.error("Barcode does not exist in the Inventory");
-      resetForm();
+        return;
     },
   });
 }
 
 function addItem() {
+var qty = $("#order-item-form input[name=qty]").val();
+  if(qty.includes("-") || qty.includes("+") || qty.includes("*") || qty.includes("/") || qty.includes(".")){
+    toastr.error("Invalid Quantity");
+    return;
+  }
   var $form = $("#order-item-form");
   var json = toJson($form);
   var jsonObj = $.parseJSON(json);
   var barcode1 = $("#order-item-form input[name=barcode]").val();
 
+
   var qty = $("#order-item-form input[name=qty]").val();
 
-  console.log(check);
-
-  console.log(qty);
-  console.log(inv_qty);
   if (qty > barcode_qty.get(barcode1)) {
-    toastr.error("Quantity not present in inventory");
-    resetForm();
+    toastr.error("Quantity is not present in inventory");
+    return;
+
   } else {
     var _qty = barcode_qty.get(barcode1) - qty;
     var sp = $("#order-item-form input[name=sellingPrice]").val();
@@ -265,8 +285,9 @@ function addItem() {
         }
       } else {
         wholeOrder.push(json);
+        resetForm();
       }
-      resetForm();
+
 
       displayOrderItemList(wholeOrder);
     }
@@ -278,6 +299,10 @@ function addOrderItem(event) {
   var $form = $("#order-item-form");
   var json = toJson($form);
   var jsonObj = $.parseJSON(json);
+  if(jsonObj.barcode == "" || jsonObj.qty == "" || jsonObj.sellingPrice == ""){
+      toastr.error("Every field is required");
+      return;
+    }
 
   var barcode1 = $("#order-item-form input[name=barcode]").val();
   getInventory(barcode1);
@@ -286,15 +311,16 @@ function addOrderItem(event) {
 
 function displayCart() {
   emptyCart();
+
   $("#add-order-item-modal").modal("toggle");
   // table should be empty
   var $tbody = $("#order-item-table").find("tbody");
   $tbody.empty();
+  resetForm();
 }
 
 function getOrderItemList() {
   var jsonObj = $.parseJSON("[" + wholeOrder + "]");
-  console.log(jsonObj);
 }
 
 function displayOrderView(data) {
@@ -330,6 +356,7 @@ function displayOrderView(data) {
 }
 
 function getOrderInfoForView(id) {
+
   var url = OrderViewUrl() + "/" + id;
   $.ajax({
     url: url,
@@ -347,6 +374,10 @@ function printOrder(id) {
 
 function OrderView(id) {
   $("#order-view-modal").modal("toggle");
+  var $head = $('#order-view-modal').find('h5');
+    $head.empty();
+    var row = 'Order: ' + id  ;
+    $head.append(row);
   getOrderInfoForView(id);
 }
 

@@ -35,16 +35,16 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 public class InventoryDto {
     
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     @Autowired
-    CsvFileGenerator csvGenerator;
+    private CsvFileGenerator csvGenerator;
 
 
     public void add(List<InventoryForm> forms) throws ApiException, JsonProcessingException {

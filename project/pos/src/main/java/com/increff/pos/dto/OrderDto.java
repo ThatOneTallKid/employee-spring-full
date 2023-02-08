@@ -36,13 +36,13 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 public class OrderDto {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Value("${invoice.url}")
     private String url;

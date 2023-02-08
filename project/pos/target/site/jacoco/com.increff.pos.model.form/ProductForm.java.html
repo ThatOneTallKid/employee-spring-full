@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 <span class="fc" id="L13">public class ProductForm {</span>
 
     @NotBlank
-    @Size(min = 1, message = &quot;Barcode must be at least 1 character long&quot;)
+    @Size(min = 1, max = 15,message = &quot;Barcode must be at least 1 character long&quot;)
 <span class="fc" id="L17">    private String barcode;</span>
 
     @NotBlank
@@ -23,11 +23,12 @@ import javax.validation.constraints.Size;
 <span class="fc" id="L23">    private String category;</span>
 
     @NotBlank
-<span class="fc" id="L26">    private String name;</span>
+    @Size(min = 1, max = 15,message = &quot;Name must be at least 1 character long&quot;)
+<span class="fc" id="L27">    private String name;</span>
 
 
     @NotNull
     @Min(value = 1, message = &quot;Mrp must be atleast 1&quot;)
-<span class="fc" id="L31">    private double mrp;</span>
+<span class="fc" id="L32">    private double mrp;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

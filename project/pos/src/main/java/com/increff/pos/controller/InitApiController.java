@@ -60,7 +60,7 @@ public class InitApiController extends AbstractUiController {
 		}
 
 
-		return mav("init.html");
+		return mav("login.html");
 
 	}
 

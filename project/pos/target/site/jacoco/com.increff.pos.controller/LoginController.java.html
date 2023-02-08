@@ -39,48 +39,52 @@ import io.swagger.annotations.ApiOperation;
 	@RequestMapping(path = &quot;/session/login&quot;, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView login(HttpServletRequest req, LoginForm f) throws ApiException {
 <span class="nc" id="L41">		UserPojo p = service.get(f.getEmail());</span>
-<span class="nc bnc" id="L42" title="All 4 branches missed.">		boolean authenticated = (p != null &amp;&amp; Objects.equals(p.getPassword(), f.getPassword()));</span>
-<span class="nc" id="L43">		info.setRole(p.getRole());</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (!authenticated) {</span>
-<span class="nc" id="L45">			info.setMessage(&quot;Invalid username or password&quot;);</span>
-<span class="nc" id="L46">			return new ModelAndView(&quot;redirect:/site/login&quot;);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">		if(p == null) {</span>
+<span class="nc" id="L43">			info.setMessage(&quot;Invalid username or password&quot;);</span>
+<span class="nc" id="L44">			return new ModelAndView(&quot;redirect:/site/login&quot;);</span>
+		}
+<span class="nc bnc" id="L46" title="All 4 branches missed.">		boolean authenticated = (p != null &amp;&amp; Objects.equals(p.getPassword(), f.getPassword()));</span>
+<span class="nc" id="L47">		info.setRole(p.getRole());</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		if (!authenticated) {</span>
+<span class="nc" id="L49">			info.setMessage(&quot;Invalid username or password&quot;);</span>
+<span class="nc" id="L50">			return new ModelAndView(&quot;redirect:/site/login&quot;);</span>
 		}
 
 		// Create authentication object
-<span class="nc" id="L50">		Authentication authentication = convert(p);</span>
+<span class="nc" id="L54">		Authentication authentication = convert(p);</span>
 		// Create new session
-<span class="nc" id="L52">		HttpSession session = req.getSession(true);</span>
+<span class="nc" id="L56">		HttpSession session = req.getSession(true);</span>
 		// Attach Spring SecurityContext to this new session
-<span class="nc" id="L54">		SecurityUtil.createContext(session);</span>
+<span class="nc" id="L58">		SecurityUtil.createContext(session);</span>
 		// Attach Authentication object to the Security Context
-<span class="nc" id="L56">		SecurityUtil.setAuthentication(authentication);</span>
+<span class="nc" id="L60">		SecurityUtil.setAuthentication(authentication);</span>
 
-<span class="nc" id="L58">		return new ModelAndView(&quot;redirect:/ui/home&quot;);</span>
+<span class="nc" id="L62">		return new ModelAndView(&quot;redirect:/ui/home&quot;);</span>
 
 	}
 
 	@RequestMapping(path = &quot;/session/logout&quot;, method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-<span class="nc" id="L64">		request.getSession().invalidate();</span>
-<span class="nc" id="L65">		return new ModelAndView(&quot;redirect:/site/logout&quot;);</span>
+<span class="nc" id="L68">		request.getSession().invalidate();</span>
+<span class="nc" id="L69">		return new ModelAndView(&quot;redirect:/site/logout&quot;);</span>
 	}
 
 	private static Authentication convert(UserPojo p) {
 		// Create principal
-<span class="nc" id="L70">		UserPrincipal principal = new UserPrincipal();</span>
-<span class="nc" id="L71">		principal.setEmail(p.getEmail());</span>
-<span class="nc" id="L72">		principal.setId(p.getId());</span>
-<span class="nc" id="L73">		principal.setRole(p.getRole());</span>
+<span class="nc" id="L74">		UserPrincipal principal = new UserPrincipal();</span>
+<span class="nc" id="L75">		principal.setEmail(p.getEmail());</span>
+<span class="nc" id="L76">		principal.setId(p.getId());</span>
+<span class="nc" id="L77">		principal.setRole(p.getRole());</span>
 
 		// Create Authorities
-<span class="nc" id="L76">		ArrayList&lt;SimpleGrantedAuthority&gt; authorities = new ArrayList&lt;SimpleGrantedAuthority&gt;();</span>
-<span class="nc" id="L77">		authorities.add(new SimpleGrantedAuthority(p.getRole()));</span>
+<span class="nc" id="L80">		ArrayList&lt;SimpleGrantedAuthority&gt; authorities = new ArrayList&lt;SimpleGrantedAuthority&gt;();</span>
+<span class="nc" id="L81">		authorities.add(new SimpleGrantedAuthority(p.getRole()));</span>
 		// you can add more roles if required
 
 		// Create Authentication
-<span class="nc" id="L81">		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,</span>
+<span class="nc" id="L85">		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,</span>
 				authorities);
-<span class="nc" id="L83">		return token;</span>
+<span class="nc" id="L87">		return token;</span>
 	}
 
 }

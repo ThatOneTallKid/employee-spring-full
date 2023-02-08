@@ -3,6 +3,10 @@ function getUserUrl() {
   return baseUrl + "/api/admin/user";
 }
 
+function resetForm() {
+    var element = document.getElementById("user-form");
+    element.reset()
+}
 //BUTTON ACTIONS
 function addUser(event) {
   //Set the values to update
@@ -19,6 +23,7 @@ function addUser(event) {
     },
     success: function (response) {
       getUserList();
+        resetForm();
     },
     error: handleAjaxError,
   });

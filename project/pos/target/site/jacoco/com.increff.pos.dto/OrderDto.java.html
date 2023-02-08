@@ -36,13 +36,13 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 <span class="fc" id="L36">public class OrderDto {</span>
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Value(&quot;${invoice.url}&quot;)
     private String url;
@@ -93,7 +93,7 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 <span class="fc" id="L93">        HttpHeaders headers = new HttpHeaders();</span>
 <span class="fc" id="L94">        headers.setContentType(MediaType.APPLICATION_PDF);</span>
 
-<span class="fc" id="L96">        String filename = &quot;invoice.pdf&quot;;</span>
+<span class="fc" id="L96">        String filename =&quot;Invoice_&quot;+id+&quot;.pdf&quot;;</span>
 <span class="fc" id="L97">        headers.setContentDispositionFormData(filename, filename);</span>
 
 <span class="fc" id="L99">        headers.setCacheControl(&quot;must-revalidate, post-check=0, pre-check=0&quot;);</span>
@@ -123,7 +123,7 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 <span class="fc" id="L123">            ValidationUtil.validateForms(f);</span>
 <span class="fc" id="L124">            normalizeOrderItem(f);</span>
 <span class="fc bfc" id="L125" title="All 2 branches covered.">            if(set.contains(f.getBarcode())) {</span>
-<span class="fc" id="L126">                throw new ApiException(&quot;Duplicate Barcode Detected&quot;);</span>
+<span class="fc" id="L126">                throw new ApiException(&quot;Duplicate Barcode Detected : &quot;+ f.getBarcode());</span>
             }
 <span class="fc" id="L128">            set.add(f.getBarcode());</span>
 <span class="fc" id="L129">        }</span>

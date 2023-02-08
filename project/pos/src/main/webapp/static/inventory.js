@@ -39,6 +39,11 @@ function isJson(str) {
 function addInventory(event) {
   //Set the values to update
   var $form = $("#inventory-form");
+  var qty = $("#inventory-form input[name=qty]").val();
+  if(qty.includes("-") || qty.includes("+") || qty.includes("*") || qty.includes("/") || qty.includes(".")){
+    toastr.error("Invalid Quantity");
+    return;
+  }
   var json = toJson($form);
   var url = getInventoryUrl();
   wholeInventory.push(json);
@@ -81,11 +86,18 @@ function addInventory(event) {
 
 function updateInventory(event) {
   //Get the ID
+
   var id = $("#inventory-edit-form input[name=id]").val();
   var url = getInventoryUrl() + "/" + id;
 
   //Set the values to update
+
   var $form = $("#inventory-edit-form");
+  var qty = $("#inventory-edit-form input[name=qty]").val();
+    if(qty.includes("-") || qty.includes("+") || qty.includes("*") || qty.includes("/") || qty.includes(".")){
+      toastr.error("Invalid Quantity");
+      return;
+    }
   var json = toJson($form);
 
   $.ajax({
@@ -159,16 +171,21 @@ function uploadRows() {
   var json = JSON.stringify(fileData);
   console.log(json);
   var headers = ["barcode", "qty"];
-  	if(Object.keys(json).length != headers.length){
-  	    toastr.error("File columns do not match. Please check the file and try again");
-          return;
-  	}
-  	for(var i in headerColumns){
-          if(!json.hasOwnProperty(headerColumns[i])){
-              toastr.error('File columns do not match. Please check the file and try again');
-              return;
-          }
-      }
+  var jsonq = JSON.parse(json);
+    	console.log(jsonq[0]);
+    	console.log(Object.keys(jsonq).length);
+    	console.log(Object.keys(jsonq[0]));
+    	if(Object.keys(jsonq[0]).length != headers.length){
+    	    toastr.error("File column number do not match. Please check the file and try again");
+            return;
+    	}
+    	for(var i in headers){
+            if(!jsonq[0].hasOwnProperty(headers[i])){
+                toastr.error('File columns do not match. Please check the file and try again');
+                return;
+            }
+        }
+
   var url = getInventoryUrl();
 
   //Make ajax call
@@ -285,6 +302,7 @@ function printReport() {
 
 function activateUpload() {
   $("#process-data").prop("disabled", false);
+   $("#download-errors").prop('disabled', true);
 }
 
 //INITIALIZATION CODE

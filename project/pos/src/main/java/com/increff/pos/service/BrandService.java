@@ -45,7 +45,7 @@ public class BrandService {
     public void checkBrandExists(String brand, String category) throws ApiException {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
         if(Objects.isNull(brandPojo)== false) {
-            throw new ApiException("Same brand and category exist");
+            throw new ApiException("Brand: " + brand + "and Category: " + category+" already exists");
         }
 
     }
@@ -53,7 +53,7 @@ public class BrandService {
     public BrandPojo getBrandByParams(String brand, String category) throws ApiException {
         BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
         if(Objects.isNull(brandPojo)) {
-            throw new ApiException("Brand and Category does not exists");
+            throw new ApiException("Brand: " + brand + " and Category: " + category+" does not exists");
         }
         return brandPojo;
     }

@@ -26,7 +26,7 @@ import static com.increff.pos.dtoUtil.BrandFormHelper.*;
 @Component
 public class BrandDto {
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     @Autowired
     private CsvFileGenerator csvGenerator;

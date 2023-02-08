@@ -20,7 +20,7 @@ import java.util.List;
 <span class="fc" id="L20">public class OrderApiController {</span>
 
     @Value(&quot;${invoice.url}&quot;)
-    private String url;
+    private String invoiceUrl;
 
     @Autowired
     private OrderDto orderDto;
@@ -47,7 +47,7 @@ import java.util.List;
     @ApiOperation(value = &quot;Download Invoice&quot;)
     @RequestMapping(path = &quot;/invoice/{id}&quot;, method = RequestMethod.GET)
     public ResponseEntity&lt;byte[]&gt; getPDF(@PathVariable int id) throws Exception{
-<span class="nc" id="L50">        return orderDto.getPDF(id, this.url);</span>
+<span class="nc" id="L50">        return orderDto.getPDF(id, this.invoiceUrl);</span>
     }
 
 }

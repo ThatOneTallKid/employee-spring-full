@@ -57,7 +57,7 @@ public class InventoryService {
     public void reduceInventory(int id, int qty) throws ApiException {
         InventoryPojo inventoryPojo = getById(id);
         if(inventoryPojo.getQty() < qty) {
-            throw new ApiException("The product is not in sufficient quantity");
+            throw new ApiException("Only " + inventoryPojo.getQty() + " items are available in the inventory");
         }
         inventoryPojo.setQty(inventoryPojo.getQty() - qty);
         inventoryDao.update();
