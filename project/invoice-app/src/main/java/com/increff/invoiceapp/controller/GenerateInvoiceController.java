@@ -22,7 +22,7 @@ public class GenerateInvoiceController {
 
     @ApiOperation(value = "Generate Invoice")
     @RequestMapping(path = "/api/invoice", method = RequestMethod.POST)
-    public String getPDF(@RequestBody InvoiceForm form) throws IOException {
+    public String getPDF(@RequestBody InvoiceForm form) throws IOException, Exception {
         return invoiceDto.getInvoicePDF(form);
     }
 

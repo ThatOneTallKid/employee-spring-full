@@ -11,6 +11,9 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.util.Base64;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 
 import com.increff.invoiceapp.model.*;
 import org.w3c.dom.Document;
@@ -21,7 +24,7 @@ public class CreateXMLFileJava {
     public static final String xmlFilePath = "C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xml\\Invoice.xml";
 
 
-    public void createXML(InvoiceForm invoiceForm) {
+    public String createXML(InvoiceForm invoiceForm) {
 
         try {
 
@@ -83,18 +86,25 @@ public class CreateXMLFileJava {
             //transform the DOM Object to an XML File
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
-            transformer.transform(domSource, streamResult);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            transformer.transform(new DOMSource(document), new StreamResult(bos));
+            byte[] xmlBytes = bos.toByteArray();
+            String encodedXML = Base64.getEncoder().encodeToString(xmlBytes);
 
+//            DOMSource domSource = new DOMSource(document);
+//            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+//
+//            transformer.transform(domSource, streamResult);
             System.out.println("Done creating XML File");
+            return encodedXML;
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {
             tfe.printStackTrace();
         }
+        return null;
     }
 
 }

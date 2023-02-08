@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class GenerateInvoiceService {
-    public String generateInvoice(InvoiceForm form)
+    public String generateInvoice(InvoiceForm form) throws Exception
     {
         List<OrderItem> items = form.getOrderItemList();
         Double amt = 0.0;
@@ -22,10 +22,10 @@ public class GenerateInvoiceService {
         form.setAmount(amt);
         CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
 
-        createXMLFileJava.createXML(form);
+        String base64 = createXMLFileJava.createXML(form);
 
         PDFFromFOP pdfFromFOP = new PDFFromFOP();
 
-        return pdfFromFOP.createPDF();
+        return pdfFromFOP.createPDF(base64);
     }
 }
