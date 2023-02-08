@@ -22,7 +22,7 @@ public class SampleController {
 
 		response.setContentType("text/csv");
 		response.addHeader("Content-disposition:", "attachment; filename=" + fileName);
-		String fileClasspath = "C:\\Users\\KIIT\\Desktop\\Projects\\employee-spring-full\\project\\pos\\src\\main\\resources\\com\\increff\\pos\\" + fileName;
+		String fileClasspath = "C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\pos\\src\\main\\resources\\com\\increff\\pos\\" + fileName;
 		System.out.println(fileClasspath);
 		return outputStream -> {
 			int bytesRead;

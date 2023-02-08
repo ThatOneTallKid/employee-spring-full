@@ -8,8 +8,11 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 public class PDFFromFOP {
@@ -17,7 +20,7 @@ public class PDFFromFOP {
         try {
             File xmlfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xml\\Invoice.xml");
             File xsltfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xsl\\Invoice.xsl");
-            File pdfDir = new File("./Test");
+            File pdfDir = new File("./src/main/resources/pdf");
             pdfDir.mkdirs();
             File pdfFile = new File(pdfDir, "invoice.pdf");
             System.out.println(pdfFile.getAbsolutePath());
@@ -43,12 +46,18 @@ public class PDFFromFOP {
                 Result res = new SAXResult(fop.getDefaultHandler());
                 // Start XSLT transformation and FOP processing
                 transformer.transform(src, res);
+
+                fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, outfile);
+                res = new SAXResult(fop.getDefaultHandler());
+                transformer.transform(src, res);
             } catch (FOPException | TransformerException e) {
                 e.printStackTrace();
             } finally {
-                outfile.close();
                 byte[] pdf = out.toByteArray();
                 String base64 = Base64.getEncoder().encodeToString(pdf);
+                Path path = Paths.get(pdfFile.getAbsolutePath());
+                Files.write(path, pdf);
+                outfile.close();
                 return base64;
             }
         }catch(Exception exp){

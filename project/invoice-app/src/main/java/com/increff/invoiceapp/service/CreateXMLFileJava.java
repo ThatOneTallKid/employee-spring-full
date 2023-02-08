@@ -96,7 +96,7 @@ public class CreateXMLFileJava {
 //            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 //
 //            transformer.transform(domSource, streamResult);
-            System.out.println("Done creating XML File");
+            System.out.println("Done creating XML");
             return encodedXML;
 
         } catch (ParserConfigurationException pce) {
