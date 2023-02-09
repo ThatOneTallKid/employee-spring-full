@@ -3,8 +3,6 @@ package com.increff.pos.model.data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Setter
 @Getter
 public class SalesReportData {

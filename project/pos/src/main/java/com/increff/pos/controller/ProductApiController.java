@@ -3,7 +3,6 @@ package com.increff.pos.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.data.ProductData;
-import com.increff.pos.model.data.ProductErrorData;
 import com.increff.pos.model.form.ProductForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;

@@ -1,15 +1,11 @@
 package com.increff.pos.dao;
 
 import com.increff.pos.pojo.OrderPojo;
-import com.increff.pos.service.ApiException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository

@@ -3,17 +3,12 @@ package com.increff.pos.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.data.BrandData;
-import com.increff.pos.model.data.BrandErrorData;
 import com.increff.pos.model.form.BrandForm;
-import com.increff.pos.model.form.BrandReportForm;
-import com.increff.pos.model.form.InvoiceForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

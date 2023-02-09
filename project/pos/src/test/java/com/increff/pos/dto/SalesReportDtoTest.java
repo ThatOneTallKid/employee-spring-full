@@ -1,9 +1,9 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.model.data.SalesReportData;
 import com.increff.pos.model.form.*;
-import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

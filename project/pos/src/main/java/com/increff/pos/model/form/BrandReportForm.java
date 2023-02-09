@@ -10,4 +10,5 @@ import java.util.List;
 @Setter
 public class BrandReportForm {
     List<BrandData> brandItems;
+    
 }

@@ -1,7 +1,6 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.BrandDao;
-import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

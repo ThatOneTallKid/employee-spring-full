@@ -1,10 +1,10 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.model.data.ProductData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.model.form.ProductForm;
-import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.ProductService;
 import org.junit.Test;

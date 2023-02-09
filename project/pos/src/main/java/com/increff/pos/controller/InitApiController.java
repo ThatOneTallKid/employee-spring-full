@@ -5,7 +5,6 @@ import com.increff.pos.model.data.InfoData;
 import com.increff.pos.model.form.UserForm;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.util.StringUtil;
-import com.increff.pos.util.ValidationUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
