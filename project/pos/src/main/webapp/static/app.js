@@ -14,6 +14,10 @@ function toJson($form){
 
 
 function handleAjaxError(response){
+    if(response.status == 403){
+        toastr.error("403 FOrbidden");
+        return;
+    }
 	var response = JSON.parse(response.responseText);
 	//alert(response.message);
     toastr.error(response.message, "Error : ");

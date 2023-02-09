@@ -41,7 +41,7 @@ import java.util.Objects;
 <span class="fc" id="L41">            productDao.update();</span>
         }
         else {
-<span class="fc" id="L44">            throw new ApiException(&quot;Barcode cannot be different&quot;);</span>
+<span class="fc" id="L44">            throw new ApiException(&quot;Barcode cannot be changed&quot;);</span>
         }
 <span class="fc" id="L46">    }</span>
 
@@ -62,7 +62,7 @@ import java.util.Objects;
     public void checkSame(String barcode) throws ApiException {
 <span class="fc" id="L63">        ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
 <span class="fc bfc" id="L64" title="All 2 branches covered.">        if (!Objects.isNull(productPojo)){</span>
-<span class="fc" id="L65">            throw new ApiException(&quot;Same Barcode already exists&quot;);</span>
+<span class="fc" id="L65">            throw new ApiException(&quot;Same Barcode: &quot;+barcode +&quot; already exists&quot;);</span>
         }
 
 <span class="fc" id="L68">    }</span>
@@ -70,7 +70,7 @@ import java.util.Objects;
     public ProductPojo getCheck(int id) throws ApiException{
 <span class="fc" id="L71">        ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);</span>
 <span class="fc bfc" id="L72" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
-<span class="fc" id="L73">            throw new ApiException(&quot;Product with given ID does not exists !&quot;);</span>
+<span class="fc" id="L73">            throw new ApiException(&quot;Product with ID: &quot;+id+&quot; does not exists !&quot;);</span>
         }
 <span class="fc" id="L75">        return productPojo;</span>
     }
@@ -78,7 +78,7 @@ import java.util.Objects;
     public ProductPojo getByBarcode(String barcode) throws ApiException {
 <span class="fc" id="L79">        ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
 <span class="fc bfc" id="L80" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
-<span class="fc" id="L81">            throw new ApiException(&quot;Barcode Not found in Product Database!&quot;);</span>
+<span class="fc" id="L81">            throw new ApiException(&quot;Barcode: &quot;+barcode+&quot; not found in Product Database!&quot;);</span>
         }
 <span class="fc" id="L83">        return productPojo;</span>
     }

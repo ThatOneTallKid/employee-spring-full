@@ -48,133 +48,134 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
     private String url;
 
     @Value(&quot;${invoice.pdf_path}&quot;)
-    private String PDF_PATH;
+    private String localPdfPath;
 
 
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List&lt;OrderItemForm&gt; forms) throws ApiException {
 <span class="fc" id="L57">        checkDuplicates(forms);</span>
-<span class="fc" id="L58">        Map&lt;String, ProductPojo&gt; productList = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L59">        productList= getProductList(productList, forms);</span>
+        // Map: (key: barcode, value: ProductPojo)
+<span class="fc" id="L59">        Map&lt;String, ProductPojo&gt; productList = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L60">        productList= getProductList(productList, forms);</span>
 
-<span class="fc" id="L61">        checkInventory(forms, productList);</span>
+<span class="fc" id="L62">        checkInventory(forms, productList);</span>
 
-<span class="fc" id="L63">        OrderPojo orderPojo = new OrderPojo();</span>
-<span class="fc" id="L64">        orderService.addOrder(orderPojo);</span>
+<span class="fc" id="L64">        OrderPojo orderPojo = new OrderPojo();</span>
+<span class="fc" id="L65">        orderService.addOrder(orderPojo);</span>
 
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (OrderItemForm f : forms) {</span>
-<span class="fc" id="L67">                ProductPojo productPojo = productList.get(f.getBarcode());</span>
-<span class="fc" id="L68">                OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());</span>
-<span class="fc" id="L69">                orderItemPojo.setOrderId(orderPojo.getId());</span>
-<span class="fc" id="L70">                saveOrderItem(orderItemPojo, productPojo.getId(), f);</span>
-<span class="fc" id="L71">        }</span>
-<span class="fc" id="L72">    }</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        for (OrderItemForm f : forms) {</span>
+<span class="fc" id="L68">                ProductPojo productPojo = productList.get(f.getBarcode());</span>
+<span class="fc" id="L69">                OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());</span>
+<span class="fc" id="L70">                orderItemPojo.setOrderId(orderPojo.getId());</span>
+<span class="fc" id="L71">                saveOrderItem(orderItemPojo, productPojo.getId(), f);</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">    }</span>
 
 
     public List&lt;OrderData&gt; getAll() {
-<span class="fc" id="L76">        List&lt;OrderPojo&gt; list = orderService.getAllOrders();</span>
-<span class="fc" id="L77">        List&lt;OrderData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        for(OrderPojo orderPojo : list) {</span>
-<span class="fc" id="L79">            list2.add(convertOrderPojoToData(orderPojo));</span>
-<span class="fc" id="L80">        }</span>
-<span class="fc" id="L81">        return list2;</span>
+<span class="fc" id="L77">        List&lt;OrderPojo&gt; list = orderService.getAllOrders();</span>
+<span class="fc" id="L78">        List&lt;OrderData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for(OrderPojo orderPojo : list) {</span>
+<span class="fc" id="L80">            list2.add(convertOrderPojoToData(orderPojo));</span>
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">        return list2;</span>
     }
 
     public ResponseEntity&lt;byte[]&gt; getPDF(int id, String _url) throws Exception {
-<span class="fc" id="L85">        InvoiceForm invoiceForm = generateInvoiceForOrder(id);</span>
+<span class="fc" id="L86">        InvoiceForm invoiceForm = generateInvoiceDataForOrder(id);</span>
 
-<span class="fc" id="L87">        RestTemplate restTemplate = new RestTemplate();</span>
-<span class="fc" id="L88">        byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(_url, invoiceForm, byte[].class).getBody());</span>
+<span class="fc" id="L88">        RestTemplate restTemplate = new RestTemplate();</span>
+<span class="fc" id="L89">        String base64 = restTemplate.postForObject(_url, invoiceForm, String.class);</span>
+<span class="fc" id="L90">        Path pdfPath = Paths.get(localPdfPath +id+&quot;invoice.pdf&quot;);</span>
+<span class="fc" id="L91">        byte[] contents = Base64.getDecoder().decode(base64);</span>
 
-<span class="fc" id="L90">        Path pdfPath = Paths.get(PDF_PATH +id+&quot;invoice.pdf&quot;);</span>
+<span class="fc" id="L93">        Files.write(pdfPath, contents);</span>
+<span class="fc" id="L94">        HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L95">        headers.setContentType(MediaType.APPLICATION_PDF);</span>
 
-<span class="fc" id="L92">        Files.write(pdfPath, contents);</span>
-<span class="fc" id="L93">        HttpHeaders headers = new HttpHeaders();</span>
-<span class="fc" id="L94">        headers.setContentType(MediaType.APPLICATION_PDF);</span>
+<span class="fc" id="L97">        String filename =&quot;Invoice_&quot;+id+&quot;.pdf&quot;;</span>
+<span class="fc" id="L98">        headers.setContentDispositionFormData(filename, filename);</span>
 
-<span class="fc" id="L96">        String filename =&quot;Invoice_&quot;+id+&quot;.pdf&quot;;</span>
-<span class="fc" id="L97">        headers.setContentDispositionFormData(filename, filename);</span>
-
-<span class="fc" id="L99">        headers.setCacheControl(&quot;must-revalidate, post-check=0, pre-check=0&quot;);</span>
-<span class="fc" id="L100">        ResponseEntity&lt;byte[]&gt; response = new ResponseEntity&lt;&gt;(contents, headers, HttpStatus.OK);</span>
-<span class="fc" id="L101">        return response;</span>
+<span class="fc" id="L100">        headers.setCacheControl(&quot;must-revalidate, post-check=0, pre-check=0&quot;);</span>
+<span class="fc" id="L101">        ResponseEntity&lt;byte[]&gt; response = new ResponseEntity&lt;&gt;(contents, headers, HttpStatus.OK);</span>
+<span class="fc" id="L102">        return response;</span>
     }
 
     public List&lt;OrderItemData&gt; getOrderItemsByID(int id) throws ApiException {
-<span class="fc" id="L105">        List&lt;OrderItemPojo&gt; list = orderService.getOrderItemsByOrderId(id);</span>
-<span class="fc" id="L106">        List&lt;OrderItemData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        for (OrderItemPojo orderItemPojo : list) {</span>
-<span class="fc" id="L108">            ProductPojo px = productService.get(orderItemPojo.getProductId());</span>
-<span class="fc" id="L109">            list2.add(convertOrderItemPojoToData(orderItemPojo, px.getBarcode(), px.getName()));</span>
-<span class="fc" id="L110">        }</span>
-<span class="fc" id="L111">        return list2;</span>
+<span class="fc" id="L106">        List&lt;OrderItemPojo&gt; list = orderService.getOrderItemsByOrderId(id);</span>
+<span class="fc" id="L107">        List&lt;OrderItemData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        for (OrderItemPojo orderItemPojo : list) {</span>
+<span class="fc" id="L109">            ProductPojo px = productService.get(orderItemPojo.getProductId());</span>
+<span class="fc" id="L110">            list2.add(convertOrderItemPojoToData(orderItemPojo, px.getBarcode(), px.getName()));</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">        return list2;</span>
     }
 
 
     private void saveOrderItem(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
-<span class="fc" id="L116">        inventoryService.reduceInventory(id, orderItemForm.getQty());</span>
-<span class="fc" id="L117">        orderService.add(orderItemPojo);</span>
-<span class="fc" id="L118">    }</span>
+<span class="fc" id="L117">        inventoryService.reduceInventory(id, orderItemForm.getQty());</span>
+<span class="fc" id="L118">        orderService.add(orderItemPojo);</span>
+<span class="fc" id="L119">    }</span>
 
     private void checkDuplicates(List&lt;OrderItemForm&gt; forms) throws ApiException{
-<span class="fc" id="L121">        Set&lt;String&gt; set = new HashSet&lt;&gt;();</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">        for(OrderItemForm f : forms) {</span>
-<span class="fc" id="L123">            ValidationUtil.validateForms(f);</span>
-<span class="fc" id="L124">            normalizeOrderItem(f);</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">            if(set.contains(f.getBarcode())) {</span>
-<span class="fc" id="L126">                throw new ApiException(&quot;Duplicate Barcode Detected : &quot;+ f.getBarcode());</span>
+<span class="fc" id="L122">        Set&lt;String&gt; set = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for(OrderItemForm f : forms) {</span>
+<span class="fc" id="L124">            ValidationUtil.validateForms(f);</span>
+<span class="fc" id="L125">            normalizeOrderItem(f);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            if(set.contains(f.getBarcode())) {</span>
+<span class="fc" id="L127">                throw new ApiException(&quot;Duplicate Barcode Detected : &quot;+ f.getBarcode());</span>
             }
-<span class="fc" id="L128">            set.add(f.getBarcode());</span>
-<span class="fc" id="L129">        }</span>
-<span class="fc" id="L130">    }</span>
+<span class="fc" id="L129">            set.add(f.getBarcode());</span>
+<span class="fc" id="L130">        }</span>
+<span class="fc" id="L131">    }</span>
 
     private void checkInventory(List&lt;OrderItemForm&gt; orderItemFormList, Map&lt;String, ProductPojo&gt; productPojoList) throws ApiException {
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (OrderItemForm form: orderItemFormList) {</span>
-<span class="fc" id="L134">            InventoryPojo inventoryPojo = inventoryService.getCheckInventory(productPojoList.get(form.getBarcode()).getId());</span>
-<span class="fc bfc" id="L135" title="All 2 branches covered.">            if (inventoryPojo.getQty() &lt; form.getQty()) {</span>
-<span class="fc" id="L136">                throw new ApiException(&quot;Not enough quantity present in the inventory for &quot; + form.getBarcode());</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        for (OrderItemForm form: orderItemFormList) {</span>
+<span class="fc" id="L135">            InventoryPojo inventoryPojo = inventoryService.getCheckInventory(productPojoList.get(form.getBarcode()).getId());</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            if (inventoryPojo.getQty() &lt; form.getQty()) {</span>
+<span class="fc" id="L137">                throw new ApiException(&quot;Not enough quantity present in the inventory for &quot; + form.getBarcode());</span>
             }
-<span class="fc" id="L138">        }</span>
-<span class="fc" id="L139">    }</span>
+<span class="fc" id="L139">        }</span>
+<span class="fc" id="L140">    }</span>
 
     private Map&lt;String, ProductPojo&gt; getProductList(Map&lt;String, ProductPojo&gt; productList, List&lt;OrderItemForm&gt; forms ) throws ApiException {
-<span class="fc" id="L142">        List&lt;String&gt; barcodeList = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L143" title="All 2 branches covered.">        for(OrderItemForm f: forms) {</span>
-<span class="fc" id="L144">            barcodeList.add(f.getBarcode());</span>
-<span class="fc" id="L145">        }</span>
-<span class="fc" id="L146">        List&lt;ProductPojo&gt; productPojoList = productService.selectInBarcode(barcodeList);</span>
-<span class="fc bfc" id="L147" title="All 2 branches covered.">        for(ProductPojo p: productPojoList) {</span>
-<span class="fc" id="L148">            productList.put(p.getBarcode(), p);</span>
-<span class="fc" id="L149">        }</span>
-<span class="fc" id="L150">        return productList;</span>
+<span class="fc" id="L143">        List&lt;String&gt; barcodeList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        for(OrderItemForm f: forms) {</span>
+<span class="fc" id="L145">            barcodeList.add(f.getBarcode());</span>
+<span class="fc" id="L146">        }</span>
+<span class="fc" id="L147">        List&lt;ProductPojo&gt; productPojoList = productService.selectInBarcode(barcodeList);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        for(ProductPojo p: productPojoList) {</span>
+<span class="fc" id="L149">            productList.put(p.getBarcode(), p);</span>
+<span class="fc" id="L150">        }</span>
+<span class="fc" id="L151">        return productList;</span>
     }
 
-    private InvoiceForm generateInvoiceForOrder(int orderId) throws ApiException
+    private InvoiceForm generateInvoiceDataForOrder(int orderId) throws ApiException
     {
-<span class="fc" id="L155">        InvoiceForm invoiceForm = new InvoiceForm();</span>
-<span class="fc" id="L156">        OrderPojo orderPojo = orderService.getOrderById(orderId);</span>
+<span class="fc" id="L156">        InvoiceForm invoiceForm = new InvoiceForm();</span>
+<span class="fc" id="L157">        OrderPojo orderPojo = orderService.getOrderById(orderId);</span>
 
-<span class="fc" id="L158">        invoiceForm.setOrderId(orderPojo.getId());</span>
-<span class="fc" id="L159">        invoiceForm.setPlaceDate(orderPojo.getCreatedAt().toString());</span>
+<span class="fc" id="L159">        invoiceForm.setOrderId(orderPojo.getId());</span>
+<span class="fc" id="L160">        invoiceForm.setPlaceDate(orderPojo.getCreatedAt().toString());</span>
 
-<span class="fc" id="L161">        List&lt;OrderItemPojo&gt; orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());</span>
-<span class="fc" id="L162">        List&lt;OrderItem&gt; orderItemList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L162">        List&lt;OrderItemPojo&gt; orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());</span>
+<span class="fc" id="L163">        List&lt;OrderItem&gt; orderItemList = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        for(OrderItemPojo p: orderItemPojoList)</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        for(OrderItemPojo p: orderItemPojoList)</span>
         {
-<span class="fc" id="L166">            OrderItem orderItem = new OrderItem();</span>
-<span class="fc" id="L167">            orderItem.setOrderItemId(p.getId());</span>
-<span class="fc" id="L168">            String productName = productService.get(p.getProductId()).getName();</span>
-<span class="fc" id="L169">            orderItem.setProductName(productName);</span>
-<span class="fc" id="L170">            orderItem.setQuantity(p.getQty());</span>
-<span class="fc" id="L171">            orderItem.setSellingPrice(p.getSellingPrice());</span>
-<span class="fc" id="L172">            orderItemList.add(orderItem);</span>
-<span class="fc" id="L173">        }</span>
+<span class="fc" id="L167">            OrderItem orderItem = new OrderItem();</span>
+<span class="fc" id="L168">            orderItem.setOrderItemId(p.getId());</span>
+<span class="fc" id="L169">            String productName = productService.get(p.getProductId()).getName();</span>
+<span class="fc" id="L170">            orderItem.setProductName(productName);</span>
+<span class="fc" id="L171">            orderItem.setQuantity(p.getQty());</span>
+<span class="fc" id="L172">            orderItem.setSellingPrice(p.getSellingPrice());</span>
+<span class="fc" id="L173">            orderItemList.add(orderItem);</span>
+<span class="fc" id="L174">        }</span>
 
-<span class="fc" id="L175">        invoiceForm.setOrderItemList(orderItemList);</span>
+<span class="fc" id="L176">        invoiceForm.setOrderItemList(orderItemList);</span>
 
-<span class="fc" id="L177">        return invoiceForm;</span>
+<span class="fc" id="L178">        return invoiceForm;</span>
     }
 
 }

@@ -20,26 +20,27 @@ import java.util.Map;
 <span class="fc" id="L20">        return inventoryPojo;</span>
     }
 
-    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, BrandPojo brandPojo) {
+    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name,double mrp, BrandPojo brandPojo) {
 <span class="fc" id="L24">        InventoryData inventoryData = ConvertUtil.convert(inventoryPojo, InventoryData.class);</span>
 <span class="fc" id="L25">        inventoryData.setName(name);</span>
 <span class="fc" id="L26">        inventoryData.setBarcode(barcode);</span>
 <span class="fc" id="L27">        inventoryData.setBrand(brandPojo.getBrand());</span>
 <span class="fc" id="L28">        inventoryData.setCategory(brandPojo.getCategory());</span>
-<span class="fc" id="L29">        return inventoryData;</span>
+<span class="fc" id="L29">        inventoryData.setMrp(mrp);</span>
+<span class="fc" id="L30">        return inventoryData;</span>
     }
 
     public static InventoryItem convertMapToItem(Map.Entry&lt;Pair&lt;String,String&gt;, Integer&gt; mapElement) {
-<span class="fc" id="L33">        Pair&lt;String, String&gt; p = mapElement.getKey();</span>
-<span class="fc" id="L34">        InventoryItem inventoryItem = new InventoryItem();</span>
-<span class="fc" id="L35">        inventoryItem.setBrand(p.getKey());</span>
-<span class="fc" id="L36">        inventoryItem.setCategory(p.getValue());</span>
-<span class="fc" id="L37">        inventoryItem.setQty(mapElement.getValue());</span>
-<span class="fc" id="L38">        return inventoryItem;</span>
+<span class="fc" id="L34">        Pair&lt;String, String&gt; p = mapElement.getKey();</span>
+<span class="fc" id="L35">        InventoryItem inventoryItem = new InventoryItem();</span>
+<span class="fc" id="L36">        inventoryItem.setBrand(p.getKey());</span>
+<span class="fc" id="L37">        inventoryItem.setCategory(p.getValue());</span>
+<span class="fc" id="L38">        inventoryItem.setQty(mapElement.getValue());</span>
+<span class="fc" id="L39">        return inventoryItem;</span>
     }
 
     public static void normalizeInventory(InventoryForm inventoryForm) {
-<span class="fc" id="L42">        inventoryForm.setBarcode(StringUtil.toLowerCase(inventoryForm.getBarcode()).trim());</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L43">        inventoryForm.setBarcode(StringUtil.toLowerCase(inventoryForm.getBarcode()).trim());</span>
+<span class="fc" id="L44">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

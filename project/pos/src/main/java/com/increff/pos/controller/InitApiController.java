@@ -39,12 +39,15 @@ public class InitApiController extends AbstractUiController {
 	public ModelAndView initSite(UserForm form) throws ApiException {
 		if(StringUtil.isEmpty(form.getEmail()) || StringUtil.isEmpty(form.getPassword())) {
 			info.setMessage("Email or Password cannot be empty");
+			return mav("init.html");
 		}
 		else if (userDto.checkEmailExists(form.getEmail())) {
 			info.setMessage("You already have an account, please use existing credentials");
+			return mav("login.html");
 		}
 		else if(form.getPassword().length() < 8){
 			info.setMessage("Password must be at least 8 characters");
+			return mav("init.html");
 		}
 		else if(Objects.equals(form.getEmail(), admin_email))
 		{
@@ -58,8 +61,6 @@ public class InitApiController extends AbstractUiController {
 			userDto.add(form);
 			info.setMessage("Signed Up Successfully, you can login now");
 		}
-
-
 		return mav("login.html");
 
 	}

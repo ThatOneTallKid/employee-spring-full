@@ -39,28 +39,29 @@ import java.util.Objects;
 	public ModelAndView initSite(UserForm form) throws ApiException {
 <span class="nc bnc" id="L40" title="All 4 branches missed.">		if(StringUtil.isEmpty(form.getEmail()) || StringUtil.isEmpty(form.getPassword())) {</span>
 <span class="nc" id="L41">			info.setMessage(&quot;Email or Password cannot be empty&quot;);</span>
+<span class="nc" id="L42">			return mav(&quot;init.html&quot;);</span>
 		}
-<span class="nc bnc" id="L43" title="All 2 branches missed.">		else if (userDto.checkEmailExists(form.getEmail())) {</span>
-<span class="nc" id="L44">			info.setMessage(&quot;You already have an account, please use existing credentials&quot;);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		else if (userDto.checkEmailExists(form.getEmail())) {</span>
+<span class="nc" id="L45">			info.setMessage(&quot;You already have an account, please use existing credentials&quot;);</span>
+<span class="nc" id="L46">			return mav(&quot;login.html&quot;);</span>
 		}
-<span class="nc bnc" id="L46" title="All 2 branches missed.">		else if(form.getPassword().length() &lt; 8){</span>
-<span class="nc" id="L47">			info.setMessage(&quot;Password must be at least 8 characters&quot;);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		else if(form.getPassword().length() &lt; 8){</span>
+<span class="nc" id="L49">			info.setMessage(&quot;Password must be at least 8 characters&quot;);</span>
+<span class="nc" id="L50">			return mav(&quot;init.html&quot;);</span>
 		}
-<span class="nc bnc" id="L49" title="All 2 branches missed.">		else if(Objects.equals(form.getEmail(), admin_email))</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		else if(Objects.equals(form.getEmail(), admin_email))</span>
 		{
-<span class="nc" id="L51">			form.setRole(&quot;supervisor&quot;);</span>
-<span class="nc" id="L52">			userDto.add(form);</span>
-<span class="nc" id="L53">			info.setMessage(&quot;Signed Up Successfully, you can login now&quot;);</span>
+<span class="nc" id="L54">			form.setRole(&quot;supervisor&quot;);</span>
+<span class="nc" id="L55">			userDto.add(form);</span>
+<span class="nc" id="L56">			info.setMessage(&quot;Signed Up Successfully, you can login now&quot;);</span>
 		}
 		else
 		{
-<span class="nc" id="L57">			form.setRole(&quot;operator&quot;);</span>
-<span class="nc" id="L58">			userDto.add(form);</span>
-<span class="nc" id="L59">			info.setMessage(&quot;Signed Up Successfully, you can login now&quot;);</span>
+<span class="nc" id="L60">			form.setRole(&quot;operator&quot;);</span>
+<span class="nc" id="L61">			userDto.add(form);</span>
+<span class="nc" id="L62">			info.setMessage(&quot;Signed Up Successfully, you can login now&quot;);</span>
 		}
-
-
-<span class="nc" id="L63">		return mav(&quot;login.html&quot;);</span>
+<span class="nc" id="L64">		return mav(&quot;login.html&quot;);</span>
 
 	}
 

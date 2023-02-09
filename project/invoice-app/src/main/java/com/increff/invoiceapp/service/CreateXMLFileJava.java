@@ -21,8 +21,6 @@ import org.w3c.dom.Element;
 
 public class CreateXMLFileJava {
 
-    public static final String xmlFilePath = "C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xml\\Invoice.xml";
-
 
     public String createXML(InvoiceForm invoiceForm) {
 

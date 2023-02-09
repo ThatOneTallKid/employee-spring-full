@@ -25,10 +25,10 @@ import static com.increff.pos.dtoUtil.ProductFormHelper.*;
 @Component
 <span class="fc" id="L26">public class ProductDto {</span>
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
 
     @Transactional(rollbackOn = ApiException.class)

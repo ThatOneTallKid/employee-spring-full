@@ -35,16 +35,16 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 <span class="fc" id="L35">public class InventoryDto {</span>
     
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     @Autowired
-    CsvFileGenerator csvGenerator;
+    private CsvFileGenerator csvGenerator;
 
 
     public void add(List&lt;InventoryForm&gt; forms) throws ApiException, JsonProcessingException {
@@ -75,7 +75,7 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 <span class="fc" id="L75">        InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);</span>
 <span class="fc" id="L76">        ProductPojo productPojo = productService.get(id);</span>
 <span class="fc" id="L77">        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
-<span class="fc" id="L78">        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), brandPojo);</span>
+<span class="fc" id="L78">        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(), productPojo.getMrp() ,brandPojo);</span>
     }
 
     public InventoryData getByBarcode(String barcode) throws ApiException {
@@ -88,7 +88,7 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 <span class="fc bfc" id="L88" title="All 2 branches covered.">        for(InventoryPojo inventoryPojo : list) {</span>
 <span class="fc" id="L89">            ProductPojo productPojo = productService.get(inventoryPojo.getId());</span>
 <span class="fc" id="L90">            BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
-<span class="fc" id="L91">            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName(), brandPojo));</span>
+<span class="fc" id="L91">            list2.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(), productPojo.getName(),productPojo.getMrp(), brandPojo));</span>
 <span class="fc" id="L92">        }</span>
 <span class="fc" id="L93">        return list2;</span>
     }

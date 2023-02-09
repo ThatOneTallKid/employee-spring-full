@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SalesReportFormHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.pos.dtoUtil</a> &gt; <span class="el_source">SalesReportFormHelper.java</span></div><h1>SalesReportFormHelper.java</h1><pre class="source lang-java linenums">package com.increff.pos.dtoUtil;
 
+import com.increff.pos.model.data.SalesReportData;
 import com.increff.pos.model.form.SalesReportForm;
+import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.util.StringUtil;
 
-<span class="nc" id="L6">public class SalesReportFormHelper {</span>
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+<span class="nc" id="L13">public class SalesReportFormHelper {</span>
     public static void normalizeSalesReportForm(SalesReportForm salesReportForm) {
-<span class="fc" id="L8">        salesReportForm.setBrand(StringUtil.toLowerCase(salesReportForm.getBrand()).trim());</span>
-<span class="fc" id="L9">        salesReportForm.setCategory(StringUtil.toLowerCase(salesReportForm.getCategory()).trim());</span>
-<span class="fc" id="L10">    }</span>
+<span class="fc" id="L15">        salesReportForm.setBrand(StringUtil.toLowerCase(salesReportForm.getBrand()).trim());</span>
+<span class="fc" id="L16">        salesReportForm.setCategory(StringUtil.toLowerCase(salesReportForm.getCategory()).trim());</span>
+<span class="fc" id="L17">    }</span>
+
+    public static List&lt;SalesReportData&gt; convertMaptoSalesList(HashMap&lt;Integer, SalesReportData&gt; map,HashMap&lt;Integer, BrandPojo&gt; brandMap) {
+<span class="fc" id="L20">        List&lt;SalesReportData&gt; salesReportDataList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        for(Map.Entry&lt;Integer, SalesReportData&gt; entry: map.entrySet()) {</span>
+<span class="fc" id="L22">            BrandPojo bp = brandMap.get(entry.getKey());</span>
+<span class="fc" id="L23">            SalesReportData d = entry.getValue();</span>
+<span class="fc" id="L24">            d.setBrand(bp.getBrand());</span>
+<span class="fc" id="L25">            d.setCategory(bp.getCategory());</span>
+<span class="fc" id="L26">            salesReportDataList.add(d);</span>
+<span class="fc" id="L27">        }</span>
+<span class="fc" id="L28">        return salesReportDataList;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

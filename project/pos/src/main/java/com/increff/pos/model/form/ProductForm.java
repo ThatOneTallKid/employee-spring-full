@@ -13,21 +13,23 @@ import javax.validation.constraints.Size;
 public class ProductForm {
 
     @NotBlank
-    @Size(min = 1, max = 15,message = "Barcode must be at least 1 character long")
+    @Size(min = 1, max = 15,message = " must be between 1 and 15 characters ")
     private String barcode;
 
     @NotBlank
+    @Size(min = 1, max = 15,message = " must be between 1 and 15 characters long")
     private String brand;
 
     @NotBlank
+    @Size(min = 1, max = 15,message = " must be between 1 and 15 characters long")
     private String category;
 
     @NotBlank
-    @Size(min = 1, max = 15,message = "Name must be at least 1 character long")
+    @Size(min = 1, max = 15,message = " must be at least 1 character long")
     private String name;
 
 
     @NotNull
-    @Min(value = 1, message = "Mrp must be atleast 1")
+    @Min(value = 1, message = " must be atleast 1")
     private double mrp;
 }

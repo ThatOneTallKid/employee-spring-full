@@ -57,7 +57,7 @@ import java.util.Objects;
     public void reduceInventory(int id, int qty) throws ApiException {
 <span class="fc" id="L58">        InventoryPojo inventoryPojo = getById(id);</span>
 <span class="fc bfc" id="L59" title="All 2 branches covered.">        if(inventoryPojo.getQty() &lt; qty) {</span>
-<span class="fc" id="L60">            throw new ApiException(&quot;The product is not in sufficient quantity&quot;);</span>
+<span class="fc" id="L60">            throw new ApiException(&quot;Only &quot; + inventoryPojo.getQty() + &quot; items are available in the inventory&quot;);</span>
         }
 <span class="fc" id="L62">        inventoryPojo.setQty(inventoryPojo.getQty() - qty);</span>
 <span class="fc" id="L63">        inventoryDao.update();</span>
