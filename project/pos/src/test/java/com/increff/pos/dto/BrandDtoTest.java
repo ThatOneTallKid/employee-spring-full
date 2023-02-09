@@ -47,7 +47,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public  void getAllBrandTest() throws JsonProcessingException, ApiException {
+    public void getAllBrandTest() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand("Brand");
@@ -93,7 +93,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void checkGet() throws JsonProcessingException, ApiException {
+    public void getCheck() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand("Brand");
@@ -123,6 +123,7 @@ public class BrandDtoTest extends AbstractUnitTest {
         brandDto.add(brandFormList);
         MockHttpServletResponse response = new MockHttpServletResponse();
         brandDto.generateCsv(response);
+        assertEquals("text/csv", response.getContentType());
     }
 
     @Test(expected = ApiException.class)

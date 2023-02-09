@@ -21,7 +21,7 @@ public class InvoiceDto {
     @Autowired
     private GenerateInvoiceService service;
 
-    public String getInvoicePDF(@RequestBody InvoiceForm form) throws IOException, Exception {
+    public String getInvoicePDF( InvoiceForm form) throws IOException, Exception {
         return service.generateInvoice(form);
     }
 

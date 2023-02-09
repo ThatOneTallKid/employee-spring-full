@@ -44,53 +44,35 @@ public class    SalesReportDto {
     public List<SalesReportData> getFilteredData(SalesReportForm salesReportForm) throws ApiException {
         String startDate = salesReportForm.getStartDate() + " 00:00:00";
         String endDate = salesReportForm.getEndDate() + " 23:59:59";
+
         ValidationUtil.validateForms(salesReportForm);
         SalesReportFormHelper.normalizeSalesReportForm(salesReportForm);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime sDate = LocalDateTime.parse(startDate, formatter);
         LocalDateTime eDate = LocalDateTime.parse(endDate, formatter);
         DateValidatorUtil.isValidDateTimeRange(sDate, eDate);
+
         List<OrderPojo> list = orderService.getOrderByDateFilter(sDate,eDate);
         return getFilterSalesReport(list,salesReportForm.getBrand(), salesReportForm.getCategory());
     }
 
-    public List<SalesReportData> getFilterSalesReport(List<OrderPojo> list, String brand, String category)  {
+    public List<SalesReportData> getFilterSalesReport(List<OrderPojo> list, String brand, String category) throws ApiException {
+        // HashMap<BrandId, SalesReportData>
         HashMap<Integer, SalesReportData> map = new HashMap<Integer, SalesReportData>();
-        HashMap<Integer, ProductPojo> productMap = new HashMap<Integer, ProductPojo>();
-        productMap = getProductMap(productMap);
-        HashMap<Integer, BrandPojo> brandMap = new HashMap<Integer, BrandPojo>();
-        brandMap = getBrandMap(brandMap);
-        DecimalFormat df = new DecimalFormat("#.##");
+        // HashMap<ProductId, ProductPojo>
+        HashMap<Integer, ProductPojo> productMap = getProductMap(list);
+        // HashMap<BrandId, BrandPojo>
+        HashMap<Integer, BrandPojo> brandMap = getBrandMap();
+
 
         for(OrderPojo orderPojo: list){
             List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());
-            for (OrderItemPojo orderItemPojo: orderItemPojoList) {
-                ProductPojo productPojo = productMap.get(orderItemPojo.getProductId());
-                BrandPojo brandPojo = brandMap.get(productPojo.getBrandCategory());
-                if((Objects.equals(brand,brandPojo.getBrand()) || Objects.equals(brand,"all")) &&
-                        (Objects.equals(category,brandPojo.getCategory()) || Objects.equals(category,"all"))) {
-                    if(!map.containsKey(brandPojo.getId())) {
-                        map.put(brandPojo.getId(), new SalesReportData());
-                    }
-                    SalesReportData salesReportData = map.get(brandPojo.getId());
-                    salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQty() );
-                    salesReportData.setRevenue(Double.parseDouble(df.format(salesReportData.getRevenue()
-                            + (orderItemPojo.getQty() * orderItemPojo.getSellingPrice()))));
-                }
-            }
+            calculateSalesReportData(map, productMap, brandMap, orderItemPojoList, brand, category);
         }
 
-        List<SalesReportData> salesReportDataList = new ArrayList<>();
-
-        for(Map.Entry<Integer, SalesReportData> entry: map.entrySet()) {
-            BrandPojo bp = brandMap.get(entry.getKey());
-            SalesReportData d = entry.getValue();
-            d.setBrand(bp.getBrand());
-            d.setCategory(bp.getCategory());
-            salesReportDataList.add(d);
-        }
-        salesList = salesReportDataList;
-        return salesReportDataList;
+        salesList = SalesReportFormHelper.convertMaptoSalesList(map, brandMap);
+        return salesList;
     }
 
     public void generateCsv(HttpServletResponse response) throws  IOException {
@@ -101,19 +83,50 @@ public class    SalesReportDto {
         salesList.clear();
     }
 
-    private HashMap<Integer, ProductPojo> getProductMap(HashMap<Integer, ProductPojo> productMap)  {
-        List<ProductPojo> productPojoList = productService.getAll();
+    private HashMap<Integer, ProductPojo> getProductMap(List<OrderPojo> list) throws ApiException {
+        HashMap<Integer, ProductPojo> productMap = new HashMap<>();
+        Set<Integer> productIdList = new HashSet<>();
+        for (OrderPojo orderPojo: list) {
+            List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());
+            for (OrderItemPojo orderItemPojo: orderItemPojoList) {
+                productIdList.add(orderItemPojo.getProductId());
+            }
+        }
+        List<String> barcodes = new ArrayList<>();
+        for (Integer productId: productIdList) {
+            barcodes.add(productService.get(productId).getBarcode());
+        }
+        List<ProductPojo> productPojoList = productService.selectInBarcode(barcodes);
         for (ProductPojo productPojo: productPojoList) {
             productMap.put(productPojo.getId(), productPojo);
         }
         return productMap;
     }
 
-    private HashMap<Integer, BrandPojo> getBrandMap(HashMap<Integer, BrandPojo> brandMap)  {
+    private HashMap<Integer, BrandPojo> getBrandMap()  {
+        HashMap<Integer, BrandPojo> brandMap = new HashMap<>();
         List<BrandPojo> brandPojoList = brandService.getAll();
         for (BrandPojo brandPojo: brandPojoList) {
             brandMap.put(brandPojo.getId(), brandPojo);
         }
         return brandMap;
+    }
+
+    private void calculateSalesReportData(HashMap<Integer, SalesReportData> map, HashMap<Integer, ProductPojo> productMap, HashMap<Integer, BrandPojo> brandMap, List<OrderItemPojo> orderItemPojoList, String brand, String category) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        for (OrderItemPojo orderItemPojo: orderItemPojoList) {
+            ProductPojo productPojo = productMap.get(orderItemPojo.getProductId());
+            BrandPojo brandPojo = brandMap.get(productPojo.getBrandCategory());
+            if((Objects.equals(brand,brandPojo.getBrand()) || Objects.equals(brand,"all")) &&
+                    (Objects.equals(category,brandPojo.getCategory()) || Objects.equals(category,"all"))) {
+                if(!map.containsKey(brandPojo.getId())) {
+                    map.put(brandPojo.getId(), new SalesReportData());
+                }
+                SalesReportData salesReportData = map.get(brandPojo.getId());
+                salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQty() );
+                salesReportData.setRevenue(Double.parseDouble(df.format(salesReportData.getRevenue()
+                        + (orderItemPojo.getQty() * orderItemPojo.getSellingPrice()))));
+            }
+        }
     }
 }

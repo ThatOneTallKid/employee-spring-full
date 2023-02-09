@@ -17,6 +17,6 @@ public class InventoryForm {
     private String barcode;
 
     @NotNull
-    @Min(value = 1, message = "Quantity must be at least 1")
+    @Min(value = 0, message = "Quantity can't be negative")
     private int qty;
 }

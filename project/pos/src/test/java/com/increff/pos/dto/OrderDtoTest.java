@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.form.BrandForm;
@@ -93,6 +94,11 @@ public class OrderDtoTest extends AbstractUnitTest {
 
         List<OrderData> list = orderDto.getAll();
         assertEquals(2, list.size());
+        List<InventoryData> inventoryDataList = inventoryDto.getAll();
+        assertEquals(2, inventoryDataList.size());
+        assertEquals(3, inventoryDataList.get(0).getQty());
+        assertEquals(5, inventoryDataList.get(1).getQty());
+
 
     }
 

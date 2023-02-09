@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,13 +48,14 @@ public class OrderDto {
     private String url;
 
     @Value("${invoice.pdf_path}")
-    private String PDF_PATH;
+    private String localPdfPath;
 
 
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderItemForm> forms) throws ApiException {
         checkDuplicates(forms);
+        // Map: (key: barcode, value: ProductPojo)
         Map<String, ProductPojo> productList = new HashMap<>();
         productList= getProductList(productList, forms);
 
@@ -83,11 +83,11 @@ public class OrderDto {
     }
 
     public ResponseEntity<byte[]> getPDF(int id, String _url) throws Exception {
-        InvoiceForm invoiceForm = generateInvoiceForOrder(id);
+        InvoiceForm invoiceForm = generateInvoiceDataForOrder(id);
 
         RestTemplate restTemplate = new RestTemplate();
         String base64 = restTemplate.postForObject(_url, invoiceForm, String.class);
-        Path pdfPath = Paths.get(PDF_PATH +id+"invoice.pdf");
+        Path pdfPath = Paths.get(localPdfPath +id+"invoice.pdf");
         byte[] contents = Base64.getDecoder().decode(base64);
 
         Files.write(pdfPath, contents);
@@ -151,7 +151,7 @@ public class OrderDto {
         return productList;
     }
 
-    private InvoiceForm generateInvoiceForOrder(int orderId) throws ApiException
+    private InvoiceForm generateInvoiceDataForOrder(int orderId) throws ApiException
     {
         InvoiceForm invoiceForm = new InvoiceForm();
         OrderPojo orderPojo = orderService.getOrderById(orderId);

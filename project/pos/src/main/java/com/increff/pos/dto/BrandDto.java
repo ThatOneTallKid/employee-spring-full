@@ -40,7 +40,6 @@ public class BrandDto {
             try {
                 ValidationUtil.validateForms(brandForm);
                 normalizeBrand(brandForm);
-                BrandPojo b = convertBrandFormToPojo(brandForm);
                 brandService.checkBrandExists(brandForm.getBrand(), brandForm.getCategory());
 
             } catch (Exception e) {
