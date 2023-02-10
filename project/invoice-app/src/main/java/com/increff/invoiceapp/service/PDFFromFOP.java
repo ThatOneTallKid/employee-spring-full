@@ -18,8 +18,8 @@ import java.util.Base64;
 public class PDFFromFOP {
     public String createPDF(String xmlEncodedString) throws Exception {
         try {
-            File xmlfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xml\\Invoice.xml");
-            File xsltfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app\\src\\main\\resources\\xsl\\Invoice.xsl");
+            File xsltfile = new File("C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\invoice-app" +
+                    "\\src\\main\\resources\\xsl\\Invoice.xsl");
             File pdfDir = new File("./src/main/resources/pdf");
             pdfDir.mkdirs();
             File pdfFile = new File(pdfDir, "invoice.pdf");

@@ -7,13 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="invoice-app" />
         <module name="pos-spring-full" />
         <module name="Pos_project" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="employee-spring-full (1) (com.increff.training)" target="1.8" />
-      <module name="invoice-app" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

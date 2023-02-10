@@ -68,7 +68,8 @@ public class CreateXMLFileJava {
                 order_item.appendChild(quantity);
 
                 Element sellingPrice = document.createElement("selling_price");
-                sellingPrice.appendChild(document.createTextNode(Double.valueOf(df.format(o.getSellingPrice())).toString()));
+                sellingPrice.appendChild(document.createTextNode(Double.valueOf(df.format(o.getSellingPrice()))
+                        .toString()));
                 order_item.appendChild(sellingPrice);
 
                 Element amt = document.createElement("amt");
