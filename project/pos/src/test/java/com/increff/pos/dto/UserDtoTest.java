@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import com.increff.pos.AbstractUnitTest;
+import com.increff.pos.helper.UserFormHelper;
 import com.increff.pos.model.data.UserData;
 import com.increff.pos.model.form.UserForm;
 import com.increff.pos.service.ApiException;
@@ -17,10 +18,7 @@ public class UserDtoTest extends AbstractUnitTest {
 
     @Test
     public void userTest() throws ApiException {
-        UserForm userForm = new UserForm();
-        userForm.setEmail("ax@fake.com");
-        userForm.setPassword("12345678");
-        userForm.setRole("supervisor");
+        UserForm userForm = UserFormHelper.createUser("ax@fake.com", "12345678", "supervisor");
         userDto.add(userForm);
 
         List<UserData> userDataList = userDto.getAllUser();
@@ -29,10 +27,7 @@ public class UserDtoTest extends AbstractUnitTest {
 
     @Test
     public void userDeleteTest() throws ApiException {
-        UserForm userForm = new UserForm();
-        userForm.setEmail("ax@fake.com");
-        userForm.setPassword("12345678");
-        userForm.setRole("supervisor");
+        UserForm userForm = UserFormHelper.createUser("ax@fake.com", "12345678", "supervisor");
         userDto.add(userForm);
 
         List<UserData> userDataList = userDto.getAllUser();
@@ -46,10 +41,7 @@ public class UserDtoTest extends AbstractUnitTest {
 
     @Test
     public void userGetTest() throws ApiException {
-        UserForm userForm = new UserForm();
-        userForm.setEmail("ax@fake.com");
-        userForm.setPassword("12345678");
-        userForm.setRole("supervisor");
+        UserForm userForm = UserFormHelper.createUser("ax@fake.com", "12345678", "supervisor");
         userDto.add(userForm);
 
         List<UserData> userDataList = userDto.getAllUser();
@@ -60,10 +52,7 @@ public class UserDtoTest extends AbstractUnitTest {
 
     @Test
     public void checkIllegalEmailTest() throws ApiException {
-        UserForm userForm = new UserForm();
-        userForm.setEmail("ax@fake.com");
-        userForm.setPassword("12345678");
-        userForm.setRole("supervisor");
+        UserForm userForm = UserFormHelper.createUser("ax@fake.com", "12345678", "supervisor");
         userDto.add(userForm);
 
         assertEquals(false, userDto.checkEmailExists("adi@fake.com"));

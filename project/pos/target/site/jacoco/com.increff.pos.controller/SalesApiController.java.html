@@ -7,14 +7,17 @@ import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Api
 @RestController
 @RequestMapping(path = &quot;/api/sales&quot;)
-<span class="fc" id="L17">public class SalesApiController {</span>
+<span class="fc" id="L20">public class SalesApiController {</span>
 
     @Autowired
     private SalesDto salesDto;
@@ -22,19 +25,19 @@ import java.util.List;
     @ApiOperation(value = &quot;Gets all the Sales data&quot;)
     @RequestMapping(path = &quot;&quot;, method = RequestMethod.GET)
     public List&lt;SalesPojo&gt; getAll() throws ApiException {
-<span class="nc" id="L25">        return salesDto.getAll();</span>
+<span class="nc" id="L28">        return salesDto.getAll();</span>
     }
 
     @ApiOperation(value = &quot;get all sales date between 2 dates&quot;)
     @RequestMapping(path = &quot;/filter&quot;, method = RequestMethod.POST)
     public List&lt;SalesPojo&gt; getAllByDate(@RequestBody SalesForm salesForm) throws ApiException {
-<span class="nc" id="L31">        return salesDto.getAllByDate(salesForm);</span>
+<span class="nc" id="L34">        return salesDto.getAllByDate(salesForm);</span>
     }
 
     @ApiOperation(value = &quot;Runs the scheduler&quot;)
     @RequestMapping(path = &quot;/scheduler&quot;, method = RequestMethod.GET)
     public void runScheduler() throws ApiException {
-<span class="nc" id="L37">        salesDto.createReport();</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L40">        salesDto.createReport();</span>
+<span class="nc" id="L41">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

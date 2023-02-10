@@ -136,6 +136,9 @@ public class OrderDto {
             if (inventoryPojo.getQty() < form.getQty()) {
                 throw new ApiException("Not enough quantity present in the inventory for " + form.getBarcode());
             }
+            if(productPojoList.get(form.getBarcode()).getMrp() < form.getSellingPrice()) {
+                throw new ApiException("Selling price cannot be greater than MRP("+productPojoList.get(form.getBarcode()).getMrp() +") for " + form.getBarcode());
+            }
         }
     }
 

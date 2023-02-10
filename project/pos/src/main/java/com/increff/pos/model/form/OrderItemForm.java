@@ -22,7 +22,7 @@ public class OrderItemForm {
 
     @NotNull
     @Min(value = 1, message = " must be atleast 1")
-    private Double sellingPrice;
+    private double sellingPrice;
 
 
 }

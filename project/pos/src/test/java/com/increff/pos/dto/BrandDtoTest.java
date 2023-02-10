@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.AbstractUnitTest;
+import com.increff.pos.helper.BrandFormHelper;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -28,9 +29,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void addBrandTest() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand ");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
@@ -47,15 +46,11 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void getAllBrandTest() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
 
-        BrandForm brandForm2 = new BrandForm();
-        brandForm2.setBrand("Brand2");
-        brandForm2.setCategory("CateGory2");
+        BrandForm brandForm2 = BrandFormHelper.createBrand("Brand2", "CateGory2");
         brandFormList.add(brandForm2);
 
         brandDto.add(brandFormList);
@@ -67,9 +62,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void updateBrandTest() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
@@ -93,9 +86,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void getCheck() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
@@ -113,9 +104,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void testCSV() throws IOException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
@@ -127,9 +116,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void addDuplicate() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
@@ -139,9 +126,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void emptyBrand() throws JsonProcessingException, ApiException {
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);

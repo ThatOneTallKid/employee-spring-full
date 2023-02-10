@@ -2,6 +2,8 @@ package com.increff.pos.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.AbstractUnitTest;
+import com.increff.pos.helper.BrandFormHelper;
+import com.increff.pos.helper.ProductFormHelper;
 import com.increff.pos.model.data.ProductData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.model.form.ProductForm;
@@ -29,19 +31,12 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void addProductTest() throws JsonProcessingException, ApiException {
         List<ProductForm> productFormList = new ArrayList<>();
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
 
-        ProductForm productForm = new ProductForm();
-        productForm.setBrand("brand");
-        productForm.setCategory("category");
-        productForm.setBarcode("12345678");
-        productForm.setName("name");
-        productForm.setMrp(23.00);
+        ProductForm productForm = ProductFormHelper.createProduct("12345678", "name", "brand", "category", 23.00);
         productFormList.add(productForm);
 
         productDto.add(productFormList);
@@ -64,19 +59,12 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void getAllProductTest() throws JsonProcessingException, ApiException {
         List<ProductForm> productFormList = new ArrayList<>();
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
 
-        ProductForm productForm = new ProductForm();
-        productForm.setBrand("brand");
-        productForm.setCategory("category");
-        productForm.setBarcode("12345678");
-        productForm.setName("name");
-        productForm.setMrp(23.00);
+        ProductForm productForm = ProductFormHelper.createProduct("12345678", "name", "brand", "category", 23.00);
         productFormList.add(productForm);
 
 
@@ -98,29 +86,17 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void updateProductTest() throws JsonProcessingException, ApiException {
         List<ProductForm> productFormList = new ArrayList<>();
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
         brandDto.add(brandFormList);
 
-        ProductForm productForm = new ProductForm();
-        productForm.setBrand("brand");
-        productForm.setCategory("category");
-        productForm.setBarcode("12345678");
-        productForm.setName("name");
-        productForm.setMrp(23.00);
+        ProductForm productForm = ProductFormHelper.createProduct("12345678", "name", "brand", "category", 23.00);
         productFormList.add(productForm);
 
         productDto.add(productFormList);
 
-        ProductForm productForm1 = new ProductForm();
-        productForm1.setBrand("brand");
-        productForm1.setCategory("category");
-        productForm1.setBarcode("12345678");
-        productForm1.setName("name");
-        productForm1.setMrp(27.00);
+        ProductForm productForm1 = ProductFormHelper.createProduct("12345678", "name", "brand", "category", 27.00);
 
         String expectedBrandName = "brand";
         String expectedCategoryName = "category";
@@ -143,20 +119,13 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void addDuplicate() throws JsonProcessingException, ApiException {
         List<ProductForm> productFormList = new ArrayList<>();
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
 
         brandDto.add(brandFormList);
 
-        ProductForm productForm = new ProductForm();
-        productForm.setBrand("brand");
-        productForm.setCategory("category");
-        productForm.setBarcode("12345678");
-        productForm.setName("name");
-        productForm.setMrp(23.00);
+        ProductForm productForm = ProductFormHelper.createProduct("12345678", "name", "brand", "category", 23.00);
         productFormList.add(productForm);
 
         productDto.add(productFormList);
@@ -167,20 +136,13 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void addIllegal() throws JsonProcessingException, ApiException {
         List<ProductForm> productFormList = new ArrayList<>();
         List<BrandForm> brandFormList = new ArrayList<>();
-        BrandForm brandForm = new BrandForm();
-        brandForm.setBrand("Brand");
-        brandForm.setCategory("CateGory");
+        BrandForm brandForm = BrandFormHelper.createBrand("Brand", "CateGory");
         brandFormList.add(brandForm);
 
 
         brandDto.add(brandFormList);
 
-        ProductForm productForm = new ProductForm();
-        productForm.setBrand("brand2");
-        productForm.setCategory("category3");
-        productForm.setBarcode("12345678");
-        productForm.setName("name");
-        productForm.setMrp(23.00);
+        ProductForm productForm = ProductFormHelper.createProduct("12345678", "name", "brand2", "category3", 23.00);
         productFormList.add(productForm);
 
         productDto.add(productFormList);

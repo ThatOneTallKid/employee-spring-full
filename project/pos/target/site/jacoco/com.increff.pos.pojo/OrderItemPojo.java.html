@@ -4,27 +4,26 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
-<span class="pc" id="L10">@Setter</span>
+<span class="pc" id="L9">@Setter</span>
 @Getter
-<span class="fc" id="L12">public class OrderItemPojo extends AbstractPojo{</span>
+<span class="fc" id="L11">public class OrderItemPojo extends AbstractPojo{</span>
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-<span class="fc" id="L16">    private int id;</span>
+<span class="fc" id="L15">    private int id;</span>
 
     @Column(nullable = false)
-<span class="fc" id="L19">    private int orderId;</span>
+<span class="fc" id="L18">    private int orderId;</span>
 
     @Column(nullable = false)
-<span class="fc" id="L22">    private int productId;</span>
+<span class="fc" id="L21">    private int productId;</span>
 
     @Column(nullable = false)
-<span class="fc" id="L25">    private int qty;</span>
+<span class="fc" id="L24">    private int qty;</span>
 
     @Column(nullable = false)
-<span class="fc" id="L28">    private double sellingPrice;</span>
+<span class="fc" id="L27">    private double sellingPrice;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
