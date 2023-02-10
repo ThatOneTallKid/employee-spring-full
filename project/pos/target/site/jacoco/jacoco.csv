@@ -18,7 +18,7 @@ pos-spring,com.increff.pos.dto,UserDto,3,61,1,5,1,16,1,7,0,5
 pos-spring,com.increff.pos.dto,BrandDto,2,136,0,8,1,39,0,11,0,7
 pos-spring,com.increff.pos.dto,ProductDto,2,151,0,8,1,40,0,10,0,6
 pos-spring,com.increff.pos.dto,SalesReportDto,0,333,4,20,0,63,4,15,0,7
-pos-spring,com.increff.pos.dto,OrderDto,0,413,0,20,0,84,0,20,0,10
+pos-spring,com.increff.pos.dto,OrderDto,22,423,1,21,1,85,1,20,0,10
 pos-spring,com.increff.pos.dto,InventoryDto,2,258,0,12,1,56,0,15,0,9
 pos-spring,com.increff.pos.dto,SalesDto,0,136,0,6,0,34,0,7,0,4
 pos-spring,com.increff.pos.service,ApiException,0,4,0,0,0,2,0,1,0,1

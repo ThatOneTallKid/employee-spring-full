@@ -61,19 +61,19 @@ public class BrandDto {
     }
 
     public List<BrandData> getAll() {
-        List<BrandPojo> list = brandService.getAll();
-        List<BrandData> list2 = new ArrayList<>();
-        for(BrandPojo b : list) {
-            list2.add(convertBrandPojoToData(b));
+        List<BrandPojo> brandPojoList = brandService.getAll();
+        List<BrandData> brandDataList = new ArrayList<>();
+        for(BrandPojo b : brandPojoList) {
+            brandDataList.add(convertBrandPojoToData(b));
         }
-        return list2;
+        return brandDataList;
     }
 
     public void update(int id, BrandForm brandForm) throws ApiException {
         ValidationUtil.validateForms(brandForm);
         normalizeBrand(brandForm);
-        BrandPojo p = convertBrandFormToPojo(brandForm);
-        brandService.update(id,p);
+        BrandPojo brandPojo = convertBrandFormToPojo(brandForm);
+        brandService.update(id,brandPojo);
     }
 
 

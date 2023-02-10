@@ -57,7 +57,8 @@ public class    SalesReportDto {
         return getFilterSalesReport(list,salesReportForm.getBrand(), salesReportForm.getCategory());
     }
 
-    public List<SalesReportData> getFilterSalesReport(List<OrderPojo> list, String brand, String category) throws ApiException {
+    public List<SalesReportData> getFilterSalesReport(List<OrderPojo> list, String brand, String category)
+            throws ApiException {
         // HashMap<BrandId, SalesReportData>
         HashMap<Integer, SalesReportData> map = new HashMap<Integer, SalesReportData>();
         // HashMap<ProductId, ProductPojo>
@@ -112,7 +113,9 @@ public class    SalesReportDto {
         return brandMap;
     }
 
-    private void calculateSalesReportData(HashMap<Integer, SalesReportData> map, HashMap<Integer, ProductPojo> productMap, HashMap<Integer, BrandPojo> brandMap, List<OrderItemPojo> orderItemPojoList, String brand, String category) {
+    private void calculateSalesReportData(HashMap<Integer, SalesReportData> map, HashMap<Integer, ProductPojo> productMap
+            , HashMap<Integer, BrandPojo> brandMap, List<OrderItemPojo> orderItemPojoList, String brand, String category) {
+
         DecimalFormat df = new DecimalFormat("#.##");
         for (OrderItemPojo orderItemPojo: orderItemPojoList) {
             ProductPojo productPojo = productMap.get(orderItemPojo.getProductId());

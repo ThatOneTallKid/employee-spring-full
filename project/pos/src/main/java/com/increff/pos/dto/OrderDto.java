@@ -130,19 +130,23 @@ public class OrderDto {
         }
     }
 
-    private void checkInventory(List<OrderItemForm> orderItemFormList, Map<String, ProductPojo> productPojoList) throws ApiException {
+    private void checkInventory(List<OrderItemForm> orderItemFormList, Map<String, ProductPojo> productPojoList)
+            throws ApiException {
         for (OrderItemForm form: orderItemFormList) {
-            InventoryPojo inventoryPojo = inventoryService.getCheckInventory(productPojoList.get(form.getBarcode()).getId());
+            InventoryPojo inventoryPojo = inventoryService.getCheckInventory(productPojoList.get(form.getBarcode())
+                    .getId());
             if (inventoryPojo.getQty() < form.getQty()) {
                 throw new ApiException("Not enough quantity present in the inventory for " + form.getBarcode());
             }
             if(productPojoList.get(form.getBarcode()).getMrp() < form.getSellingPrice()) {
-                throw new ApiException("Selling price cannot be greater than MRP("+productPojoList.get(form.getBarcode()).getMrp() +") for " + form.getBarcode());
+                throw new ApiException("Selling price cannot be greater than MRP("+productPojoList
+                        .get(form.getBarcode()).getMrp() +") for " + form.getBarcode());
             }
         }
     }
 
-    private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList, List<OrderItemForm> forms ) throws ApiException {
+    private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList, List<OrderItemForm> forms )
+            throws ApiException {
         List<String> barcodeList = new ArrayList<>();
         for(OrderItemForm f: forms) {
             barcodeList.add(f.getBarcode());

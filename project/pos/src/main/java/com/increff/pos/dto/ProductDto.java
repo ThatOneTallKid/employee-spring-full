@@ -66,13 +66,13 @@ public class ProductDto {
     }
 
     public List<ProductData> getAll() throws ApiException {
-        List<ProductPojo> list = productService.getAll();
-        List<ProductData> list2 = new ArrayList<>();
-        for(ProductPojo productPojo : list) {
+        List<ProductPojo> productPojoList = productService.getAll();
+        List<ProductData> productDataList = new ArrayList<>();
+        for(ProductPojo productPojo : productPojoList) {
             BrandPojo brandPojo= brandService.getCheck(productPojo.getBrandCategory());
-            list2.add(convertProductPojoToData(productPojo, brandPojo));
+            productDataList.add(convertProductPojoToData(productPojo, brandPojo));
         }
-        return list2;
+        return productDataList;
     }
 
 

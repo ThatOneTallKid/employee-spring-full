@@ -18,11 +18,13 @@ public class SampleController {
 	//Spring ignores . (dot) in the path. So we need fileName:.+
 	//See https://stackoverflow.com/questions/16332092/spring-mvc-pathvariable-with-dot-is-getting-truncated
 	@GetMapping(value = "/sample/{fileName:.+}")
-	public StreamingResponseBody getFile(@PathVariable("fileName") String fileName, HttpServletResponse response) throws IOException {
+	public StreamingResponseBody getFile(@PathVariable("fileName") String fileName, HttpServletResponse response)
+			throws IOException {
 
 		response.setContentType("text/csv");
 		response.addHeader("Content-disposition:", "attachment; filename=" + fileName);
-		String fileClasspath = "C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\pos\\src\\main\\resources\\com\\increff\\pos\\" + fileName;
+		String fileClasspath = "C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\pos\\src\\main\\resources\\" +
+				"com\\increff\\pos\\" + fileName;
 		System.out.println(fileClasspath);
 		return outputStream -> {
 			int bytesRead;
