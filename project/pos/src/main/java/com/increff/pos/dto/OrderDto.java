@@ -27,6 +27,7 @@ import javax.transaction.Transactional;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.increff.pos.dtoUtil.OrderFormHelper.convertOrderPojoToData;
@@ -164,7 +165,8 @@ public class OrderDto {
         OrderPojo orderPojo = orderService.getOrderById(orderId);
 
         invoiceForm.setOrderId(orderPojo.getId());
-        invoiceForm.setPlaceDate(orderPojo.getCreatedAt().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        invoiceForm.setPlaceDate(orderPojo.getCreatedAt().format(formatter));
 
         List<OrderItemPojo> orderItemPojoList = orderService.getOrderItemsByOrderId(orderPojo.getId());
         List<OrderItem> orderItemList = new ArrayList<>();

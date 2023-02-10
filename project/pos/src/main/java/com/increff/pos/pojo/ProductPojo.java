@@ -9,6 +9,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Table(uniqueConstraints =
+        { //other constraints
+                @UniqueConstraint(name = "uniqueBarcode", columnNames = { "barcode" })})
 public class ProductPojo extends AbstractPojo{
 
     @Id
