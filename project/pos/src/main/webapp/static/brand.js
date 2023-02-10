@@ -40,6 +40,9 @@ function isJson(str) {
 function addBrand(event){
 	//Set the values to update
 	var $form = $("#brand-form");
+	if(!validateForm($form)){
+        return;
+    }
 	var json = toJson($form);
 	wholeBrand.push(json)
 	var url = getBrandUrl();
@@ -90,6 +93,9 @@ function updateBrand(event){
 
 	//Set the values to update
 	var $form = $("#brand-edit-form");
+	if(!validateForm($form)){
+        return;
+    }
 	var json = toJson($form);
 
 	$.ajax({

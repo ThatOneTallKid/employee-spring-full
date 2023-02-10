@@ -73,4 +73,8 @@ function init(){
     }
 }
 
+function validateForm(form){
+    return form[0].reportValidity();
+}
+
 $(document).ready(init);

@@ -39,6 +39,9 @@ function isJson(str) {
 function addInventory(event) {
   //Set the values to update
   var $form = $("#inventory-form");
+  if(!validateForm($form)){
+      return;
+  }
   var qty = $("#inventory-form input[name=qty]").val();
   if(qty.includes("-") || qty.includes("+") || qty.includes("*") || qty.includes("/") || qty.includes(".")){
     toastr.error("Invalid Quantity");
@@ -93,6 +96,9 @@ function updateInventory(event) {
   //Set the values to update
 
   var $form = $("#inventory-edit-form");
+  if(!validateForm($form)){
+      return;
+  }
   var qty = $("#inventory-edit-form input[name=qty]").val();
     if(qty.includes("-") || qty.includes("+") || qty.includes("*") || qty.includes("/") || qty.includes(".")){
       toastr.error("Invalid Quantity");

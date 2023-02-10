@@ -241,6 +241,8 @@ function getInventory(barcode) {
 }
 
 function addItem() {
+  var $form = $("#order-item-form");
+
 var qty = $("#order-item-form input[name=qty]").val();
   if(qty.includes("-") || qty.includes("+") || qty.includes("*") || qty.includes("/") || qty.includes(".")){
     toastr.error("Invalid Quantity");
@@ -252,7 +254,6 @@ var qty = $("#order-item-form input[name=qty]").val();
     return;
     }
 
-  var $form = $("#order-item-form");
   var json = toJson($form);
   var jsonObj = $.parseJSON(json);
   var barcode1 = $("#order-item-form input[name=barcode]").val();
@@ -303,6 +304,9 @@ var qty = $("#order-item-form input[name=qty]").val();
 function addOrderItem(event) {
   check = 1;
   var $form = $("#order-item-form");
+  if(!validateForm($form)){
+      return;
+  }
   var json = toJson($form);
   var jsonObj = $.parseJSON(json);
   if(jsonObj.barcode == "" || jsonObj.qty == "" || jsonObj.sellingPrice == ""){
