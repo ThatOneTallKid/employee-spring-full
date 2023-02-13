@@ -83,7 +83,7 @@ public class OrderDto {
         return list2;
     }
 
-    public ResponseEntity<byte[]> getPDF(int id, String _url) throws Exception {
+    public ResponseEntity<byte[]> getPDF(Integer id, String _url) throws Exception {
         InvoiceForm invoiceForm = generateInvoiceDataForOrder(id);
 
         RestTemplate restTemplate = new RestTemplate();
@@ -103,7 +103,7 @@ public class OrderDto {
         return response;
     }
 
-    public List<OrderItemData> getOrderItemsByID(int id) throws ApiException {
+    public List<OrderItemData> getOrderItemsByID(Integer id) throws ApiException {
         List<OrderItemPojo> list = orderService.getOrderItemsByOrderId(id);
         List<OrderItemData> list2 = new ArrayList<>();
         for (OrderItemPojo orderItemPojo : list) {
@@ -114,7 +114,7 @@ public class OrderDto {
     }
 
 
-    private void saveOrderItem(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
+    private void saveOrderItem(OrderItemPojo orderItemPojo, Integer id, OrderItemForm orderItemForm) throws ApiException{
         inventoryService.reduceInventory(id, orderItemForm.getQty());
         orderService.add(orderItemPojo);
     }
@@ -159,7 +159,7 @@ public class OrderDto {
         return productList;
     }
 
-    private InvoiceForm generateInvoiceDataForOrder(int orderId) throws ApiException
+    private InvoiceForm generateInvoiceDataForOrder(Integer orderId) throws ApiException
     {
         InvoiceForm invoiceForm = new InvoiceForm();
         OrderPojo orderPojo = orderService.getOrderById(orderId);

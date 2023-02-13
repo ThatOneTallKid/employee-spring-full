@@ -49,7 +49,7 @@ public class InventoryDto {
 
     public void add(List<InventoryForm> forms) throws ApiException, JsonProcessingException {
         List<InventoryErrorData> inventoryErrorDataList = new ArrayList<>();
-        int errorSize = 0;
+        Integer errorSize = 0;
         for (InventoryForm form: forms) {
             InventoryErrorData inventoryErrorData = ConvertUtil.convert(form, InventoryErrorData.class);
             inventoryErrorData.setMessage("");
@@ -71,7 +71,7 @@ public class InventoryDto {
     }
 
 
-    public InventoryData get(int id) throws ApiException{
+    public InventoryData get(Integer id) throws ApiException{
         InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);
         ProductPojo productPojo = productService.get(id);
         BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());
@@ -95,7 +95,7 @@ public class InventoryDto {
         return inventoryDataList;
     }
 
-    public void update(int id, InventoryForm inventoryForm) throws ApiException {
+    public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
         ValidationUtil.validateForms(inventoryForm);
         InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,
                 productService.getByBarcode(inventoryForm.getBarcode()).getId());

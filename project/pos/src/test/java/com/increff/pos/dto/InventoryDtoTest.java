@@ -59,7 +59,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
         List<ProductPojo> productPojoList = productService.getAll();
         assertEquals(1, productPojoList.size());
         ProductPojo productPojo = productPojoList.get(0);
-        assertEquals(1, productPojo.getId());
+        assertEquals(1,(int)productPojo.getId());
         InventoryForm inventoryForm = InventoryFormHelper.createInventory("12345678", 3);
         inventoryFormList.add(inventoryForm);
 
@@ -72,7 +72,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
         String expectedCategoryName = "category";
         String expectedName = "name";
         String expectedBarcode = "12345678";
-        int expectedQty = 3;
+        Integer expectedQty = 3;
 
         InventoryData data = inventoryDto.getByBarcode("12345678");
         assertEquals(expectedBarcode, data.getBarcode());
@@ -137,7 +137,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
 
 
         String expectedBarcode = "12345678";
-        int expectedQty = 6;
+        Integer expectedQty = 6;
 
         InventoryData inventoryData = inventoryDto.get(inventoryDto.getByBarcode(expectedBarcode).getId());
         inventoryDto.update(inventoryData.getId(), inventoryForm1);

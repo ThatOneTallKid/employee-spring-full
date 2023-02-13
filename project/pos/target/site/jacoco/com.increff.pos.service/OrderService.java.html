@@ -33,7 +33,7 @@ import java.util.Objects;
 <span class="fc" id="L33">        return orderItemDao.selectALL(OrderItemPojo.class);</span>
     }
 
-    public List&lt;OrderItemPojo&gt; getOrderItemsByOrderId(int orderId){
+    public List&lt;OrderItemPojo&gt; getOrderItemsByOrderId(Integer orderId){
 <span class="fc" id="L37">        List&lt;OrderItemPojo&gt; orderItemPojo = orderItemDao.selectOrderItemByOrderId(orderId);</span>
 <span class="fc" id="L38">        return orderItemPojo;</span>
     }
@@ -43,7 +43,7 @@ import java.util.Objects;
 <span class="fc" id="L43">        orderDao.insert(orderPojo);</span>
 <span class="fc" id="L44">    }</span>
 
-    public OrderPojo getOrderById(int id) throws ApiException {
+    public OrderPojo getOrderById(Integer id) throws ApiException {
 <span class="fc" id="L47">        OrderPojo orderPojo = orderDao.selectByID(id, OrderPojo.class);</span>
 <span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if(Objects.isNull(orderPojo)) {</span>
 <span class="nc" id="L49">            throw new ApiException(&quot;Order does not exists&quot;);</span>

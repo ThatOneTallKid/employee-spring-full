@@ -14,7 +14,7 @@ public class UserDao extends AbstractDao {
 	private final String DELETE_BY_ID = "delete from UserPojo p where id=:id";
 	private final String SELECT_BY_EMAIL = "select p from UserPojo p where email=:email";
 
-	public int delete(int id) {
+	public Integer delete(Integer id) {
 		Query query = em().createQuery(DELETE_BY_ID);
 		query.setParameter("id", id);
 		return query.executeUpdate();

@@ -31,7 +31,7 @@ import java.util.List;
 
     @ApiOperation(value = &quot;Gets a brand by ID&quot;)
     @RequestMapping(path = &quot;/{id}&quot;, method = RequestMethod.GET)
-    public BrandData get(@PathVariable int id) throws ApiException {
+    public BrandData get(@PathVariable Integer id) throws ApiException {
 <span class="nc" id="L35">        return brandDto.get(id);</span>
     }
 
@@ -43,7 +43,7 @@ import java.util.List;
 
     @ApiOperation(value = &quot;Updates a brand&quot;)
     @PutMapping(path = &quot;/{id}&quot;)
-    public void update(@PathVariable int id, @RequestBody BrandForm brandForm) throws ApiException {
+    public void update(@PathVariable Integer id, @RequestBody BrandForm brandForm) throws ApiException {
 <span class="nc" id="L47">        brandDto.update(id,brandForm);</span>
 
 <span class="nc" id="L49">    }</span>

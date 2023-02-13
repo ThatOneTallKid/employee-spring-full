@@ -14,9 +14,9 @@ public class InventoryPojo extends AbstractPojo {
 
     // Product ID
     @Id
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
-    private int qty;
+    private Integer qty;
 
 }

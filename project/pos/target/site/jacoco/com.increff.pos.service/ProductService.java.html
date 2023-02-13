@@ -23,7 +23,7 @@ import java.util.Objects;
 <span class="fc" id="L23">    }</span>
 
 
-    public ProductPojo get(int id) throws ApiException {
+    public ProductPojo get(Integer id) throws ApiException {
 <span class="fc" id="L27">        return getCheck(id);</span>
     }
 
@@ -33,7 +33,7 @@ import java.util.Objects;
     }
 
 
-    public void update(int id, ProductPojo newProductPojo) throws ApiException {
+    public void update(Integer id, ProductPojo newProductPojo) throws ApiException {
 <span class="fc" id="L37">        ProductPojo productPojo = get(id);</span>
 <span class="fc bfc" id="L38" title="All 2 branches covered.">        if(productPojo.getBarcode().contentEquals(newProductPojo.getBarcode())) {</span>
 <span class="fc" id="L39">            productPojo.setName(newProductPojo.getName());</span>
@@ -67,7 +67,7 @@ import java.util.Objects;
 
 <span class="fc" id="L68">    }</span>
 
-    public ProductPojo getCheck(int id) throws ApiException{
+    public ProductPojo getCheck(Integer id) throws ApiException{
 <span class="fc" id="L71">        ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);</span>
 <span class="fc bfc" id="L72" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
 <span class="fc" id="L73">            throw new ApiException(&quot;Product with ID: &quot;+id+&quot; does not exists !&quot;);</span>

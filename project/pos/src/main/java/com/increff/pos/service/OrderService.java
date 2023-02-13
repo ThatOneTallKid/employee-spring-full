@@ -33,7 +33,7 @@ public class OrderService {
         return orderItemDao.selectALL(OrderItemPojo.class);
     }
 
-    public List<OrderItemPojo> getOrderItemsByOrderId(int orderId){
+    public List<OrderItemPojo> getOrderItemsByOrderId(Integer orderId){
         List<OrderItemPojo> orderItemPojo = orderItemDao.selectOrderItemByOrderId(orderId);
         return orderItemPojo;
     }
@@ -43,7 +43,7 @@ public class OrderService {
         orderDao.insert(orderPojo);
     }
 
-    public OrderPojo getOrderById(int id) throws ApiException {
+    public OrderPojo getOrderById(Integer id) throws ApiException {
         OrderPojo orderPojo = orderDao.selectByID(id, OrderPojo.class);
         if(Objects.isNull(orderPojo)) {
             throw new ApiException("Order does not exists");

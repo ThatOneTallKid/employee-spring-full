@@ -33,7 +33,7 @@ import static com.increff.pos.dtoUtil.BrandFormHelper.*;
 
     public void add(List&lt;BrandForm&gt; brandForms) throws ApiException, JsonProcessingException {
 <span class="fc" id="L35">        List&lt;BrandErrorData&gt; errorData = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L36">        int errorSize = 0;</span>
+<span class="fc" id="L36">        Integer errorSize = 0;</span>
 <span class="fc bfc" id="L37" title="All 2 branches covered.">        for (BrandForm brandForm : brandForms) {</span>
 <span class="fc" id="L38">            BrandErrorData brandErrorData= ConvertUtil.convert(brandForm, BrandErrorData.class);</span>
 <span class="fc" id="L39">            brandErrorData.setMessage(&quot;&quot;);</span>
@@ -56,7 +56,7 @@ import static com.increff.pos.dtoUtil.BrandFormHelper.*;
 
 <span class="fc" id="L57">    }</span>
 
-    public BrandData get(int id) throws ApiException{
+    public BrandData get(Integer id) throws ApiException{
 <span class="fc" id="L60">        return convertBrandPojoToData(brandService.getCheck(id));</span>
     }
 
@@ -69,7 +69,7 @@ import static com.increff.pos.dtoUtil.BrandFormHelper.*;
 <span class="fc" id="L69">        return brandDataList;</span>
     }
 
-    public void update(int id, BrandForm brandForm) throws ApiException {
+    public void update(Integer id, BrandForm brandForm) throws ApiException {
 <span class="fc" id="L73">        ValidationUtil.validateForms(brandForm);</span>
 <span class="fc" id="L74">        normalizeBrand(brandForm);</span>
 <span class="fc" id="L75">        BrandPojo brandPojo = convertBrandFormToPojo(brandForm);</span>

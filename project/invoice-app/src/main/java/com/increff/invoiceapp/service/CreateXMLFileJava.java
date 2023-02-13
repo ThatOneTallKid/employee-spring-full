@@ -45,7 +45,7 @@ public class CreateXMLFileJava {
             Element order_date = document.createElement("order_date");
             order_date.appendChild(document.createTextNode(invoiceForm.getPlaceDate()));
             root.appendChild(order_date);
-            int sn = 0;
+            Integer sn = 0;
             // order item element
             for (OrderItem o : invoiceForm.getOrderItemList()){
                 Element order_item = document.createElement("order_item");

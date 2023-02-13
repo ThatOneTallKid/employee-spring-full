@@ -33,7 +33,7 @@ public class BrandDto {
 
     public void add(List<BrandForm> brandForms) throws ApiException, JsonProcessingException {
         List<BrandErrorData> errorData = new ArrayList<>();
-        int errorSize = 0;
+        Integer errorSize = 0;
         for (BrandForm brandForm : brandForms) {
             BrandErrorData brandErrorData= ConvertUtil.convert(brandForm, BrandErrorData.class);
             brandErrorData.setMessage("");
@@ -56,7 +56,7 @@ public class BrandDto {
 
     }
 
-    public BrandData get(int id) throws ApiException{
+    public BrandData get(Integer id) throws ApiException{
         return convertBrandPojoToData(brandService.getCheck(id));
     }
 
@@ -69,7 +69,7 @@ public class BrandDto {
         return brandDataList;
     }
 
-    public void update(int id, BrandForm brandForm) throws ApiException {
+    public void update(Integer id, BrandForm brandForm) throws ApiException {
         ValidationUtil.validateForms(brandForm);
         normalizeBrand(brandForm);
         BrandPojo brandPojo = convertBrandFormToPojo(brandForm);

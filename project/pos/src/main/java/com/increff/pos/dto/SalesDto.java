@@ -31,7 +31,7 @@ public class SalesDto {
         SalesPojo salesPojo = new SalesPojo();
 
         LocalDate date = LocalDate.now();
-        int totalItems = 0;
+        Integer totalItems = 0;
         double totalRevenue = 0.0;
         LocalDateTime startDate = date.atStartOfDay();
 
@@ -39,7 +39,7 @@ public class SalesDto {
 
         List<OrderPojo> orderPojoList = orderService.getOrderByDateFilter(startDate,endDate);
 
-        int totalOrders = orderPojoList.size();
+        Integer totalOrders = orderPojoList.size();
 
         for (OrderPojo orderPojo : orderPojoList) {
             Integer id = orderPojo.getId();

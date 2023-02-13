@@ -24,8 +24,8 @@ public class InventoryService {
             inventoryDao.insert(inventoryPojo);
         }
         else {
-            int prevQty = tempInventoryPojo.getQty();
-            int newQty = prevQty + inventoryPojo.getQty();
+            Integer prevQty = tempInventoryPojo.getQty();
+            Integer newQty = prevQty + inventoryPojo.getQty();
             tempInventoryPojo.setQty(newQty);
             inventoryDao.update();
         }
@@ -35,18 +35,18 @@ public class InventoryService {
         return inventoryDao.selectALL(InventoryPojo.class);
     }
 
-    public void update(int id, InventoryPojo newInventoryPojo) throws ApiException{
+    public void update(Integer id, InventoryPojo newInventoryPojo) throws ApiException{
         InventoryPojo inventoryPojo = getCheckInventory(id);
         inventoryPojo.setQty(newInventoryPojo.getQty());
         inventoryDao.update();
     }
 
-    public InventoryPojo getById(int id) throws ApiException {
+    public InventoryPojo getById(Integer id) throws ApiException {
         InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
         return inventoryPojo;
     }
 
-    public InventoryPojo getCheckInventory(int id) throws ApiException {
+    public InventoryPojo getCheckInventory(Integer id) throws ApiException {
         InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);
         if(Objects.isNull(inventoryPojo)) {
             throw new ApiException("Product is not there in the inventory");
@@ -54,7 +54,7 @@ public class InventoryService {
         return inventoryPojo;
     }
 
-    public void reduceInventory(int id, int qty) throws ApiException {
+    public void reduceInventory(Integer id, Integer qty) throws ApiException {
         InventoryPojo inventoryPojo = getById(id);
         if(inventoryPojo.getQty() < qty) {
             throw new ApiException("Only " + inventoryPojo.getQty() + " items are available in the inventory");

@@ -3,26 +3,25 @@
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Getter
-<span class="fc" id="L12">@Setter</span>
-<span class="fc" id="L13">public class OrderItemForm {</span>
+<span class="fc" id="L9">@Setter</span>
+<span class="fc" id="L10">public class OrderItemForm {</span>
 
     @NotBlank
     @Size(min = 1, max = 15, message = &quot; must 1 to 15 character long&quot;)
-<span class="fc" id="L17">    private String barcode;</span>
+<span class="fc" id="L14">    private String barcode;</span>
 
     @NotNull
     @Min(value = 1, message = &quot; must be atleast 1&quot;)
-<span class="fc" id="L21">    private int qty;</span>
+    @Max(value = 250, message = &quot; must be atmost 250&quot;)
+<span class="fc" id="L19">    private Integer qty;</span>
 
     @NotNull
-    @Min(value = 1, message = &quot; must be atleast 1&quot;)
-<span class="fc" id="L25">    private double sellingPrice;</span>
+    @Min(value = 0, message = &quot; must be atleast 0&quot;)
+    @Max(value = 1000000, message = &quot; must be atmost 10,00,000&quot;)
+<span class="fc" id="L24">    private double sellingPrice;</span>
 
 
 }

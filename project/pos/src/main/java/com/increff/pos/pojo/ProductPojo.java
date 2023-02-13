@@ -16,18 +16,18 @@ public class ProductPojo extends AbstractPojo{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String barcode;
 
 
     @Column(nullable = false)
-    private int brandCategory;
+    private Integer brandCategory;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private double mrp;
+    private Double mrp;
 }

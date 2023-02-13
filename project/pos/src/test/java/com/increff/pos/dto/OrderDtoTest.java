@@ -78,8 +78,8 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertEquals(2, list.size());
         List<InventoryData> inventoryDataList = inventoryDto.getAll();
         assertEquals(2, inventoryDataList.size());
-        assertEquals(3, inventoryDataList.get(0).getQty());
-        assertEquals(5, inventoryDataList.get(1).getQty());
+        assertEquals(3, (int) inventoryDataList.get(0).getQty());
+        assertEquals(5, (int) inventoryDataList.get(1).getQty());
 
 
     }

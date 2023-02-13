@@ -23,7 +23,7 @@ public class ProductService {
     }
 
 
-    public ProductPojo get(int id) throws ApiException {
+    public ProductPojo get(Integer id) throws ApiException {
         return getCheck(id);
     }
 
@@ -33,7 +33,7 @@ public class ProductService {
     }
 
 
-    public void update(int id, ProductPojo newProductPojo) throws ApiException {
+    public void update(Integer id, ProductPojo newProductPojo) throws ApiException {
         ProductPojo productPojo = get(id);
         if(productPojo.getBarcode().contentEquals(newProductPojo.getBarcode())) {
             productPojo.setName(newProductPojo.getName());
@@ -67,7 +67,7 @@ public class ProductService {
 
     }
 
-    public ProductPojo getCheck(int id) throws ApiException{
+    public ProductPojo getCheck(Integer id) throws ApiException{
         ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);
         if(Objects.isNull(productPojo)) {
             throw new ApiException("Product with ID: "+id+" does not exists !");

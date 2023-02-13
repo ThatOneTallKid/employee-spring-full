@@ -8,7 +8,7 @@ import com.increff.pos.util.StringUtil;
 
 <span class="nc" id="L9">public class OrderItemFormHelper {</span>
 
-    public static OrderItemPojo convertOrderItemFormToPojo(OrderItemForm form, int productId) {
+    public static OrderItemPojo convertOrderItemFormToPojo(OrderItemForm form, Integer productId) {
 <span class="fc" id="L12">        OrderItemPojo orderItemPojo = ConvertUtil.convert(form, OrderItemPojo.class);</span>
 <span class="fc" id="L13">        orderItemPojo.setProductId(productId);</span>
 <span class="fc" id="L14">        return  orderItemPojo;</span>

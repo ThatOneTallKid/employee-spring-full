@@ -83,7 +83,7 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 <span class="fc" id="L83">        return list2;</span>
     }
 
-    public ResponseEntity&lt;byte[]&gt; getPDF(int id, String _url) throws Exception {
+    public ResponseEntity&lt;byte[]&gt; getPDF(Integer id, String _url) throws Exception {
 <span class="fc" id="L87">        InvoiceForm invoiceForm = generateInvoiceDataForOrder(id);</span>
 
 <span class="fc" id="L89">        RestTemplate restTemplate = new RestTemplate();</span>
@@ -103,7 +103,7 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 <span class="fc" id="L103">        return response;</span>
     }
 
-    public List&lt;OrderItemData&gt; getOrderItemsByID(int id) throws ApiException {
+    public List&lt;OrderItemData&gt; getOrderItemsByID(Integer id) throws ApiException {
 <span class="fc" id="L107">        List&lt;OrderItemPojo&gt; list = orderService.getOrderItemsByOrderId(id);</span>
 <span class="fc" id="L108">        List&lt;OrderItemData&gt; list2 = new ArrayList&lt;&gt;();</span>
 <span class="fc bfc" id="L109" title="All 2 branches covered.">        for (OrderItemPojo orderItemPojo : list) {</span>
@@ -114,7 +114,7 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
     }
 
 
-    private void saveOrderItem(OrderItemPojo orderItemPojo, int id, OrderItemForm orderItemForm) throws ApiException{
+    private void saveOrderItem(OrderItemPojo orderItemPojo, Integer id, OrderItemForm orderItemForm) throws ApiException{
 <span class="fc" id="L118">        inventoryService.reduceInventory(id, orderItemForm.getQty());</span>
 <span class="fc" id="L119">        orderService.add(orderItemPojo);</span>
 <span class="fc" id="L120">    }</span>
@@ -159,7 +159,7 @@ import static com.increff.pos.dtoUtil.OrderItemFormHelper.*;
 <span class="fc" id="L159">        return productList;</span>
     }
 
-    private InvoiceForm generateInvoiceDataForOrder(int orderId) throws ApiException
+    private InvoiceForm generateInvoiceDataForOrder(Integer orderId) throws ApiException
     {
 <span class="fc" id="L164">        InvoiceForm invoiceForm = new InvoiceForm();</span>
 <span class="fc" id="L165">        OrderPojo orderPojo = orderService.getOrderById(orderId);</span>

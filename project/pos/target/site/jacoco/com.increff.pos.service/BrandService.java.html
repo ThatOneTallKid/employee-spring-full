@@ -21,7 +21,7 @@ import java.util.Objects;
 <span class="fc" id="L21">            dao.insert(brandPojo);</span>
 <span class="fc" id="L22">    }</span>
 
-    public BrandPojo getCheck(int id) throws ApiException {
+    public BrandPojo getCheck(Integer id) throws ApiException {
 <span class="fc" id="L25">        BrandPojo brandPojo = dao.selectByID(id, BrandPojo.class);</span>
 <span class="fc bfc" id="L26" title="All 2 branches covered.">        if (Objects.isNull(brandPojo)) {</span>
 <span class="fc" id="L27">            throw new ApiException(&quot;Brand with given ID does not exit, id: &quot; + id);</span>
@@ -33,7 +33,7 @@ import java.util.Objects;
 <span class="fc" id="L33">        return dao.selectALL(BrandPojo.class);</span>
     }
 
-    public void update(int id, BrandPojo newBrandPojo) throws ApiException{
+    public void update(Integer id, BrandPojo newBrandPojo) throws ApiException{
 <span class="fc" id="L37">        BrandPojo brandPojo = getCheck(id);</span>
 <span class="fc" id="L38">        checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory());</span>
 <span class="fc" id="L39">        brandPojo.setCategory(newBrandPojo.getCategory());</span>

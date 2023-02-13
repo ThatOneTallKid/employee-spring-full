@@ -18,17 +18,17 @@ import java.time.LocalDateTime;
 <span class="nc" id="L18">@Setter</span>
 <span class="fc" id="L19">public abstract class AbstractPojo implements Serializable {</span>
     @CreationTimestamp
-    @Column
+    @Column(nullable = false)
     @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
 <span class="fc" id="L23">    private LocalDateTime createdAt;</span>
 
     @UpdateTimestamp
-    @Column
+    @Column(nullable = false)
     @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
 <span class="fc" id="L28">    private LocalDateTime updatedAt;</span>
 
     @Version
-    @Column
-<span class="fc" id="L32">    private int version;</span>
+    @Column(nullable = false)
+<span class="fc" id="L32">    private long version;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

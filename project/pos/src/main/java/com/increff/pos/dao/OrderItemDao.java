@@ -12,7 +12,7 @@ public class OrderItemDao extends AbstractDao{
 
     private final String SELECT_BY_ORDER_ID = "select o from OrderItemPojo o where orderId=:orderId";
 
-    public List<OrderItemPojo> selectOrderItemByOrderId(int orderId) {
+    public List<OrderItemPojo> selectOrderItemByOrderId(Integer orderId) {
         TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
         query.setParameter("orderId", orderId);
         return query.getResultList();

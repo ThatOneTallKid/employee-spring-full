@@ -3,18 +3,17 @@
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
-<span class="nc" id="L13">@Setter</span>
-<span class="fc" id="L14">public class OrderPojo extends AbstractPojo{</span>
+<span class="nc" id="L10">@Setter</span>
+<span class="fc" id="L11">public class OrderPojo extends AbstractPojo{</span>
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="fc" id="L18">    private int id;</span>
+    // throws ConstraintViolation error if Integer is used instead of int
+    // https://stackoverflow.com/questions/34409159/org-hibernate-exception-constraintviolationexception-could-not-execute-statemen
+<span class="fc" id="L17">    private Integer id;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -13,7 +13,7 @@ import java.util.Map;
 
 <span class="nc" id="L14">public class InventoryFormHelper {</span>
 
-    public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm, int id) {
+    public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm, Integer id) {
 <span class="fc" id="L17">        InventoryPojo inventoryPojo = ConvertUtil.convert(inventoryForm, InventoryPojo.class);</span>
 <span class="fc" id="L18">        inventoryPojo.setId(id);</span>
 <span class="fc" id="L19">        return inventoryPojo;</span>

@@ -16,7 +16,7 @@ public class OrderItemForm {
     @NotNull
     @Min(value = 1, message = " must be atleast 1")
     @Max(value = 250, message = " must be atmost 250")
-    private int qty;
+    private Integer qty;
 
     @NotNull
     @Min(value = 0, message = " must be atleast 0")

@@ -28,7 +28,7 @@ public abstract class AbstractDao {
 	}
 
 
-	public  <T> T selectByID(int id, Class<T> clazz) {
+	public  <T> T selectByID(Integer id, Class<T> clazz) {
 		String dynamicQuery = "select b from " + clazz.getName() + " b where id=:id";
 		TypedQuery<T> query = getQuery(dynamicQuery, clazz);
 		query.setParameter("id", id);

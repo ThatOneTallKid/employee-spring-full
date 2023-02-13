@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class InventoryErrorData {
     private String barcode;
-    private int qty;
+    private Integer qty;
     private String message;
 }

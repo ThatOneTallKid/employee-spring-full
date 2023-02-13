@@ -16,19 +16,19 @@ import javax.persistence.*;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="fc" id="L19">    private int id;</span>
+<span class="fc" id="L19">    private Integer id;</span>
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
 <span class="fc" id="L22">    private String barcode;</span>
 
 
     @Column(nullable = false)
-<span class="fc" id="L26">    private int brandCategory;</span>
+<span class="fc" id="L26">    private Integer brandCategory;</span>
 
     @Column(nullable = false)
 <span class="fc" id="L29">    private String name;</span>
 
     @Column(nullable = false)
-<span class="fc" id="L32">    private double mrp;</span>
+<span class="fc" id="L32">    private Double mrp;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

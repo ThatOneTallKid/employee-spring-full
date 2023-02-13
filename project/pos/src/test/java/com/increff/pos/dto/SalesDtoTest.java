@@ -71,8 +71,8 @@ public class SalesDtoTest extends AbstractUnitTest {
         salesDto.createReport();
         List<SalesPojo> salesPojoList1 = salesDto.getAll();
         assertEquals(1, salesPojoList1.size());
-        int count1 = salesPojoList1.get(0).getInvoicedOrderCount();
-        assertEquals(1, count1);
+        Integer count1 = salesPojoList1.get(0).getInvoicedOrderCount();
+        assertEquals(1, (int)count1);
 
         OrderItemForm orderItemForm1 = OrderFormHelper.createOrderItem("12345679", 2, 28.00);
         orderItemFormList.add(orderItemForm1);
@@ -82,8 +82,8 @@ public class SalesDtoTest extends AbstractUnitTest {
         salesDto.createReport();
         List<SalesPojo> salesPojoList2 = salesDto.getAll();
         assertEquals(1, salesPojoList2.size());
-        int count2 = salesPojoList1.get(0).getInvoicedOrderCount();
-        assertEquals(2, count2);
+        Integer count2 = salesPojoList1.get(0).getInvoicedOrderCount();
+        assertEquals(2, (int) count2);
     }
 
 
@@ -121,8 +121,8 @@ public class SalesDtoTest extends AbstractUnitTest {
         salesDto.createReport();
         List<SalesPojo> salesPojoList1 = salesDto.getAll();
         assertEquals(1, salesPojoList1.size());
-        int count1 = salesPojoList1.get(0).getInvoicedOrderCount();
-        assertEquals(1, count1);
+        Integer count1 = salesPojoList1.get(0).getInvoicedOrderCount();
+        assertEquals(1, (int) count1);
 
         OrderItemForm orderItemForm1 = OrderFormHelper.createOrderItem("12345679", 3, 28.00);
         orderItemFormList.add(orderItemForm1);
@@ -132,8 +132,8 @@ public class SalesDtoTest extends AbstractUnitTest {
         salesDto.createReport();
         List<SalesPojo> salesPojoList2 = salesDto.getAll();
         assertEquals(1, salesPojoList2.size());
-        int count2 = salesPojoList1.get(0).getInvoicedOrderCount();
-        assertEquals(2, count2);
+        Integer count2 = salesPojoList1.get(0).getInvoicedOrderCount();
+        assertEquals(2,(int) count2);
 
         LocalDate date = LocalDate.now();
         salesForm.setStartDate(date.toString());

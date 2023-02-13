@@ -9,11 +9,11 @@ import lombok.Setter;
 public class OrderItemData extends OrderItemForm {
 
 
-    private int id;
+    private Integer id;
 
-    private int orderId;
+    private Integer orderId;
 
-    private int productId;
+    private Integer productId;
 
     private String name;
 }

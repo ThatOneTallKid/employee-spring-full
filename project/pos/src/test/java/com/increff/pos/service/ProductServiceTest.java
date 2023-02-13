@@ -27,7 +27,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         productPojo.setMrp(23.00);
         productService.add(productPojo);
 
-        int expectedBrandCategory = 2;
+        Integer expectedBrandCategory = 2;
         String expectedName = "name";
         Double expectedMrp = 23.00;
         String expectedBarcode = "12345678";
@@ -76,7 +76,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         productPojo1.setBrandCategory(2);
         productPojo1.setMrp(27.00);
 
-        int expectedBrandCategory = 2;
+        Integer expectedBrandCategory = 2;
         String expectedName = "name2";
         Double expectedMrp = 27.00;
         String expectedBarcode = "12345678";
@@ -105,7 +105,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         productPojo.setMrp(23.00);
         productService.add(productPojo);
 
-        int id = productService.getByBarcode("23456789").getId();
+        Integer id = productService.getByBarcode("23456789").getId();
     }
 
     @Test(expected = ApiException.class)
@@ -140,7 +140,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         productPojo1.setBrandCategory(2);
         productPojo1.setMrp(27.00);
 
-        int expectedBrandCategory = 2;
+        Integer expectedBrandCategory = 2;
         String expectedName = "name2";
         Double expectedMrp = 27.00;
         String expectedBarcode = "12345678";

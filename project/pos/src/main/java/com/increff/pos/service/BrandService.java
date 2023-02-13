@@ -21,7 +21,7 @@ public class BrandService {
             dao.insert(brandPojo);
     }
 
-    public BrandPojo getCheck(int id) throws ApiException {
+    public BrandPojo getCheck(Integer id) throws ApiException {
         BrandPojo brandPojo = dao.selectByID(id, BrandPojo.class);
         if (Objects.isNull(brandPojo)) {
             throw new ApiException("Brand with given ID does not exit, id: " + id);
@@ -33,7 +33,7 @@ public class BrandService {
         return dao.selectALL(BrandPojo.class);
     }
 
-    public void update(int id, BrandPojo newBrandPojo) throws ApiException{
+    public void update(Integer id, BrandPojo newBrandPojo) throws ApiException{
         BrandPojo brandPojo = getCheck(id);
         checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory());
         brandPojo.setCategory(newBrandPojo.getCategory());

@@ -31,7 +31,7 @@ public class InventoryApiController {
 
     @ApiOperation(value = "Get a Product by ID")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public InventoryData get(@PathVariable int id)  throws ApiException {
+    public InventoryData get(@PathVariable Integer id)  throws ApiException {
         return inventoryDto.get(id);
     }
 
@@ -49,7 +49,7 @@ public class InventoryApiController {
 
     @ApiOperation(value = "Updates a Product")
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable int id, @RequestBody InventoryForm f) throws ApiException {
+    public void update(@PathVariable Integer id, @RequestBody InventoryForm f) throws ApiException {
         inventoryDto.update(id, f);
     }
 

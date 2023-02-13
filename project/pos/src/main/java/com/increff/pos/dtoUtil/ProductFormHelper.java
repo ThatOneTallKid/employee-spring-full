@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class ProductFormHelper {
 
-    public static ProductPojo convertProductFormToPojo(ProductForm productForm, int id) {
+    public static ProductPojo convertProductFormToPojo(ProductForm productForm, Integer id) {
         ProductPojo productPojo = ConvertUtil.convert(productForm, ProductPojo.class);
         DecimalFormat df = new DecimalFormat("#.##");
         productPojo.setMrp(Double.parseDouble(df.format(productPojo.getMrp())));

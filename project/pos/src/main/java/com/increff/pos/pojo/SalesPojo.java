@@ -15,17 +15,17 @@ import java.time.LocalDateTime;
 public class SalesPojo extends AbstractPojo{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @JsonFormat(pattern="yyyy-MM-dd ")
     @Column(nullable = false)
     private LocalDate date;
     @Column(nullable = false)
-    private int invoicedOrderCount;
+    private Integer invoicedOrderCount;
     @Column(nullable = false)
-    private int invoicedItemsCount;
+    private Integer invoicedItemsCount;
     @Column(nullable = false)
-    private double totalRevenue;
+    private Double totalRevenue;
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastRun;

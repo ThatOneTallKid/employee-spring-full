@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 <span class="fc" id="L14">	private final String DELETE_BY_ID = &quot;delete from UserPojo p where id=:id&quot;;</span>
 <span class="fc" id="L15">	private final String SELECT_BY_EMAIL = &quot;select p from UserPojo p where email=:email&quot;;</span>
 
-	public int delete(int id) {
+	public Integer delete(Integer id) {
 <span class="fc" id="L18">		Query query = em().createQuery(DELETE_BY_ID);</span>
 <span class="fc" id="L19">		query.setParameter(&quot;id&quot;, id);</span>
 <span class="fc" id="L20">		return query.executeUpdate();</span>

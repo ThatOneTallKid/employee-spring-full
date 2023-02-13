@@ -35,7 +35,7 @@ import static com.increff.pos.dtoUtil.ProductFormHelper.*;
     public void add(List&lt;ProductForm&gt; forms) throws ApiException, JsonProcessingException {
 <span class="fc" id="L36">        List&lt;ProductErrorData&gt; errorData = new ArrayList&lt;&gt;();</span>
 <span class="fc" id="L37">        errorData.clear();</span>
-<span class="fc" id="L38">        int errorSize = 0;</span>
+<span class="fc" id="L38">        Integer errorSize = 0;</span>
 <span class="fc bfc" id="L39" title="All 2 branches covered.">        for(ProductForm form: forms) {</span>
 <span class="fc" id="L40">            ProductErrorData productErrorData= ConvertUtil.convert(form, ProductErrorData.class);</span>
 <span class="fc" id="L41">            productErrorData.setMessage(&quot;&quot;);</span>
@@ -59,7 +59,7 @@ import static com.increff.pos.dtoUtil.ProductFormHelper.*;
 <span class="fc" id="L59">    }</span>
 
 
-    public ProductData get(int id) throws ApiException {
+    public ProductData get(Integer id) throws ApiException {
 <span class="fc" id="L63">        ProductPojo productPojo = productService.get(id);</span>
 <span class="fc" id="L64">        BrandPojo brandPojo= brandService.getCheck(productPojo.getBrandCategory());</span>
 <span class="fc" id="L65">        return convertProductPojoToData(productPojo, brandPojo);</span>
@@ -76,7 +76,7 @@ import static com.increff.pos.dtoUtil.ProductFormHelper.*;
     }
 
 
-    public void update(int id, ProductForm form) throws ApiException {
+    public void update(Integer id, ProductForm form) throws ApiException {
 <span class="fc" id="L80">        ValidationUtil.validateForms(form);</span>
 <span class="fc" id="L81">        normalizeProduct(form);</span>
 <span class="fc" id="L82">        ProductPojo productPojo = convertProductFormToPojo(form, id);</span>

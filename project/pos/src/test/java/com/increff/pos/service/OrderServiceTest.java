@@ -20,15 +20,17 @@ public class OrderServiceTest extends AbstractUnitTest {
     @Test
     public void checkOrderTest() throws ApiException {
         OrderPojo orderPojo1 = new OrderPojo();
+        orderService.addOrder(orderPojo1);
+
         OrderItemPojo orderItemPojo = new OrderItemPojo();
         orderItemPojo.setOrderId(orderPojo1.getId());
         orderItemPojo.setQty(2);
         orderItemPojo.setSellingPrice(23.00);
         orderItemPojo.setProductId(5);
         orderService.add(orderItemPojo);
-        orderService.addOrder(orderPojo1);
 
         OrderPojo orderPojo2 = new OrderPojo();
+        orderService.addOrder(orderPojo2);
         OrderItemPojo orderItemPojo1 = new OrderItemPojo();
         orderItemPojo1.setOrderId(orderPojo2.getId());
         orderItemPojo1.setQty(2);
@@ -45,7 +47,6 @@ public class OrderServiceTest extends AbstractUnitTest {
         orderService.add(orderItemPojo2);
 
 
-        orderService.addOrder(orderPojo2);
 
         List<OrderPojo> orderPojoList = orderService.getAllOrders();
         List<OrderItemPojo> orderItemPojoList = orderService.getAll();
@@ -60,6 +61,7 @@ public class OrderServiceTest extends AbstractUnitTest {
     @Test
     public void checkOrder() throws ApiException {
         OrderPojo orderPojo1 = new OrderPojo();
+        orderService.addOrder(orderPojo1);
         OrderItemPojo orderItemPojo = new OrderItemPojo();
         orderItemPojo.setOrderId(orderPojo1.getId());
         orderItemPojo.setQty(2);
@@ -78,7 +80,6 @@ public class OrderServiceTest extends AbstractUnitTest {
 
 
 
-        orderService.addOrder(orderPojo1);
 
         OrderPojo orderPojo = orderService.getOrderById(orderPojo1.getId());
         assertEquals(orderPojo1.getId(), orderPojo.getId());
@@ -88,7 +89,9 @@ public class OrderServiceTest extends AbstractUnitTest {
     @Test
     public void testDateFilter() throws ApiException {
         OrderPojo orderPojo1 = new OrderPojo();
+        orderService.addOrder(orderPojo1);
         OrderPojo orderPojo2 = new OrderPojo();
+        orderService.addOrder(orderPojo2);
         OrderItemPojo orderItemPojo = new OrderItemPojo();
         orderItemPojo.setOrderId(orderPojo1.getId());
         orderItemPojo.setQty(2);
@@ -112,8 +115,6 @@ public class OrderServiceTest extends AbstractUnitTest {
         orderService.add(orderItemPojo2);
 
 
-        orderService.addOrder(orderPojo1);
-        orderService.addOrder(orderPojo2);
         LocalDate date = LocalDate.now();
         LocalDateTime startDate = date.atStartOfDay();
 

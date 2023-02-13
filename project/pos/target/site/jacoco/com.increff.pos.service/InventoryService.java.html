@@ -24,8 +24,8 @@ import java.util.Objects;
 <span class="fc" id="L24">            inventoryDao.insert(inventoryPojo);</span>
         }
         else {
-<span class="fc" id="L27">            int prevQty = tempInventoryPojo.getQty();</span>
-<span class="fc" id="L28">            int newQty = prevQty + inventoryPojo.getQty();</span>
+<span class="fc" id="L27">            Integer prevQty = tempInventoryPojo.getQty();</span>
+<span class="fc" id="L28">            Integer newQty = prevQty + inventoryPojo.getQty();</span>
 <span class="fc" id="L29">            tempInventoryPojo.setQty(newQty);</span>
 <span class="fc" id="L30">            inventoryDao.update();</span>
         }
@@ -35,18 +35,18 @@ import java.util.Objects;
 <span class="fc" id="L35">        return inventoryDao.selectALL(InventoryPojo.class);</span>
     }
 
-    public void update(int id, InventoryPojo newInventoryPojo) throws ApiException{
+    public void update(Integer id, InventoryPojo newInventoryPojo) throws ApiException{
 <span class="fc" id="L39">        InventoryPojo inventoryPojo = getCheckInventory(id);</span>
 <span class="fc" id="L40">        inventoryPojo.setQty(newInventoryPojo.getQty());</span>
 <span class="fc" id="L41">        inventoryDao.update();</span>
 <span class="fc" id="L42">    }</span>
 
-    public InventoryPojo getById(int id) throws ApiException {
+    public InventoryPojo getById(Integer id) throws ApiException {
 <span class="fc" id="L45">        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);</span>
 <span class="fc" id="L46">        return inventoryPojo;</span>
     }
 
-    public InventoryPojo getCheckInventory(int id) throws ApiException {
+    public InventoryPojo getCheckInventory(Integer id) throws ApiException {
 <span class="fc" id="L50">        InventoryPojo inventoryPojo = inventoryDao.selectByID(id, InventoryPojo.class);</span>
 <span class="fc bfc" id="L51" title="All 2 branches covered.">        if(Objects.isNull(inventoryPojo)) {</span>
 <span class="fc" id="L52">            throw new ApiException(&quot;Product is not there in the inventory&quot;);</span>
@@ -54,7 +54,7 @@ import java.util.Objects;
 <span class="fc" id="L54">        return inventoryPojo;</span>
     }
 
-    public void reduceInventory(int id, int qty) throws ApiException {
+    public void reduceInventory(Integer id, Integer qty) throws ApiException {
 <span class="fc" id="L58">        InventoryPojo inventoryPojo = getById(id);</span>
 <span class="fc bfc" id="L59" title="All 2 branches covered.">        if(inventoryPojo.getQty() &lt; qty) {</span>
 <span class="fc" id="L60">            throw new ApiException(&quot;Only &quot; + inventoryPojo.getQty() + &quot; items are available in the inventory&quot;);</span>

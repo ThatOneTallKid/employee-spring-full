@@ -29,7 +29,7 @@ public class UserDto {
         userService.add(UserFormHelper.convertUserFormToPojo(userForm));
     }
 
-    public void delete(int id) {
+    public void delete(Integer id) {
         userService.delete(id);
     }
 

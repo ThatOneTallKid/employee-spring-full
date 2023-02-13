@@ -27,12 +27,12 @@ public class SalesServiceTest extends AbstractUnitTest {
         salesPojo.setInvoicedOrderCount(3);
         salesService.add(salesPojo);
 
-        int expectedItems = 5;
-        int expectedOrders = 3;
+        Integer expectedItems = 5;
+        Integer expectedOrders = 3;
         double expectedRevenue = 345.00;
         SalesPojo salesPojo1 = salesService.getByDate(date);
-        int item = salesPojo1.getInvoicedItemsCount();
-        int order = salesPojo1.getInvoicedOrderCount();
+        Integer item = salesPojo1.getInvoicedItemsCount();
+        Integer order = salesPojo1.getInvoicedOrderCount();
         double revenue = salesPojo1.getTotalRevenue();
         assertEquals(expectedItems, item);
         assertEquals(expectedOrders,order);
@@ -66,12 +66,12 @@ public class SalesServiceTest extends AbstractUnitTest {
 
         salesService.update(date, salesPojo1);
 
-        int expectedItems = 6;
-        int expectedOrders = 7;
+        Integer expectedItems = 6;
+        Integer expectedOrders = 7;
         double expectedRevenue = 1235.00;
         SalesPojo pojo = salesService.getByDate(date);
-        int item = pojo.getInvoicedItemsCount();
-        int order = pojo.getInvoicedOrderCount();
+        Integer item = pojo.getInvoicedItemsCount();
+        Integer order = pojo.getInvoicedOrderCount();
         double revenue = pojo.getTotalRevenue();
         assertEquals(expectedItems, item);
         assertEquals(expectedOrders,order);

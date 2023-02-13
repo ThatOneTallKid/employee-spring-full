@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="com.increff.pos.dto.InventoryDtoTest" time="0.962" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="com.increff.pos.dto.InventoryDtoTest" time="0.891" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2022.3.2"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -65,10 +65,10 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="addInventoryTest" time="0.285"/>
-  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="testCSV" time="0.242"/>
-  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="addIllegal" time="0.104"/>
-  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="updateTest" time="0.119"/>
-  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="getAllTest" time="0.136"/>
-  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="testGetByBarcode" time="0.076"/>
+  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="addInventoryTest" time="0.254"/>
+  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="testCSV" time="0.2"/>
+  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="addIllegal" time="0.097"/>
+  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="updateTest" time="0.124"/>
+  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="getAllTest" time="0.139"/>
+  <testcase classname="com.increff.pos.dto.InventoryDtoTest" name="testGetByBarcode" time="0.077"/>
 </testsuite>

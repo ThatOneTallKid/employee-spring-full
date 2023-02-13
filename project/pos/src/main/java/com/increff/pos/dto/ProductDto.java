@@ -35,7 +35,7 @@ public class ProductDto {
     public void add(List<ProductForm> forms) throws ApiException, JsonProcessingException {
         List<ProductErrorData> errorData = new ArrayList<>();
         errorData.clear();
-        int errorSize = 0;
+        Integer errorSize = 0;
         for(ProductForm form: forms) {
             ProductErrorData productErrorData= ConvertUtil.convert(form, ProductErrorData.class);
             productErrorData.setMessage("");
@@ -59,7 +59,7 @@ public class ProductDto {
     }
 
 
-    public ProductData get(int id) throws ApiException {
+    public ProductData get(Integer id) throws ApiException {
         ProductPojo productPojo = productService.get(id);
         BrandPojo brandPojo= brandService.getCheck(productPojo.getBrandCategory());
         return convertProductPojoToData(productPojo, brandPojo);
@@ -76,7 +76,7 @@ public class ProductDto {
     }
 
 
-    public void update(int id, ProductForm form) throws ApiException {
+    public void update(Integer id, ProductForm form) throws ApiException {
         ValidationUtil.validateForms(form);
         normalizeProduct(form);
         ProductPojo productPojo = convertProductFormToPojo(form, id);

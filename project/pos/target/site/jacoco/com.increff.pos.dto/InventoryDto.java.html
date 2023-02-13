@@ -49,7 +49,7 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 
     public void add(List&lt;InventoryForm&gt; forms) throws ApiException, JsonProcessingException {
 <span class="fc" id="L51">        List&lt;InventoryErrorData&gt; inventoryErrorDataList = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L52">        int errorSize = 0;</span>
+<span class="fc" id="L52">        Integer errorSize = 0;</span>
 <span class="fc bfc" id="L53" title="All 2 branches covered.">        for (InventoryForm form: forms) {</span>
 <span class="fc" id="L54">            InventoryErrorData inventoryErrorData = ConvertUtil.convert(form, InventoryErrorData.class);</span>
 <span class="fc" id="L55">            inventoryErrorData.setMessage(&quot;&quot;);</span>
@@ -71,7 +71,7 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 <span class="fc" id="L71">    }</span>
 
 
-    public InventoryData get(int id) throws ApiException{
+    public InventoryData get(Integer id) throws ApiException{
 <span class="fc" id="L75">        InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);</span>
 <span class="fc" id="L76">        ProductPojo productPojo = productService.get(id);</span>
 <span class="fc" id="L77">        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
@@ -95,7 +95,7 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 <span class="fc" id="L95">        return inventoryDataList;</span>
     }
 
-    public void update(int id, InventoryForm inventoryForm) throws ApiException {
+    public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
 <span class="fc" id="L99">        ValidationUtil.validateForms(inventoryForm);</span>
 <span class="fc" id="L100">        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,</span>
 <span class="fc" id="L101">                productService.getByBarcode(inventoryForm.getBarcode()).getId());</span>

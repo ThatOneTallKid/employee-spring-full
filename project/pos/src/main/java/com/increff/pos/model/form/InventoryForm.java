@@ -18,5 +18,5 @@ public class InventoryForm {
 
     @NotNull
     @Min(value = 0, message = " can't be negative ")
-    private int qty;
+    private Integer qty;
 }
