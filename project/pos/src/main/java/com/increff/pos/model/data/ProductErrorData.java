@@ -10,6 +10,6 @@ public class ProductErrorData {
     private String brand;
     private String category;
     private String Name;
-    private double mrp;
+    private Double mrp;
     private String message;
 }

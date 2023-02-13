@@ -4,7 +4,7 @@ import com.increff.pos.model.form.ProductForm;
 
 public class ProductFormHelper {
 
-    public static ProductForm createProduct(String productBarcode, String productName, String brandName, String category, double productMrp) {
+    public static ProductForm createProduct(String productBarcode, String productName, String brandName, String category, Double productMrp) {
         ProductForm productForm = new ProductForm();
         productForm.setBrand(brandName);
         productForm.setCategory(category);

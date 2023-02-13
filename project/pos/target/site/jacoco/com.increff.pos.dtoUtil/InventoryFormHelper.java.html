@@ -19,7 +19,7 @@ import java.util.Map;
 <span class="fc" id="L19">        return inventoryPojo;</span>
     }
 
-    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name,double mrp, BrandPojo brandPojo) {
+    public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo, String barcode, String name, Double  mrp, BrandPojo brandPojo) {
 <span class="fc" id="L23">        InventoryData inventoryData = ConvertUtil.convert(inventoryPojo, InventoryData.class);</span>
 <span class="fc" id="L24">        inventoryData.setName(name);</span>
 <span class="fc" id="L25">        inventoryData.setBarcode(barcode);</span>

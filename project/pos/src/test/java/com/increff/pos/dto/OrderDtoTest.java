@@ -16,6 +16,7 @@ import com.increff.pos.model.form.ProductForm;
 import com.increff.pos.service.ApiException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class OrderDtoTest extends AbstractUnitTest {
 
     @Autowired
     BrandDto brandDto;
+
+    @Value("${invoice.url}")
+    private String invoiceUrl;
 
 
     @Test
@@ -230,7 +234,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         orderDto.add(orderItemFormList);
         List<OrderData> list = orderDto.getAll();
 
-        ResponseEntity<byte[]> response= orderDto.getPDF(list.get(0).getId(), "http://localhost:8085/fop/api/invoice");
+        ResponseEntity<byte[]> response= orderDto.getPDF(list.get(0).getId(), invoiceUrl);
         assertNotEquals(null, response);
     }
 

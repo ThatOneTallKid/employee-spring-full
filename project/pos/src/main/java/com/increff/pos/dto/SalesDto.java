@@ -32,7 +32,7 @@ public class SalesDto {
 
         LocalDate date = LocalDate.now();
         Integer totalItems = 0;
-        double totalRevenue = 0.0;
+        Double totalRevenue = 0.0;
         LocalDateTime startDate = date.atStartOfDay();
 
         LocalDateTime endDate =  LocalDateTime.of(date, LocalTime.MAX);

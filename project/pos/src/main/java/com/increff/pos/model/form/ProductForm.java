@@ -29,5 +29,5 @@ public class ProductForm {
     @NotNull
     @Min(value = 0, message = " must be atleast 0 ")
     @Max(value = 1000000, message = " must be atmost 10,00,000 ")
-    private double mrp;
+    private Double mrp;
 }

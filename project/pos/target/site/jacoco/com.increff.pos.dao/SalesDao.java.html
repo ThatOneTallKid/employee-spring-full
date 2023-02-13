@@ -13,7 +13,7 @@ import java.util.List;
 <span class="fc" id="L13">public class SalesDao extends AbstractDao{</span>
 
 <span class="fc" id="L15">    private final String SELECT_BY_DATE = &quot;select p from SalesPojo p where date=:date&quot;;</span>
-<span class="fc" id="L16">    private final String SELECT_ALL_BY_DATE = &quot;select p from SalesPojo p where date&gt;=:startDate and date&lt;=:endDate&quot;;</span>
+<span class="fc" id="L16">    private final String SELECT_ALL_BY_DATE = &quot;select p from SalesPojo p where date&gt;=:startDate and date&lt;=:endDate order by date desc&quot;;</span>
 <span class="fc" id="L17">    private final String SELECT_ALL_DESC = &quot;select p from SalesPojo p order by date desc&quot;;</span>
 
     public SalesPojo selectByDate(LocalDate date) {
