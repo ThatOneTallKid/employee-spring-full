@@ -262,7 +262,7 @@ var qty = $("#order-item-form input[name=qty]").val();
   var qty = $("#order-item-form input[name=qty]").val();
 
   if (qty > barcode_qty.get(barcode1)) {
-    toastr.error("Quantity is not present in inventory");
+    toastr.error("Not enough quantity present in inventory , "+ barcode_qty.get(barcode1) + " available");
     return;
 
   } else {
