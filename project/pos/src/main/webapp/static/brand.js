@@ -60,6 +60,7 @@ function addBrand(event){
 			resetForm();
 	   		getBrandList();
 			toastr.success("Brand Added Successfully", "Success : ");
+			$('#add-brand-modal').modal('toggle');
 	   },
 	   error: function (response) {
 	       console.log(response);
@@ -309,6 +310,11 @@ function activateUpload() {
     $("#download-errors").prop('disabled', true);
 }
 
+function addModalToggle() {
+    $("#add-brand-modal").modal('toggle');
+    resetForm();
+}
+
 
 //INITIALIZATION CODE
 function init(){
@@ -321,6 +327,7 @@ function init(){
     $('#brandFile').on('change', updateFileName)
     $('#print-report').click(printReport);
     $('#brandFile').click(activateUpload);
+    $('#add-modal').click(addModalToggle);
 }
 
 $(document).ready(init);

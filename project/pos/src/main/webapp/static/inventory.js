@@ -65,6 +65,8 @@ function addInventory(event) {
       resetForm();
       toastr.success("Inventory Added Successfully", "Success : ");
       getInventoryList();
+          $("#add-inventory-modal").modal("toggle");
+
     },
     error: function (response) {
       console.log(response);
@@ -311,6 +313,11 @@ function activateUpload() {
    $("#download-errors").prop('disabled', true);
 }
 
+function modalToggle() {
+    $("#add-inventory-modal").modal("toggle");
+    resetForm();
+}
+
 //INITIALIZATION CODE
 function init() {
   $("#add-inventory").click(addInventory);
@@ -322,6 +329,7 @@ function init() {
   $("#inventoryFile").on("change", updateFileName);
   $("#print-report").click(printReport);
   $("#inventoryFile").click(activateUpload);
+  $("#add-data").click(modalToggle);
 }
 
 $(document).ready(init);

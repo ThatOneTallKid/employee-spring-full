@@ -307,16 +307,8 @@ function addOrderItem(event) {
   if(!validateForm($form)){
       return;
   }
-  var json = toJson($form);
-  var jsonObj = $.parseJSON(json);
-  if(jsonObj.barcode == "" || jsonObj.qty == "" || jsonObj.sellingPrice == ""){
-      toastr.error("Every field is required");
-      return;
-    }
-
   var barcode1 = $("#order-item-form input[name=barcode]").val();
   getInventory(barcode1);
-  var qty = $("#order-item-form input[name=qty]").val();
 }
 
 function displayCart() {

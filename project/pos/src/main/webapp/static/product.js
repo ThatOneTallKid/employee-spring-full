@@ -70,6 +70,7 @@ function addProduct(event) {
       toastr.success("Product Added Successfully", "Success : ");
       resetForm();
       getProductList();
+        $('#add-product-modal').modal('toggle');
     },
     error: function (response) {
       console.log(response);
@@ -366,6 +367,10 @@ function displayCategoryOptions() {
     );
   }
 }
+function modalToggle() {
+  $('#add-product-modal').modal('toggle');
+  resetForm();
+}
 
 
 function activateUpload() {
@@ -384,6 +389,7 @@ function init() {
   $("#productFile").on("change", updateFileName);
   $("#inputBrand").change(displayCategoryOptions);
   $("#productFile").click(activateUpload);
+  $('#add-modal-product').click(modalToggle);
 }
 
 $(document).ready(init);

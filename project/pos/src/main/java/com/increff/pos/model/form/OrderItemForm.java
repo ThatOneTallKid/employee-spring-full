@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 public class OrderItemForm {
 
     @NotBlank
-    @Size(min = 8, max = 8, message = " must 8 character long")
+    @Size(min = 1, max = 15, message = " must 1 to 15 character long")
     private String barcode;
 
     @NotNull
