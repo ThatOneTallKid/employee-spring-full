@@ -31,10 +31,8 @@ public class ProductDto {
     private BrandService brandService;
 
 
-    @Transactional(rollbackOn = ApiException.class)
     public void add(List<ProductForm> forms) throws ApiException, JsonProcessingException {
         List<ProductErrorData> errorData = new ArrayList<>();
-        errorData.clear();
         Integer errorSize = 0;
         for(ProductForm form: forms) {
             ProductErrorData productErrorData= ConvertUtil.convert(form, ProductErrorData.class);
@@ -43,7 +41,7 @@ public class ProductDto {
                 ValidationUtil.validateForms(form);
                 normalizeProduct(form);
                 brandService.getBrandByParams(form.getBrand(), form.getCategory());
-                productService.checkSame(form.getBarcode());
+                productService.checkBarcodeExists(form.getBarcode());
             }
             catch (Exception e) {
                 errorSize++;
@@ -55,7 +53,7 @@ public class ProductDto {
         if(errorSize > 0){
             ErrorUtil.throwErrors(errorData);
         }
-            bulkAdd(forms);
+        bulkAdd(forms);
     }
 
 

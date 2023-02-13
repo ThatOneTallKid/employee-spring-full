@@ -24,18 +24,14 @@ public class SalesReportApiController {
     @Autowired
     private SalesReportDto salesReportDto;
 
-    @Autowired
-    private OrderService orderService;
 
-
-
-    @ApiOperation(value = "get data within filter")
+    @ApiOperation(value = "Get data with filter")
     @RequestMapping(path = "/filter", method = RequestMethod.POST)
     public List<SalesReportData> getFilteredData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
         return salesReportDto.getFilteredData(salesReportForm);
     }
 
-    @ApiOperation(value = "Export Product Report to CSV")
+    @ApiOperation(value = "Export Sales Report to CSV")
     @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
     public void exportToCSV(HttpServletResponse response) throws IOException {
         salesReportDto.generateCsv(response);

@@ -20,8 +20,4 @@ public class BrandDao extends AbstractDao{
         query.setParameter("category", category);
         return getSingle(query);
     }
-
-    public  void update(){
-
-    }
 }

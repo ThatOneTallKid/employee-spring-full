@@ -43,6 +43,4 @@ public class ProductApiController {
     public void update(@PathVariable Integer id, @RequestBody ProductForm f) throws ApiException {
         productDto.update(id, f);
     }
-    
-
 }

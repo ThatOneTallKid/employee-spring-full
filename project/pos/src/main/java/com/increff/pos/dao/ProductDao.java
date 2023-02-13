@@ -20,20 +20,9 @@ public class ProductDao extends AbstractDao{
         return getSingle(query);
     }
 
-
-    public  void update(){
-        // empty function just for service class
-    }
-
     public List<ProductPojo> selectInBarcode(List<String> barcode) {
         TypedQuery<ProductPojo> query = getQuery(SELECT_IN_BARCODE, ProductPojo.class);
         query.setParameter("barcode", barcode);
         return query.getResultList();
     }
-
 }
-/*
-*
-*
-*
-* */

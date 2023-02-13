@@ -67,6 +67,7 @@ public class InventoryDto {
         if(errorSize > 0) {
             ErrorUtil.throwErrors(inventoryErrorDataList);
         }
+
         bulkAdd(forms);
     }
 
@@ -97,8 +98,8 @@ public class InventoryDto {
 
     public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
         ValidationUtil.validateForms(inventoryForm);
-        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,
-                productService.getByBarcode(inventoryForm.getBarcode()).getId());
+        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm, productService
+                .getByBarcode(inventoryForm.getBarcode()).getId());
         inventoryService.update(id,inventoryPojo);
     }
 
@@ -126,8 +127,8 @@ public class InventoryDto {
     @Transactional(rollbackOn = ApiException.class)
     private void bulkAdd(List<InventoryForm> forms) throws ApiException {
         for(InventoryForm form: forms) {
-            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form,
-                    productService.getByBarcode(form.getBarcode()).getId());
+            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService
+                    .getByBarcode(form.getBarcode()).getId());
             inventoryService.add(inventoryPojo);
         }
     }

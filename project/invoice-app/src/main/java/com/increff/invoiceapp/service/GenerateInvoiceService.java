@@ -20,9 +20,9 @@ public class GenerateInvoiceService {
             i.setAmt(cur);
         }
         form.setAmount(amt);
-        CreateXMLFileJava createXMLFileJava = new CreateXMLFileJava();
+        CreateXML createXML = new CreateXML();
 
-        String base64 = createXMLFileJava.createXML(form);
+        String base64 = createXML.createXML(form);
 
         PDFFromFOP pdfFromFOP = new PDFFromFOP();
 

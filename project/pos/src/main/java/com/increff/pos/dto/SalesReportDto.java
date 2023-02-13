@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
-public class    SalesReportDto {
+public class SalesReportDto {
     @Autowired
     private OrderService orderService;
 
@@ -113,8 +113,9 @@ public class    SalesReportDto {
         return brandMap;
     }
 
-    private void calculateSalesReportData(HashMap<Integer, SalesReportData> map, HashMap<Integer, ProductPojo> productMap
-            , HashMap<Integer, BrandPojo> brandMap, List<OrderItemPojo> orderItemPojoList, String brand, String category) {
+    private void calculateSalesReportData(HashMap<Integer, SalesReportData> map, HashMap<Integer,
+            ProductPojo> productMap, HashMap<Integer, BrandPojo> brandMap, List<OrderItemPojo> orderItemPojoList,
+                                          String brand, String category) {
 
         DecimalFormat df = new DecimalFormat("#.##");
         for (OrderItemPojo orderItemPojo: orderItemPojoList) {

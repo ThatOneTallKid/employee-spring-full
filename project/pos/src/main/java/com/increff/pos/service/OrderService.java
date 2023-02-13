@@ -24,7 +24,6 @@ public class OrderService {
 
 
     public void add(OrderItemPojo orderItemPojo) throws ApiException {
-
         orderItemDao.insert(orderItemPojo);
     }
 

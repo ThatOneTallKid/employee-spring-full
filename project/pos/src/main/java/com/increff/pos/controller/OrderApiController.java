@@ -19,14 +19,13 @@ import java.util.List;
 @RequestMapping(path = "/api/order")
 public class OrderApiController {
 
-    @Value("${invoice.url}")
-    private String invoiceUrl;
-
     @Autowired
     private OrderDto orderDto;
 
+    @Value("${invoice.url}")
+    private String invoiceUrl;
 
-    @ApiOperation(value = "Adds an Order Item")
+    @ApiOperation(value = "Adds all Order Items and places an order")
     @RequestMapping(path = "/item", method = RequestMethod.POST)
     public void add(@RequestBody List<OrderItemForm> form) throws ApiException {
         orderDto.add(form);
@@ -44,7 +43,7 @@ public class OrderApiController {
         return orderDto.getOrderItemsByID(id);
     }
 
-    @ApiOperation(value = "Download Invoice")
+    @ApiOperation(value = "Download Order Invoice")
     @RequestMapping(path = "/invoice/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getPDF(@PathVariable Integer id) throws Exception{
         return orderDto.getPDF(id, this.invoiceUrl);

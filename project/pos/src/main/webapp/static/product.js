@@ -215,7 +215,7 @@ function uploadRows() {
     },
     error: function (response) {
       if (response.status == 403) {
-        toastr.error("403 FOrbidden");
+        toastr.error("403 Forbidden");
       } else {
         var resp = JSON.parse(response.responseText);
         var jsonObj = JSON.parse(resp.message);

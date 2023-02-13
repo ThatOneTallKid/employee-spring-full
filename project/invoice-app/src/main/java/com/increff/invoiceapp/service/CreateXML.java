@@ -1,7 +1,6 @@
 package com.increff.invoiceapp.service;
 
 
-import java.io.File;
 import java.text.DecimalFormat;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,13 +12,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.util.Base64;
 import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
 
 import com.increff.invoiceapp.model.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class CreateXMLFileJava {
+public class CreateXML {
 
 
     public String createXML(InvoiceForm invoiceForm) {

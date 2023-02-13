@@ -21,39 +21,37 @@ public class InventoryApiController {
     @Autowired
     private InventoryDto inventoryDto;
 
-
-
-    @ApiOperation(value = "Adds a Product")
+    @ApiOperation(value = "Adds an Inventory")
     @RequestMapping(path = "", method = RequestMethod.POST)
     public void add(@RequestBody List<InventoryForm> form) throws ApiException, JsonProcessingException {
         inventoryDto.add(form);
     }
 
-    @ApiOperation(value = "Get a Product by ID")
+    @ApiOperation(value = "Get an Inventory by ID")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public InventoryData get(@PathVariable Integer id)  throws ApiException {
         return inventoryDto.get(id);
     }
 
-    @ApiOperation(value = "Get a Product by Barcode")
+    @ApiOperation(value = "Get an Inventory by Barcode")
     @RequestMapping(path = "/barcode",method = RequestMethod.GET)
     public InventoryData getByBarcode(@RequestParam(value="barcode") String barcode)  throws ApiException {
         return inventoryDto.getByBarcode(barcode);
     }
 
-    @ApiOperation(value = "Get All Products")
+    @ApiOperation(value = "Get all Products in Inventory")
     @RequestMapping(path = "", method = RequestMethod.GET)
     public  List<InventoryData> getAll() throws ApiException {
         return inventoryDto.getAll();
     }
 
-    @ApiOperation(value = "Updates a Product")
+    @ApiOperation(value = "Updates an Inventory")
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable Integer id, @RequestBody InventoryForm f) throws ApiException {
         inventoryDto.update(id, f);
     }
 
-    @ApiOperation(value = "Export Product Report to CSV")
+    @ApiOperation(value = "Export Inventory Report to CSV")
     @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
     public void exportToCSV(HttpServletResponse response) throws IOException, ApiException {
         inventoryDto.generateCsv(response);

@@ -37,7 +37,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         assertEquals(expectedName, data.getName());
         assertEquals(expectedMrp, data.getMrp(), 0.001);
         assertEquals(expectedBrandCategory, data.getBrandCategory());
-        productService.checkSame("12345678");
+        productService.checkBarcodeExists("12345678");
     }
 
     @Test

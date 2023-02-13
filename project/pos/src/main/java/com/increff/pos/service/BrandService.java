@@ -14,23 +14,23 @@ import java.util.Objects;
 public class BrandService {
 
     @Autowired
-    private BrandDao dao;
+    private BrandDao brandDao;
 
 
     public void add(BrandPojo brandPojo) throws ApiException{
-            dao.insert(brandPojo);
+            brandDao.insert(brandPojo);
     }
 
     public BrandPojo getCheck(Integer id) throws ApiException {
-        BrandPojo brandPojo = dao.selectByID(id, BrandPojo.class);
+        BrandPojo brandPojo = brandDao.selectByID(id, BrandPojo.class);
         if (Objects.isNull(brandPojo)) {
-            throw new ApiException("Brand with given ID does not exit, id: " + id);
+            throw new ApiException("Brand with given ID does not exist, id: " + id);
         }
         return brandPojo;
     }
 
     public List<BrandPojo> getAll() {
-        return dao.selectALL(BrandPojo.class);
+        return brandDao.selectALL(BrandPojo.class);
     }
 
     public void update(Integer id, BrandPojo newBrandPojo) throws ApiException{
@@ -38,11 +38,10 @@ public class BrandService {
         checkBrandExists(newBrandPojo.getBrand(), newBrandPojo.getCategory());
         brandPojo.setCategory(newBrandPojo.getCategory());
         brandPojo.setBrand(newBrandPojo.getBrand());
-        dao.update();
     }
 
     public void checkBrandExists(String brand, String category) throws ApiException {
-        BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
+        BrandPojo brandPojo = brandDao.selectByBrandCategory(brand, category);
         if(Objects.isNull(brandPojo)== false) {
             throw new ApiException("Brand: " + brand + " and Category: " + category+" already exists");
         }
@@ -50,7 +49,7 @@ public class BrandService {
     }
 
     public BrandPojo getBrandByParams(String brand, String category) throws ApiException {
-        BrandPojo brandPojo = dao.selectByBrandCategory(brand, category);
+        BrandPojo brandPojo = brandDao.selectByBrandCategory(brand, category);
         if(Objects.isNull(brandPojo)) {
             throw new ApiException("Brand: " + brand + " and Category: " + category+" does not exists");
         }

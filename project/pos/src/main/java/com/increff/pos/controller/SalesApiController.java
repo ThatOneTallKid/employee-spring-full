@@ -28,7 +28,7 @@ public class SalesApiController {
         return salesDto.getAll();
     }
 
-    @ApiOperation(value = "get all sales date between 2 dates")
+    @ApiOperation(value = "get all Sales data between 2 dates")
     @RequestMapping(path = "/filter", method = RequestMethod.POST)
     public List<SalesPojo> getAllByDate(@RequestBody SalesForm salesForm) throws ApiException {
         return salesDto.getAllByDate(salesForm);
@@ -36,7 +36,7 @@ public class SalesApiController {
 
     @ApiOperation(value = "Runs the scheduler")
     @RequestMapping(path = "/scheduler", method = RequestMethod.GET)
-    public void runScheduler() throws ApiException {
+    public void runScheduler() {
         salesDto.createReport();
     }
 }

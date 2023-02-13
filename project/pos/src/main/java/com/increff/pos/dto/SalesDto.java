@@ -27,7 +27,7 @@ public class SalesDto {
     OrderService orderService;
 
 
-    public void createReport() throws ApiException {
+    public void createReport() {
         SalesPojo salesPojo = new SalesPojo();
 
         LocalDate date = LocalDate.now();

@@ -18,7 +18,7 @@ public class ProductService {
 
 
     public void add(ProductPojo productPojo) throws ApiException {
-        checkSame(productPojo.getBarcode());
+        checkBarcodeExists(productPojo.getBarcode());
         productDao.insert(productPojo);
     }
 
@@ -38,7 +38,6 @@ public class ProductService {
         if(productPojo.getBarcode().contentEquals(newProductPojo.getBarcode())) {
             productPojo.setName(newProductPojo.getName());
             productPojo.setMrp(newProductPojo.getMrp());
-            productDao.update();
         }
         else {
             throw new ApiException("Barcode cannot be changed");
@@ -59,15 +58,14 @@ public class ProductService {
         return productPojoList;
     }
 
-    public void checkSame(String barcode) throws ApiException {
+    public void checkBarcodeExists(String barcode) throws ApiException {
         ProductPojo productPojo = productDao.selectByBarcode(barcode);
         if (!Objects.isNull(productPojo)){
             throw new ApiException("Same Barcode: "+barcode +" already exists");
         }
-
     }
 
-    public ProductPojo getCheck(Integer id) throws ApiException{
+    public ProductPojo getCheck(Integer id) throws ApiException {
         ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);
         if(Objects.isNull(productPojo)) {
             throw new ApiException("Product with ID: "+id+" does not exists !");

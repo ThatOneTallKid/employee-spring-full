@@ -57,8 +57,7 @@ public class OrderDto {
     public void add(List<OrderItemForm> forms) throws ApiException {
         checkDuplicates(forms);
         // Map: (key: barcode, value: ProductPojo)
-        Map<String, ProductPojo> productList = new HashMap<>();
-        productList= getProductList(productList, forms);
+        Map<String, ProductPojo> productList = getProductList(forms);
 
         checkInventory(forms, productList);
 
@@ -66,10 +65,10 @@ public class OrderDto {
         orderService.addOrder(orderPojo);
 
         for (OrderItemForm f : forms) {
-                ProductPojo productPojo = productList.get(f.getBarcode());
-                OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
-                orderItemPojo.setOrderId(orderPojo.getId());
-                saveOrderItem(orderItemPojo, productPojo.getId(), f);
+            ProductPojo productPojo = productList.get(f.getBarcode());
+            OrderItemPojo orderItemPojo = convertOrderItemFormToPojo(f, productPojo.getId());
+            orderItemPojo.setOrderId(orderPojo.getId());
+            saveOrderItem(orderItemPojo, productPojo.getId(), f);
         }
     }
 
@@ -146,8 +145,9 @@ public class OrderDto {
         }
     }
 
-    private Map<String, ProductPojo> getProductList(Map<String, ProductPojo> productList, List<OrderItemForm> forms )
+    private Map<String, ProductPojo> getProductList(List<OrderItemForm> forms )
             throws ApiException {
+        Map<String, ProductPojo> productList = new HashMap<>();
         List<String> barcodeList = new ArrayList<>();
         for(OrderItemForm f: forms) {
             barcodeList.add(f.getBarcode());
