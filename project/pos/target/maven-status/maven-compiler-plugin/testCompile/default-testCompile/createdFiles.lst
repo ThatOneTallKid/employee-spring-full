@@ -1,4 +1,5 @@
 com\increff\pos\dto\OrderDtoTest.class
+com\increff\pos\helper\UserFormHelper.class
 com\increff\pos\service\BrandServiceTest.class
 com\increff\pos\service\SalesServiceTest.class
 com\increff\pos\dto\InventoryDtoTest.class

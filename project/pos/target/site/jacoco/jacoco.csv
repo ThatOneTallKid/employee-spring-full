@@ -18,9 +18,9 @@ pos-spring,com.increff.pos.dto,UserDto,3,61,1,5,1,16,1,7,0,5
 pos-spring,com.increff.pos.dto,BrandDto,2,136,0,8,1,39,0,11,0,7
 pos-spring,com.increff.pos.dto,ProductDto,2,151,0,8,1,40,0,10,0,6
 pos-spring,com.increff.pos.dto,SalesReportDto,0,333,4,20,0,63,4,15,0,7
-pos-spring,com.increff.pos.dto,OrderDto,22,423,1,21,1,85,1,20,0,10
-pos-spring,com.increff.pos.dto,InventoryDto,2,258,0,12,1,56,0,15,0,9
-pos-spring,com.increff.pos.dto,SalesDto,0,136,0,6,0,34,0,7,0,4
+pos-spring,com.increff.pos.dto,OrderDto,22,427,1,21,2,87,1,20,0,10
+pos-spring,com.increff.pos.dto,InventoryDto,2,258,0,12,1,60,0,15,0,9
+pos-spring,com.increff.pos.dto,SalesDto,0,134,0,6,0,34,0,7,0,4
 pos-spring,com.increff.pos.service,ApiException,0,4,0,0,0,2,0,1,0,1
 pos-spring,com.increff.pos.service,SalesService,0,45,0,0,0,12,0,6,0,6
 pos-spring,com.increff.pos.service,BrandService,0,116,0,6,0,22,0,10,0,7
@@ -75,7 +75,7 @@ pos-spring,com.increff.pos.pojo,OrderItemPojo,4,34,0,0,0,7,1,10,1,10
 pos-spring,com.increff.pos.pojo,SalesPojo,10,35,0,0,2,6,3,10,3,10
 pos-spring,com.increff.pos.pojo,BrandPojo,4,20,0,0,0,5,1,6,1,6
 pos-spring,com.increff.pos.pojo,UserPojo,4,27,0,0,0,6,1,8,1,8
-pos-spring,com.increff.pos.pojo,OrderPojo,0,10,0,0,0,3,0,3,0,3
+pos-spring,com.increff.pos.pojo,OrderPojo,4,6,0,0,1,2,1,2,1,2
 pos-spring,com.increff.pos.util,StringUtil,15,6,5,1,2,1,5,1,2,1
 pos-spring,com.increff.pos.util,ValidationUtil,3,20,0,2,1,6,1,2,1,1
 pos-spring,com.increff.pos.util,ErrorUtil,3,14,0,0,1,3,1,1,1,1

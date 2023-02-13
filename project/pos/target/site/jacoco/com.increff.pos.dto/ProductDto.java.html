@@ -66,13 +66,13 @@ import static com.increff.pos.dtoUtil.ProductFormHelper.*;
     }
 
     public List&lt;ProductData&gt; getAll() throws ApiException {
-<span class="fc" id="L69">        List&lt;ProductPojo&gt; list = productService.getAll();</span>
-<span class="fc" id="L70">        List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        for(ProductPojo productPojo : list) {</span>
+<span class="fc" id="L69">        List&lt;ProductPojo&gt; productPojoList = productService.getAll();</span>
+<span class="fc" id="L70">        List&lt;ProductData&gt; productDataList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for(ProductPojo productPojo : productPojoList) {</span>
 <span class="fc" id="L72">            BrandPojo brandPojo= brandService.getCheck(productPojo.getBrandCategory());</span>
-<span class="fc" id="L73">            list2.add(convertProductPojoToData(productPojo, brandPojo));</span>
+<span class="fc" id="L73">            productDataList.add(convertProductPojoToData(productPojo, brandPojo));</span>
 <span class="fc" id="L74">        }</span>
-<span class="fc" id="L75">        return list2;</span>
+<span class="fc" id="L75">        return productDataList;</span>
     }
 
 

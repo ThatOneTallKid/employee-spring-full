@@ -39,7 +39,7 @@ import java.util.Objects;
 
 <span class="fc" id="L40">        List&lt;OrderPojo&gt; orderPojoList = orderService.getOrderByDateFilter(startDate,endDate);</span>
 
-<span class="fc" id="L42">        Integer totalOrders = orderPojoList.size();</span>
+<span class="fc" id="L42">        int totalOrders = orderPojoList.size();</span>
 
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        for (OrderPojo orderPojo : orderPojoList) {</span>
 <span class="fc" id="L45">            Integer id = orderPojo.getId();</span>
@@ -49,32 +49,33 @@ import java.util.Objects;
 <span class="fc" id="L49">                totalRevenue += orderItemPojo.getQty() * orderItemPojo.getSellingPrice();</span>
 <span class="fc" id="L50">            }</span>
 <span class="fc" id="L51">        }</span>
-<span class="fc" id="L52">        LocalDateTime now = LocalDateTime.now();</span>
-<span class="fc" id="L53">        salesPojo.setDate(date);</span>
-<span class="fc" id="L54">        salesPojo.setLastRun(now);</span>
-<span class="fc" id="L55">        salesPojo.setInvoicedItemsCount(totalItems);</span>
-<span class="fc" id="L56">        salesPojo.setTotalRevenue(totalRevenue);</span>
-<span class="fc" id="L57">        salesPojo.setInvoicedOrderCount(totalOrders);</span>
-<span class="fc" id="L58">        SalesPojo pojo = salesService.getByDate(date);</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if(Objects.isNull(pojo)){</span>
-<span class="fc" id="L60">            salesService.add(salesPojo);</span>
+
+<span class="fc" id="L53">        LocalDateTime now = LocalDateTime.now();</span>
+<span class="fc" id="L54">        salesPojo.setDate(date);</span>
+<span class="fc" id="L55">        salesPojo.setLastRun(now);</span>
+<span class="fc" id="L56">        salesPojo.setInvoicedItemsCount(totalItems);</span>
+<span class="fc" id="L57">        salesPojo.setTotalRevenue(totalRevenue);</span>
+<span class="fc" id="L58">        salesPojo.setInvoicedOrderCount(totalOrders);</span>
+<span class="fc" id="L59">        SalesPojo pojo = salesService.getByDate(date);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if(Objects.isNull(pojo)){</span>
+<span class="fc" id="L61">            salesService.add(salesPojo);</span>
         }
         else {
-<span class="fc" id="L63">            salesService.update(date,salesPojo);</span>
+<span class="fc" id="L64">            salesService.update(date,salesPojo);</span>
         }
 
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L67">    }</span>
 
     public List&lt;SalesPojo&gt; getAll() {
-<span class="fc" id="L69">        return salesService.getALL();</span>
+<span class="fc" id="L70">        return salesService.getALL();</span>
     }
 
     public List&lt;SalesPojo&gt; getAllByDate(SalesForm salesForm) throws ApiException {
-<span class="fc" id="L73">        ValidationUtil.validateForms(salesForm);</span>
-<span class="fc" id="L74">        LocalDate startDate = LocalDate.parse(salesForm.getStartDate());</span>
-<span class="fc" id="L75">        LocalDate endDate = LocalDate.parse(salesForm.getEndDate());</span>
-<span class="fc" id="L76">        DateValidatorUtil.isValidDateRange(startDate,endDate);</span>
-<span class="fc" id="L77">        return  salesService.getAllByDate(startDate, endDate);</span>
+<span class="fc" id="L74">        ValidationUtil.validateForms(salesForm);</span>
+<span class="fc" id="L75">        LocalDate startDate = LocalDate.parse(salesForm.getStartDate());</span>
+<span class="fc" id="L76">        LocalDate endDate = LocalDate.parse(salesForm.getEndDate());</span>
+<span class="fc" id="L77">        DateValidatorUtil.isValidDateRange(startDate,endDate);</span>
+<span class="fc" id="L78">        return  salesService.getAllByDate(startDate, endDate);</span>
     }
 
 

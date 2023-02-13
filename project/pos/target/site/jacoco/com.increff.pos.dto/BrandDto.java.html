@@ -61,19 +61,19 @@ import static com.increff.pos.dtoUtil.BrandFormHelper.*;
     }
 
     public List&lt;BrandData&gt; getAll() {
-<span class="fc" id="L64">        List&lt;BrandPojo&gt; list = brandService.getAll();</span>
-<span class="fc" id="L65">        List&lt;BrandData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        for(BrandPojo b : list) {</span>
-<span class="fc" id="L67">            list2.add(convertBrandPojoToData(b));</span>
+<span class="fc" id="L64">        List&lt;BrandPojo&gt; brandPojoList = brandService.getAll();</span>
+<span class="fc" id="L65">        List&lt;BrandData&gt; brandDataList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for(BrandPojo b : brandPojoList) {</span>
+<span class="fc" id="L67">            brandDataList.add(convertBrandPojoToData(b));</span>
 <span class="fc" id="L68">        }</span>
-<span class="fc" id="L69">        return list2;</span>
+<span class="fc" id="L69">        return brandDataList;</span>
     }
 
     public void update(int id, BrandForm brandForm) throws ApiException {
 <span class="fc" id="L73">        ValidationUtil.validateForms(brandForm);</span>
 <span class="fc" id="L74">        normalizeBrand(brandForm);</span>
-<span class="fc" id="L75">        BrandPojo p = convertBrandFormToPojo(brandForm);</span>
-<span class="fc" id="L76">        brandService.update(id,p);</span>
+<span class="fc" id="L75">        BrandPojo brandPojo = convertBrandFormToPojo(brandForm);</span>
+<span class="fc" id="L76">        brandService.update(id,brandPojo);</span>
 <span class="fc" id="L77">    }</span>
 
 
