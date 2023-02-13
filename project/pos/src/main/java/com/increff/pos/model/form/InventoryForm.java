@@ -13,10 +13,10 @@ import javax.validation.constraints.Size;
 public class InventoryForm {
 
     @NotBlank
-    @Size(min = 1, max = 15, message = " must be between 1 and 15 characters long")
+    @Size(min = 1, max = 15, message = " must be between 1 and 15 characters long ")
     private String barcode;
 
     @NotNull
-    @Min(value = 0, message = " can't be negative")
+    @Min(value = 0, message = " can't be negative ")
     private int qty;
 }

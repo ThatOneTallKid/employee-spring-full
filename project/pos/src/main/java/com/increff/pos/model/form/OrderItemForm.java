@@ -21,7 +21,7 @@ public class OrderItemForm {
     private int qty;
 
     @NotNull
-    @Min(value = 1, message = " must be atleast 1")
+    @Min(value = 0, message = " must be atleast 0")
     private double sellingPrice;
 
 

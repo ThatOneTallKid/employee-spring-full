@@ -273,6 +273,8 @@ var qty = $("#order-item-form input[name=qty]").val();
       toastr.error("Price cannot be negative or zero");
     } else if (qty <= 0) {
       toastr.error("Quantity cannot be negative or zero");
+    }else if(qty > 250) {
+        toastr.error("Quantity cannot be greater than 250");
     } else {
       if (checkOrderItemExist()) {
         console.log("inside check");

@@ -68,12 +68,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         productFormList.add(productForm);
 
 
-        ProductForm productForm1 = new ProductForm();
-        productForm1.setBrand("brand");
-        productForm1.setCategory("category");
-        productForm1.setBarcode("12345679");
-        productForm1.setName("name2");
-        productForm1.setMrp(22.00);
+        ProductForm productForm1 = ProductFormHelper.createProduct("12345679", "name", "brand", "category", 23.00);
         productFormList.add(productForm1);
 
         productDto.add(productFormList);
