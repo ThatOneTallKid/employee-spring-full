@@ -18,16 +18,16 @@ import java.time.LocalDateTime;
 @Setter
 public abstract class AbstractPojo implements Serializable {
     @CreationTimestamp
-    @Column
+    @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column
+    @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @Version
-    @Column
-    private int version;
+    @Column(nullable = false)
+    private long version;
 }
