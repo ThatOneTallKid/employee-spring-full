@@ -2,7 +2,6 @@ com\increff\pos\service\ApiException.class
 com\increff\pos\dao\InventoryDao.class
 com\increff\pos\controller\AdminApiController.class
 com\increff\pos\model\data\MessageData.class
-com\increff\pos\util\CookieUtil.class
 com\increff\pos\model\data\UserData.class
 com\increff\pos\pojo\InventoryPojo.class
 com\increff\pos\util\DateValidatorUtil.class
