@@ -65,10 +65,10 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.pos.service.BrandServiceTest" name="checkDuplicateBrandExists" time="0.017"/>
+  <testcase classname="com.increff.pos.service.BrandServiceTest" name="checkDuplicateBrandExists" time="0.013"/>
   <testcase classname="com.increff.pos.service.BrandServiceTest" name="addTest" time="0.006"/>
-  <testcase classname="com.increff.pos.service.BrandServiceTest" name="updateTest" time="0.012"/>
-  <testcase classname="com.increff.pos.service.BrandServiceTest" name="getAllTest" time="0.008"/>
+  <testcase classname="com.increff.pos.service.BrandServiceTest" name="updateTest" time="0.014"/>
+  <testcase classname="com.increff.pos.service.BrandServiceTest" name="getAllTest" time="0.009"/>
   <testcase classname="com.increff.pos.service.BrandServiceTest" name="checkIllegalId" time="0.008"/>
-  <testcase classname="com.increff.pos.service.BrandServiceTest" name="checkIllegal" time="0.006"/>
+  <testcase classname="com.increff.pos.service.BrandServiceTest" name="checkIllegal" time="0.007"/>
 </testsuite>

@@ -20,21 +20,10 @@ import java.util.List;
 <span class="fc" id="L20">        return getSingle(query);</span>
     }
 
-
-    public  void update(){
-        // empty function just for service class
-<span class="fc" id="L26">    }</span>
-
     public List&lt;ProductPojo&gt; selectInBarcode(List&lt;String&gt; barcode) {
-<span class="fc" id="L29">        TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_IN_BARCODE, ProductPojo.class);</span>
-<span class="fc" id="L30">        query.setParameter(&quot;barcode&quot;, barcode);</span>
-<span class="fc" id="L31">        return query.getResultList();</span>
+<span class="fc" id="L24">        TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_IN_BARCODE, ProductPojo.class);</span>
+<span class="fc" id="L25">        query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="fc" id="L26">        return query.getResultList();</span>
     }
-
 }
-/*
-*
-*
-*
-* */
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

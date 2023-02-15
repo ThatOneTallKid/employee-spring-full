@@ -24,21 +24,17 @@ import java.util.List;
     @Autowired
     private SalesReportDto salesReportDto;
 
-    @Autowired
-    private OrderService orderService;
 
-
-
-    @ApiOperation(value = &quot;get data within filter&quot;)
+    @ApiOperation(value = &quot;Get data with filter&quot;)
     @RequestMapping(path = &quot;/filter&quot;, method = RequestMethod.POST)
     public List&lt;SalesReportData&gt; getFilteredData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
-<span class="nc" id="L35">        return salesReportDto.getFilteredData(salesReportForm);</span>
+<span class="nc" id="L31">        return salesReportDto.getFilteredData(salesReportForm);</span>
     }
 
-    @ApiOperation(value = &quot;Export Product Report to CSV&quot;)
+    @ApiOperation(value = &quot;Export Sales Report to CSV&quot;)
     @RequestMapping(path = &quot;/exportcsv&quot;, method = RequestMethod.GET)
     public void exportToCSV(HttpServletResponse response) throws IOException {
-<span class="nc" id="L41">        salesReportDto.generateCsv(response);</span>
-<span class="nc" id="L42">    }</span>
+<span class="nc" id="L37">        salesReportDto.generateCsv(response);</span>
+<span class="nc" id="L38">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

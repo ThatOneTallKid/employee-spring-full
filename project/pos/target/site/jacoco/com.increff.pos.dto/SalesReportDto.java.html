@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
-<span class="fc" id="L28">public class    SalesReportDto {</span>
+<span class="fc" id="L28">public class SalesReportDto {</span>
     @Autowired
     private OrderService orderService;
 
@@ -113,24 +113,25 @@ import java.util.*;
 <span class="fc" id="L113">        return brandMap;</span>
     }
 
-    private void calculateSalesReportData(HashMap&lt;Integer, SalesReportData&gt; map, HashMap&lt;Integer, ProductPojo&gt; productMap
-            , HashMap&lt;Integer, BrandPojo&gt; brandMap, List&lt;OrderItemPojo&gt; orderItemPojoList, String brand, String category) {
+    private void calculateSalesReportData(HashMap&lt;Integer, SalesReportData&gt; map, HashMap&lt;Integer,
+            ProductPojo&gt; productMap, HashMap&lt;Integer, BrandPojo&gt; brandMap, List&lt;OrderItemPojo&gt; orderItemPojoList,
+                                          String brand, String category) {
 
-<span class="fc" id="L119">        DecimalFormat df = new DecimalFormat(&quot;#.##&quot;);</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (OrderItemPojo orderItemPojo: orderItemPojoList) {</span>
-<span class="fc" id="L121">            ProductPojo productPojo = productMap.get(orderItemPojo.getProductId());</span>
-<span class="fc" id="L122">            BrandPojo brandPojo = brandMap.get(productPojo.getBrandCategory());</span>
-<span class="pc bpc" id="L123" title="2 of 4 branches missed.">            if((Objects.equals(brand,brandPojo.getBrand()) || Objects.equals(brand,&quot;all&quot;)) &amp;&amp;</span>
-<span class="pc bpc" id="L124" title="2 of 4 branches missed.">                    (Objects.equals(category,brandPojo.getCategory()) || Objects.equals(category,&quot;all&quot;))) {</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">                if(!map.containsKey(brandPojo.getId())) {</span>
-<span class="fc" id="L126">                    map.put(brandPojo.getId(), new SalesReportData());</span>
+<span class="fc" id="L120">        DecimalFormat df = new DecimalFormat(&quot;#.##&quot;);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        for (OrderItemPojo orderItemPojo: orderItemPojoList) {</span>
+<span class="fc" id="L122">            ProductPojo productPojo = productMap.get(orderItemPojo.getProductId());</span>
+<span class="fc" id="L123">            BrandPojo brandPojo = brandMap.get(productPojo.getBrandCategory());</span>
+<span class="pc bpc" id="L124" title="2 of 4 branches missed.">            if((Objects.equals(brand,brandPojo.getBrand()) || Objects.equals(brand,&quot;all&quot;)) &amp;&amp;</span>
+<span class="pc bpc" id="L125" title="2 of 4 branches missed.">                    (Objects.equals(category,brandPojo.getCategory()) || Objects.equals(category,&quot;all&quot;))) {</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                if(!map.containsKey(brandPojo.getId())) {</span>
+<span class="fc" id="L127">                    map.put(brandPojo.getId(), new SalesReportData());</span>
                 }
-<span class="fc" id="L128">                SalesReportData salesReportData = map.get(brandPojo.getId());</span>
-<span class="fc" id="L129">                salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQty() );</span>
-<span class="fc" id="L130">                salesReportData.setRevenue(Double.parseDouble(df.format(salesReportData.getRevenue()</span>
-<span class="fc" id="L131">                        + (orderItemPojo.getQty() * orderItemPojo.getSellingPrice()))));</span>
+<span class="fc" id="L129">                SalesReportData salesReportData = map.get(brandPojo.getId());</span>
+<span class="fc" id="L130">                salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQty() );</span>
+<span class="fc" id="L131">                salesReportData.setRevenue(Double.parseDouble(df.format(salesReportData.getRevenue()</span>
+<span class="fc" id="L132">                        + (orderItemPojo.getQty() * orderItemPojo.getSellingPrice()))));</span>
             }
-<span class="fc" id="L133">        }</span>
-<span class="fc" id="L134">    }</span>
+<span class="fc" id="L134">        }</span>
+<span class="fc" id="L135">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

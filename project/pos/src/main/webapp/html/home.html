@@ -7,7 +7,7 @@
 
 <body>
 
-<nav th:replace="snippets.html :: name_app_navbar"></nav>
+<nav th:replace="snippets.html :: name_home_navbar"></nav>
 
 <div class="container py-5">
 
@@ -16,31 +16,31 @@
 	<!-- Top row with form-->
 	<div class="row">
 		<div class="col-sm d-flex flex-column align-items-center">
-			<a th:href="@{/ui/brand}" title="Brand"> <i class="fa-sharp fa-solid fa-b fas"></i> </a>
-			<label class="icon-label">Brand</label>
+			<a th:href="@{/ui/brand}" title="Brand"> <i class="fa-sharp fa-solid fa-b fas" ></i> </a>
+			<label class="icon-label">Brands</label>
 		</div>
 		<div class="col-sm d-flex flex-column align-items-center">
 			<a th:href="@{/ui/product}" title="Product"> <i class="fa-brands fa-product-hunt fas"></i> </a>
-			<label class="icon-label">Product</label>
+			<label class="icon-label">Products</label>
 		</div>
 		<div class="col-sm d-flex flex-column align-items-center">
-			<a th:href="@{/ui/inventory}" title="Inventory"> <i class="fa-solid fa-store fas"></i> </a>
+			<a th:href="@{/ui/inventory}" title="Inventory"> <i class="fa-solid fa-store fas" ></i> </a>
 			<label class="icon-label">Inventory</label>
 		</div>
 		<div class="col-sm d-flex flex-column align-items-center">
-			<a th:href="@{/ui/order}" title="Order"> <i class="fa-solid fa-cart-shopping fas"></i> </a>
+			<a th:href="@{/ui/order}" title="Order"> <i class="fa-solid fa-cart-shopping fas" ></i> </a>
 			<label class="icon-label">Order</label>
 		</div>
 		<div class="supervisor col-sm d-flex flex-column align-items-center">
-			<a th:href="@{/ui/salesreport}" title="Sales-Report"> <i class="fa-solid fa-file-invoice fas supervisor"></i> </a>
-			<label class="icon-label supervisor">Sales Report</label>
-		</div>
-		<div class="supervisor col-sm d-flex flex-column align-items-center">
-			<a th:href="@{/ui/sales}" title="Daily-Sales"> <i class="fa-solid fa-filter fas supervisor"></i> </a>
+			<a th:href="@{/ui/sales}" title="Daily-Sales"> <i class="fa-solid fa-filter fas supervisor" ></i> </a>
 			<label class="icon-label supervisor">Daily Sales</label>
 		</div>
 		<div class="supervisor col-sm d-flex flex-column align-items-center">
-			<a th:href="@{/ui/admin}" title="Admin"> <i class="fa-solid fa-unlock fas supervisor"></i> </a>
+			<a th:href="@{/ui/sales-report}" title="Sales-Report"> <i class="fa-solid fa-file-invoice fas supervisor" ></i> </a>
+			<label class="icon-label supervisor">Report</label>
+		</div>
+		<div class="supervisor col-sm d-flex flex-column align-items-center">
+			<a th:href="@{/ui/admin}" title="Admin"> <i class="fa-solid fa-unlock fas supervisor" ></i> </a>
 			<label class="icon-label supervisor">Admin</label>
 		</div>
 	</div>

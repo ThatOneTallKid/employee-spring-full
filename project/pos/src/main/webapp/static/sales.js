@@ -5,10 +5,13 @@ function getSalesUrl() {
 var last_run = null;
 function displaySalesList(data) {
 
-    last_run =data[0].lastRun;
-    console.log(last_run);
+    last_run = data[0].lastRun;
 
-    $("#last-run input[name=lastRun]").val(last_run);
+    $('#lastRun').text(last_run);
+
+    var texts = "<b>Total rows : "+ data.length +"</b>";
+       $('#total-rows').empty();
+        $('#total-rows').append(texts);
 
 
     var $tbody = $('#Sales-table').find('tbody');
@@ -68,7 +71,6 @@ function resetForm() {
 function getFilteredList(event) {
   var $form = $("#sales-form");
   var json = toJson($form);
-  console.log(json);
 
   var url = getSalesUrl() + "/filter";
   $.ajax({

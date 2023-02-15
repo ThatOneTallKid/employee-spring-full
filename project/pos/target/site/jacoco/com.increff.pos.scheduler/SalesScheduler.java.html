@@ -14,8 +14,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 
     @Async
     @Scheduled(cron = &quot;0 59 23 * * *&quot;)
-    public void createReport() throws ApiException {
-<span class="nc" id="L18">        salesDto.createReport();;</span>
+    public void createReport() {
+<span class="nc" id="L18">        salesDto.createReport();</span>
 <span class="nc" id="L19">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

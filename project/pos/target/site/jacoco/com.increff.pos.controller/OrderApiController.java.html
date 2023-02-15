@@ -19,35 +19,34 @@ import java.util.List;
 @RequestMapping(path = &quot;/api/order&quot;)
 <span class="fc" id="L20">public class OrderApiController {</span>
 
-    @Value(&quot;${invoice.url}&quot;)
-    private String invoiceUrl;
-
     @Autowired
     private OrderDto orderDto;
 
+    @Value(&quot;${invoice.url}&quot;)
+    private String invoiceUrl;
 
-    @ApiOperation(value = &quot;Adds an Order Item&quot;)
+    @ApiOperation(value = &quot;Adds all Order Items and places an order&quot;)
     @RequestMapping(path = &quot;/item&quot;, method = RequestMethod.POST)
     public void add(@RequestBody List&lt;OrderItemForm&gt; form) throws ApiException {
-<span class="nc" id="L32">        orderDto.add(form);</span>
-<span class="nc" id="L33">    }</span>
+<span class="nc" id="L31">        orderDto.add(form);</span>
+<span class="nc" id="L32">    }</span>
 
     @ApiOperation(value =&quot;Gets all orders&quot;)
     @RequestMapping(path = &quot;&quot;, method = RequestMethod.GET)
     public List&lt;OrderData&gt; getAll() throws ApiException {
-<span class="nc" id="L38">        return orderDto.getAll();</span>
+<span class="nc" id="L37">        return orderDto.getAll();</span>
     }
 
     @ApiOperation(value =&quot;Gets all order items by order ID&quot;)
     @RequestMapping(path = &quot;/view/{id}&quot;, method = RequestMethod.GET)
     public List&lt;OrderItemData&gt; getOrderByID(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L44">        return orderDto.getOrderItemsByID(id);</span>
+<span class="nc" id="L43">        return orderDto.getOrderItemsByID(id);</span>
     }
 
-    @ApiOperation(value = &quot;Download Invoice&quot;)
+    @ApiOperation(value = &quot;Download Order Invoice&quot;)
     @RequestMapping(path = &quot;/invoice/{id}&quot;, method = RequestMethod.GET)
     public ResponseEntity&lt;byte[]&gt; getPDF(@PathVariable Integer id) throws Exception{
-<span class="nc" id="L50">        return orderDto.getPDF(id, this.invoiceUrl);</span>
+<span class="nc" id="L49">        return orderDto.getPDF(id, this.invoiceUrl);</span>
     }
 
 }

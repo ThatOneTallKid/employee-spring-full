@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping(path = "/api/salesreport")
+@RequestMapping(path = "/api/sales-report")
 public class SalesReportApiController {
     @Autowired
     private SalesReportDto salesReportDto;
@@ -32,7 +32,7 @@ public class SalesReportApiController {
     }
 
     @ApiOperation(value = "Export Sales Report to CSV")
-    @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
+    @RequestMapping(path = "/export-csv", method = RequestMethod.GET)
     public void exportToCSV(HttpServletResponse response) throws IOException {
         salesReportDto.generateCsv(response);
     }

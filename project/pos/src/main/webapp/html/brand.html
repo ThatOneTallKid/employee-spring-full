@@ -15,7 +15,7 @@
     <!-- Top row with form-->
     <div class="row supervisor">
         <div class="col-12">
-            <button type="button" class="btn btn-primary" id="add-modal">Add</button>
+            <button type="button" class="btn btn-primary" id="add-modal">Add New Brand</button>
             &nbsp;
             <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
         </div>
@@ -25,16 +25,23 @@
 
     <!-- Blank Row -->
     <div class="row">
-        &nbsp;
+    <div class="col-12">
+
+           <div>
+
+               <div id="total-rows" class="d-flex justify-content-end">
+
+               </div>
+           </div>
+    </div>
+
+
     </div>
 
     <div class="row">
 
     </div>
 
-    <div class="row">
-        &nbsp;
-    </div>
     <div class="row">
 
         <!-- Table -->
@@ -42,7 +49,7 @@
             <table class="table table-striped" id="Brand-table">
                 <thead>
                 <tr>
-                    <th scope="col">Brand</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Category</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -59,7 +66,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Brand</h5>
+                    <h5 class="modal-title">Update Brand</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -94,7 +101,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Brand</h5>
+                    <h5 class="modal-title">Add New Brand</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -118,7 +125,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="add-brand">Add</button>
+                    <button type="button" class="btn btn-primary" id="add-brand">Add Brand</button>
                 </div>
             </div>
         </div>

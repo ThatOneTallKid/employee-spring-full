@@ -2,7 +2,7 @@ var brandData = {};
 
 function getSalesReportUrl() {
   var baseUrl = $("meta[name=baseUrl]").attr("content");
-  return baseUrl + "/api/salesreport";
+  return baseUrl + "/api/sales-report";
 }
 
 function getBrandUrl() {
@@ -17,25 +17,22 @@ function resetForm() {
 
 function getInventoryReportUrl() {
   var baseUrl = $("meta[name=baseUrl]").attr("content");
-  return baseUrl + "/api/inventory/exportcsv";
+  return baseUrl + "/api/inventory/export-csv";
 }
 
 function getBrandReportUrl() {
   var baseUrl = $("meta[name=baseUrl]").attr("content");
-  console.log(baseUrl);
-  return baseUrl + "/api/brand/exportcsv";
+  return baseUrl + "/api/brand/export-csv";
 }
 
 function printCSVUrl() {
   var baseUrl = $("meta[name=baseUrl]").attr("content");
-  console.log(baseUrl);
-  return baseUrl + "/api/salesreport/exportcsv";
+  return baseUrl + "/api/sales-report/export-csv";
 }
 
 function getFilteredList(event) {
   var $form = $("#sales-report-form");
   var json = toJson($form);
-  console.log(json);
   var url = getSalesReportUrl() + "/filter";
   $.ajax({
     url: url,
@@ -102,14 +99,12 @@ function displayCategoryOptions() {
 }
 
 function displayBrandOptions(data) {
-  console.log(data);
   for (var i in data) {
     var a = data[i].brand;
     var b = data[i].category;
     if (!brandData.hasOwnProperty(a)) Object.assign(brandData, { [a]: [] });
     brandData[a].push(b);
   }
-  console.log(brandData);
   var $elB = $("#inputBrand");
   $elB.empty();
 

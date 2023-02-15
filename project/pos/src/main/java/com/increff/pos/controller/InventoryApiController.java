@@ -52,7 +52,7 @@ public class InventoryApiController {
     }
 
     @ApiOperation(value = "Export Inventory Report to CSV")
-    @RequestMapping(path = "/exportcsv", method = RequestMethod.GET)
+    @RequestMapping(path = "/export-csv", method = RequestMethod.GET)
     public void exportToCSV(HttpServletResponse response) throws IOException, ApiException {
         inventoryDto.generateCsv(response);
     }

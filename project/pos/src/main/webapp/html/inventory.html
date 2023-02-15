@@ -16,7 +16,7 @@
     <div class="row supervisor">
         <div class="col-12">
 
-                <button type="button" class="btn btn-primary mt-4" id="add-data">Add</button>
+                <button type="button" class="btn btn-primary mt-4" id="add-data">Add New Inventory</button>
                 &nbsp;
                 <button type="button" class="btn btn-primary mt-4" id="upload-data">Upload</button>
 
@@ -26,11 +26,22 @@
     <div class="row">
         &nbsp;
     </div>
+    <div class="row">
+        <div class="col-12">
+
+            <div>
+
+                <div id="total-rows" class="d-flex justify-content-end">
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 
     <!-- Blank Row -->
-    <div class="row">
-        &nbsp;
-    </div>
+
     <div class="row">
 
         <!-- Table -->
@@ -58,7 +69,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Inventory</h5>
+                    <h5 class="modal-title">Update Inventory</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -72,8 +83,7 @@
                                 <input type="text" class="form-control" name="barcode" placeholder="enter Barcode" readonly>
                             </div>
                         </div><div class="form-group">
-                            <label for="inputQty" class="col-sm-2 col-form-label">Quantity</label>
-                            <div class="col-sm-10">
+                        <label for="inputQty" class="col-sm-10 col-form-label">Quantity (Actual number of Items in Inventory)</label>                            <div class="col-sm-10">
                                 <input type="number" min="0" step="1" max="2147483647" class="form-control" name="qty" placeholder="enter Quantity" required>
                             </div>
                         </div>
@@ -93,7 +103,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Inventory</h5>
+                    <h5 class="modal-title">Add New Inventory</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -117,7 +127,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="add-inventory">Add</button>
+                    <button type="button" class="btn btn-primary" id="add-inventory">Add Inventory</button>
                 </div>
             </div>
         </div>

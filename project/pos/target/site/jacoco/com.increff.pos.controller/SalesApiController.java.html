@@ -28,7 +28,7 @@ import java.util.List;
 <span class="nc" id="L28">        return salesDto.getAll();</span>
     }
 
-    @ApiOperation(value = &quot;get all sales date between 2 dates&quot;)
+    @ApiOperation(value = &quot;get all Sales data between 2 dates&quot;)
     @RequestMapping(path = &quot;/filter&quot;, method = RequestMethod.POST)
     public List&lt;SalesPojo&gt; getAllByDate(@RequestBody SalesForm salesForm) throws ApiException {
 <span class="nc" id="L34">        return salesDto.getAllByDate(salesForm);</span>
@@ -36,7 +36,7 @@ import java.util.List;
 
     @ApiOperation(value = &quot;Runs the scheduler&quot;)
     @RequestMapping(path = &quot;/scheduler&quot;, method = RequestMethod.GET)
-    public void runScheduler() throws ApiException {
+    public void runScheduler() {
 <span class="nc" id="L40">        salesDto.createReport();</span>
 <span class="nc" id="L41">    }</span>
 }

@@ -30,7 +30,7 @@ function addUser(event) {
 
   return false;
 }
-
+var deleteid = 0;
 function getUserList() {
   var url = getUserUrl();
   $.ajax({
@@ -43,35 +43,46 @@ function getUserList() {
   });
 }
 
-function deleteUser(id) {
-  var url = getUserUrl() + "/" + id;
-
+function deleteUser() {
+  var url = getUserUrl() + "/" + deleteid;
+    console.log(url);
   $.ajax({
     url: url,
     type: "DELETE",
     success: function (data) {
       getUserList();
+      $('#delete-user-modal').modal('toggle');
     },
     error: handleAjaxError,
   });
 }
 
+function deleteUserModal(id) {
+$('#delete-user-modal').modal('toggle');
+deleteid = id;
+}
+
+
+
 //UI DISPLAY METHODS
 
 function displayUserList(data){
+var texts = "<b>Total rows : "+ data.length +"</b>";
+   $('#total-rows').empty();
+    $('#total-rows').append(texts);
 	console.log('Printing user data');
 	var $tbody = $('#user-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteUser(' + e.id + ')">delete</button>'
-		var buttonDisabledHtml = '<button onclick="deleteUser(' + e.id + ')" disabled>delete</button>'
+		var buttonHtml = '<button onclick="deleteUserModal(' + e.id + ')" class="btn"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete User"></i></button>'
+		var buttonDisabledHtml = '<button onclick="deleteUserModal(' + e.id + ')" class="btn" disabled><i class="fa-solid fa-trash"></i></button>'
 		var row = '<tr>'
 		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.email + '</td>'
 		+ '<td>' + e.role + '</td>';
 		if(e.role == 'supervisor'){
-		    row += '<td>' + buttonDisabledHtml + '</td>';
+		    continue;
 		}
 		else{
 		    row += '<td>' + buttonHtml + '</td>';
@@ -85,6 +96,7 @@ function displayUserList(data){
 function init() {
   $("#add-user").click(addUser);
   $("#refresh-data").click(getUserList);
+    $("#delete-user").click(deleteUser);
 }
 
 $(document).ready(init);

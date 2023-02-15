@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="com.increff.pos.dto.BrandDtoTest" time="1.486" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="com.increff.pos.dto.BrandDtoTest" time="1.44" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2022.3.2"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -65,11 +65,11 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="testCSV" time="1.165"/>
-  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="emptyBrand" time="0.068"/>
-  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="addBrandTest" time="0.033"/>
+  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="testCSV" time="1.123"/>
+  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="emptyBrand" time="0.07"/>
+  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="addBrandTest" time="0.027"/>
   <testcase classname="com.increff.pos.dto.BrandDtoTest" name="updateBrandTest" time="0.084"/>
-  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="addDuplicate" time="0.044"/>
-  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="getAllBrandTest" time="0.058"/>
-  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="getCheck" time="0.034"/>
+  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="addDuplicate" time="0.043"/>
+  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="getAllBrandTest" time="0.06"/>
+  <testcase classname="com.increff.pos.dto.BrandDtoTest" name="getCheck" time="0.033"/>
 </testsuite>

@@ -18,7 +18,7 @@ import java.util.Objects;
 
 
     public void add(ProductPojo productPojo) throws ApiException {
-<span class="fc" id="L21">        checkSame(productPojo.getBarcode());</span>
+<span class="fc" id="L21">        checkBarcodeExists(productPojo.getBarcode());</span>
 <span class="fc" id="L22">        productDao.insert(productPojo);</span>
 <span class="fc" id="L23">    }</span>
 
@@ -38,49 +38,47 @@ import java.util.Objects;
 <span class="fc bfc" id="L38" title="All 2 branches covered.">        if(productPojo.getBarcode().contentEquals(newProductPojo.getBarcode())) {</span>
 <span class="fc" id="L39">            productPojo.setName(newProductPojo.getName());</span>
 <span class="fc" id="L40">            productPojo.setMrp(newProductPojo.getMrp());</span>
-<span class="fc" id="L41">            productDao.update();</span>
         }
         else {
-<span class="fc" id="L44">            throw new ApiException(&quot;Barcode cannot be changed&quot;);</span>
+<span class="fc" id="L43">            throw new ApiException(&quot;Barcode cannot be changed&quot;);</span>
         }
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L45">    }</span>
 
     public List&lt;ProductPojo&gt; selectInBarcode(List&lt;String&gt; barcode) throws ApiException {
-<span class="fc" id="L49">        List&lt;ProductPojo&gt; productPojoList = productDao.selectInBarcode(barcode);</span>
-<span class="fc" id="L50">        String error = &quot;Following Barcode not found in Product Database: &quot;;</span>
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        for (String s : barcode) {</span>
-<span class="fc bfc" id="L52" title="All 2 branches covered.">            if (!productPojoList.stream().anyMatch(productPojo -&gt; productPojo.getBarcode().contentEquals(s))) {</span>
-<span class="fc" id="L53">                error += s + &quot;, &quot;;</span>
+<span class="fc" id="L48">        List&lt;ProductPojo&gt; productPojoList = productDao.selectInBarcode(barcode);</span>
+<span class="fc" id="L49">        String error = &quot;Following Barcode not found in Product Database: &quot;;</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (String s : barcode) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (!productPojoList.stream().anyMatch(productPojo -&gt; productPojo.getBarcode().contentEquals(s))) {</span>
+<span class="fc" id="L52">                error += s + &quot;, &quot;;</span>
             }
-<span class="fc" id="L55">        }</span>
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if(productPojoList.size() != barcode.size()){</span>
-<span class="fc" id="L57">            throw new ApiException(error);</span>
+<span class="fc" id="L54">        }</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if(productPojoList.size() != barcode.size()){</span>
+<span class="fc" id="L56">            throw new ApiException(error);</span>
         }
-<span class="fc" id="L59">        return productPojoList;</span>
+<span class="fc" id="L58">        return productPojoList;</span>
     }
 
-    public void checkSame(String barcode) throws ApiException {
-<span class="fc" id="L63">        ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (!Objects.isNull(productPojo)){</span>
-<span class="fc" id="L65">            throw new ApiException(&quot;Same Barcode: &quot;+barcode +&quot; already exists&quot;);</span>
+    public void checkBarcodeExists(String barcode) throws ApiException {
+<span class="fc" id="L62">        ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!Objects.isNull(productPojo)){</span>
+<span class="fc" id="L64">            throw new ApiException(&quot;Same Barcode: &quot;+barcode +&quot; already exists&quot;);</span>
         }
+<span class="fc" id="L66">    }</span>
 
-<span class="fc" id="L68">    }</span>
-
-    public ProductPojo getCheck(Integer id) throws ApiException{
-<span class="fc" id="L71">        ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
-<span class="fc" id="L73">            throw new ApiException(&quot;Product with ID: &quot;+id+&quot; does not exists !&quot;);</span>
+    public ProductPojo getCheck(Integer id) throws ApiException {
+<span class="fc" id="L69">        ProductPojo productPojo = productDao.selectByID(id, ProductPojo.class);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
+<span class="fc" id="L71">            throw new ApiException(&quot;Product with ID: &quot;+id+&quot; does not exists !&quot;);</span>
         }
-<span class="fc" id="L75">        return productPojo;</span>
+<span class="fc" id="L73">        return productPojo;</span>
     }
 
     public ProductPojo getByBarcode(String barcode) throws ApiException {
-<span class="fc" id="L79">        ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
-<span class="fc" id="L81">            throw new ApiException(&quot;Barcode: &quot;+barcode+&quot; not found in Product Database!&quot;);</span>
+<span class="fc" id="L77">        ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if(Objects.isNull(productPojo)) {</span>
+<span class="fc" id="L79">            throw new ApiException(&quot;Barcode: &quot;+barcode+&quot; not found in Product Database!&quot;);</span>
         }
-<span class="fc" id="L83">        return productPojo;</span>
+<span class="fc" id="L81">        return productPojo;</span>
     }
 
 }

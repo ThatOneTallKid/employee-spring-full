@@ -22,10 +22,3 @@ body {
     font-size: 4rem;
 }
 
-.btn-primary,
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:visited {
-  background-color: #00295f !important;
-  border-color: #00295f !important;
-}

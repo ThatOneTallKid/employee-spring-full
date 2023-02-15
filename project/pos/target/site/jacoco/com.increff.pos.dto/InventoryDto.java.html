@@ -67,69 +67,70 @@ import static com.increff.pos.dtoUtil.InventoryFormHelper.*;
 <span class="fc bfc" id="L67" title="All 2 branches covered.">        if(errorSize &gt; 0) {</span>
 <span class="nc" id="L68">            ErrorUtil.throwErrors(inventoryErrorDataList);</span>
         }
-<span class="fc" id="L70">        bulkAdd(forms);</span>
-<span class="fc" id="L71">    }</span>
+
+<span class="fc" id="L71">        bulkAdd(forms);</span>
+<span class="fc" id="L72">    }</span>
 
 
     public InventoryData get(Integer id) throws ApiException{
-<span class="fc" id="L75">        InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);</span>
-<span class="fc" id="L76">        ProductPojo productPojo = productService.get(id);</span>
-<span class="fc" id="L77">        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
-<span class="fc" id="L78">        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(),</span>
-<span class="fc" id="L79">                productPojo.getMrp() ,brandPojo);</span>
+<span class="fc" id="L76">        InventoryPojo inventoryPojo = inventoryService.getCheckInventory(id);</span>
+<span class="fc" id="L77">        ProductPojo productPojo = productService.get(id);</span>
+<span class="fc" id="L78">        BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
+<span class="fc" id="L79">        return convertInventoryPojoToData(inventoryPojo, productPojo.getBarcode(), productPojo.getName(),</span>
+<span class="fc" id="L80">                productPojo.getMrp() ,brandPojo);</span>
     }
 
     public InventoryData getByBarcode(String barcode) throws ApiException {
-<span class="fc" id="L83">        return get(productService.getByBarcode(barcode).getId());</span>
+<span class="fc" id="L84">        return get(productService.getByBarcode(barcode).getId());</span>
     }
 
     public List&lt;InventoryData&gt; getAll() throws ApiException {
-<span class="fc" id="L87">        List&lt;InventoryPojo&gt; inventoryPojoList = inventoryService.getAll();</span>
-<span class="fc" id="L88">        List&lt;InventoryData&gt; inventoryDataList = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">        for(InventoryPojo inventoryPojo : inventoryPojoList) {</span>
-<span class="fc" id="L90">            ProductPojo productPojo = productService.get(inventoryPojo.getId());</span>
-<span class="fc" id="L91">            BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
-<span class="fc" id="L92">            inventoryDataList.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(),</span>
-<span class="fc" id="L93">                    productPojo.getName(),productPojo.getMrp(), brandPojo));</span>
-<span class="fc" id="L94">        }</span>
-<span class="fc" id="L95">        return inventoryDataList;</span>
+<span class="fc" id="L88">        List&lt;InventoryPojo&gt; inventoryPojoList = inventoryService.getAll();</span>
+<span class="fc" id="L89">        List&lt;InventoryData&gt; inventoryDataList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for(InventoryPojo inventoryPojo : inventoryPojoList) {</span>
+<span class="fc" id="L91">            ProductPojo productPojo = productService.get(inventoryPojo.getId());</span>
+<span class="fc" id="L92">            BrandPojo brandPojo = brandService.getCheck(productPojo.getBrandCategory());</span>
+<span class="fc" id="L93">            inventoryDataList.add(convertInventoryPojoToData(inventoryPojo,productPojo.getBarcode(),</span>
+<span class="fc" id="L94">                    productPojo.getName(),productPojo.getMrp(), brandPojo));</span>
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">        return inventoryDataList;</span>
     }
 
     public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
-<span class="fc" id="L99">        ValidationUtil.validateForms(inventoryForm);</span>
-<span class="fc" id="L100">        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm,</span>
-<span class="fc" id="L101">                productService.getByBarcode(inventoryForm.getBarcode()).getId());</span>
-<span class="fc" id="L102">        inventoryService.update(id,inventoryPojo);</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc" id="L100">        ValidationUtil.validateForms(inventoryForm);</span>
+<span class="fc" id="L101">        InventoryPojo inventoryPojo = convertInventoryFormToPojo(inventoryForm, productService</span>
+<span class="fc" id="L102">                .getByBarcode(inventoryForm.getBarcode()).getId());</span>
+<span class="fc" id="L103">        inventoryService.update(id,inventoryPojo);</span>
+<span class="fc" id="L104">    }</span>
 
     public void generateCsv(HttpServletResponse response) throws IOException, ApiException {
-<span class="fc" id="L106">        response.setContentType(&quot;text/csv&quot;);</span>
-<span class="fc" id="L107">        response.addHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=\&quot;inventoryReport.csv\&quot;&quot;);</span>
-<span class="fc" id="L108">        csvGenerator.writeInventoryToCsv(getAllItem(), response.getWriter());</span>
-<span class="fc" id="L109">    }</span>
+<span class="fc" id="L107">        response.setContentType(&quot;text/csv&quot;);</span>
+<span class="fc" id="L108">        response.addHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=\&quot;inventoryReport.csv\&quot;&quot;);</span>
+<span class="fc" id="L109">        csvGenerator.writeInventoryToCsv(getAllItem(), response.getWriter());</span>
+<span class="fc" id="L110">    }</span>
 
     public List&lt;InventoryItem&gt; getAllItem() throws ApiException {
-<span class="fc" id="L112">        List&lt;InventoryData&gt; inventoryDataList = getAll();</span>
-<span class="fc" id="L113">        List&lt;InventoryItem&gt; inventoryItemList = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L114">        HashMap&lt;Pair&lt;String, String&gt;, Integer&gt; map = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">        for(InventoryData inventoryData : inventoryDataList) {</span>
-<span class="fc" id="L116">            BrandPojo brandPojo = brandService.getCheck(productService.get(inventoryData.getId()).getBrandCategory());</span>
-<span class="fc" id="L117">            Pair&lt;String, String&gt; pair= new Pair&lt;&gt;(brandPojo.getBrand(), brandPojo.getCategory());</span>
-<span class="fc" id="L118">            map.merge(pair, inventoryData.getQty(), Integer::sum);</span>
-<span class="fc" id="L119">        }</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">        for(Map.Entry&lt;Pair&lt;String,String&gt;, Integer&gt; mapElement : map.entrySet()) {</span>
-<span class="fc" id="L121">            inventoryItemList.add(InventoryFormHelper.convertMapToItem(mapElement));</span>
-<span class="fc" id="L122">        }</span>
-<span class="fc" id="L123">        return inventoryItemList;</span>
+<span class="fc" id="L113">        List&lt;InventoryData&gt; inventoryDataList = getAll();</span>
+<span class="fc" id="L114">        List&lt;InventoryItem&gt; inventoryItemList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L115">        HashMap&lt;Pair&lt;String, String&gt;, Integer&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        for(InventoryData inventoryData : inventoryDataList) {</span>
+<span class="fc" id="L117">            BrandPojo brandPojo = brandService.getCheck(productService.get(inventoryData.getId()).getBrandCategory());</span>
+<span class="fc" id="L118">            Pair&lt;String, String&gt; pair= new Pair&lt;&gt;(brandPojo.getBrand(), brandPojo.getCategory());</span>
+<span class="fc" id="L119">            map.merge(pair, inventoryData.getQty(), Integer::sum);</span>
+<span class="fc" id="L120">        }</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        for(Map.Entry&lt;Pair&lt;String,String&gt;, Integer&gt; mapElement : map.entrySet()) {</span>
+<span class="fc" id="L122">            inventoryItemList.add(InventoryFormHelper.convertMapToItem(mapElement));</span>
+<span class="fc" id="L123">        }</span>
+<span class="fc" id="L124">        return inventoryItemList;</span>
     }
 
     @Transactional(rollbackOn = ApiException.class)
     private void bulkAdd(List&lt;InventoryForm&gt; forms) throws ApiException {
-<span class="fc bfc" id="L128" title="All 2 branches covered.">        for(InventoryForm form: forms) {</span>
-<span class="fc" id="L129">            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form,</span>
-<span class="fc" id="L130">                    productService.getByBarcode(form.getBarcode()).getId());</span>
-<span class="fc" id="L131">            inventoryService.add(inventoryPojo);</span>
-<span class="fc" id="L132">        }</span>
-<span class="fc" id="L133">    }</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        for(InventoryForm form: forms) {</span>
+<span class="fc" id="L130">            InventoryPojo inventoryPojo = convertInventoryFormToPojo(form, productService</span>
+<span class="fc" id="L131">                    .getByBarcode(form.getBarcode()).getId());</span>
+<span class="fc" id="L132">            inventoryService.add(inventoryPojo);</span>
+<span class="fc" id="L133">        }</span>
+<span class="fc" id="L134">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

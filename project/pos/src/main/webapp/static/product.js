@@ -57,7 +57,7 @@ function addProduct(event) {
   var url = getProductUrl();
   wholeProduct.push(json);
   var jsonObj = arrayToJson();
-  console.log(url);
+
   $.ajax({
     url: url,
     type: "POST",
@@ -73,14 +73,14 @@ function addProduct(event) {
         $('#add-product-modal').modal('toggle');
     },
     error: function (response) {
-      console.log(response);
+
       if (response.status == 403) {
         toastr.error("Error: 403 unauthorized");
       } else {
         var resp = JSON.parse(response.responseText);
         if (isJson(resp.message) == true) {
           var jsonObj = JSON.parse(resp.message);
-          console.log(jsonObj);
+
           toastr.error(jsonObj[0].message, "Error : ");
         } else {
           handleAjaxError(response);
@@ -104,8 +104,7 @@ function updateProduct(event) {
       return;
   }
   var json = toJson($form);
-  console.log(url);
-  console.log(json);
+
 
   $.ajax({
     url: url,
@@ -144,7 +143,7 @@ var processCount = 0;
 
 function processData() {
   var file = $("#productFile")[0].files[0];
-  console.log(file);
+
   if(file.name.split('.').pop() != "tsv"){
   	    toastr.error("file format is not tsv, Not Allowed");
   	}
@@ -181,9 +180,6 @@ function uploadRows() {
   var json = JSON.stringify(fileData);
   var headers = ["brand", "category", "name", "mrp", "barcode"];
   	jsonq = JSON.parse(json);
-    	console.log(jsonq[0]);
-    	console.log(Object.keys(jsonq).length);
-    	console.log(Object.keys(jsonq[0]));
     	if(Object.keys(jsonq[0]).length != headers.length){
     	    toastr.error("File column number do not match. Please check the file and try again");
             return;
@@ -206,12 +202,13 @@ function uploadRows() {
       "Content-Type": "application/json",
     },
     success: function (response) {
-      console.log(response);
+
       errorData = response;
       processCount = fileData.length;
       resetForm();
       getProductList();
       toastr.success("Product.tsv Uploaded Successfully");
+        $("#upload-product-modal").modal("toggle");
     },
     error: function (response) {
       if (response.status == 403) {
@@ -219,10 +216,10 @@ function uploadRows() {
       } else {
         var resp = JSON.parse(response.responseText);
         var jsonObj = JSON.parse(resp.message);
-        console.log(jsonObj);
+
         errorData = jsonObj;
         processCount = fileData.length;
-        console.log(response);
+
         toastr.error("Error in uploading Product.tsv, Download Error File");
         $("#download-errors").prop("disabled", false);
         resetForm();
@@ -238,12 +235,15 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayProductList(data){
+var texts = "<b>Total rows : "+ data.length +"</b>";
+   $('#total-rows').empty();
+    $('#total-rows').append(texts);
    var $tbody = $('#Product-table').find('tbody');
    $tbody.empty();
    for(var i in data){
       var e = data[i];
-      console.log(e);
-      var buttonHtml = ' <button onclick="displayEditProduct(' + e.id + ')" class="btn"><i class="fa-solid fa-pen"></i></button>'
+
+      var buttonHtml = ' <button onclick="displayEditProduct(' + e.id + ')" class="btn" data-toggle="tooltip" data-placement="top" title="Edit Product"><i class="fa-solid fa-pen"></i></button>'
       var row = '<tr>'
       + '<td>' + e.barcode + '</td>'
       + '<td>'  + e.name + '</td>'
@@ -259,14 +259,14 @@ function displayProductList(data){
 var editProduct = null;
 function displayEditProduct(id) {
   var url = getProductUrl() + "/" + id;
-  console.log(url);
+
   editProduct = id;
   $.ajax({
     url: url,
     type: "GET",
     success: function (data) {
       displayProduct(data);
-      console.log(data);
+
     },
     error: handleAjaxError,
   });
@@ -298,7 +298,7 @@ function updateFileName() {
 }
 
 function displayUploadData() {
-  console.log("hello");
+
   resetUploadDialog();
   $("#upload-product-modal").modal("toggle");
   $("#download-errors").prop("disabled", true);
@@ -328,14 +328,14 @@ function getBrandList() {
 }
 
 function displayBrandOptions(data) {
-  console.log(data);
+
   for (var i in data) {
     var a = data[i].brand;
     var b = data[i].category;
     if (!brandData.hasOwnProperty(a)) Object.assign(brandData, { [a]: [] });
     brandData[a].push(b);
   }
-  console.log(brandData);
+
   var $elB = $("#inputBrand");
   $elB.empty();
 

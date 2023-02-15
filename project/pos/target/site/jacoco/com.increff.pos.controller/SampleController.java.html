@@ -16,24 +16,23 @@ import static org.hibernate.internal.util.io.StreamCopier.BUFFER_SIZE;
 <span class="fc" id="L16">public class SampleController {</span>
 
 	//Spring ignores . (dot) in the path. So we need fileName:.+
-	//See https://stackoverflow.com/questions/16332092/spring-mvc-pathvariable-with-dot-is-getting-truncated
-	@GetMapping(value = &quot;/sample/{fileName:.+}&quot;)
-	public StreamingResponseBody getFile(@PathVariable(&quot;fileName&quot;) String fileName, HttpServletResponse response)
-			throws IOException {
 
-<span class="nc" id="L24">		response.setContentType(&quot;text/csv&quot;);</span>
-<span class="nc" id="L25">		response.addHeader(&quot;Content-disposition:&quot;, &quot;attachment; filename=&quot; + fileName);</span>
-<span class="nc" id="L26">		String fileClasspath = &quot;C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\pos\\src\\main\\resources\\&quot; +</span>
+	@GetMapping(value = &quot;/sample/{fileName:.+}&quot;)
+	public StreamingResponseBody getFile(@PathVariable(&quot;fileName&quot;) String fileName, HttpServletResponse response) {
+
+<span class="nc" id="L23">		response.setContentType(&quot;text/csv&quot;);</span>
+<span class="nc" id="L24">		response.addHeader(&quot;Content-disposition:&quot;, &quot;attachment; filename=&quot; + fileName);</span>
+<span class="nc" id="L25">		String fileClasspath = &quot;C:\\Users\\KIIT\\Desktop\\Projects\\Pos_project\\project\\pos\\src\\main\\resources\\&quot; +</span>
 				&quot;com\\increff\\pos\\&quot; + fileName;
-<span class="nc" id="L28">		System.out.println(fileClasspath);</span>
-<span class="nc" id="L29">		return outputStream -&gt; {</span>
+
+<span class="nc" id="L28">		return outputStream -&gt; {</span>
 			int bytesRead;
-<span class="nc" id="L31">			byte[] buffer = new byte[BUFFER_SIZE];</span>
-<span class="nc" id="L32">			InputStream inputStream = new FileInputStream(fileClasspath);</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">			while ((bytesRead = inputStream.read(buffer)) != -1) {</span>
-<span class="nc" id="L34">				outputStream.write(buffer, 0, bytesRead);</span>
+<span class="nc" id="L30">			byte[] buffer = new byte[BUFFER_SIZE];</span>
+<span class="nc" id="L31">			InputStream inputStream = new FileInputStream(fileClasspath);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">			while ((bytesRead = inputStream.read(buffer)) != -1) {</span>
+<span class="nc" id="L33">				outputStream.write(buffer, 0, bytesRead);</span>
 			}
-<span class="nc" id="L36">		};</span>
+<span class="nc" id="L35">		};</span>
 	}
 
 }

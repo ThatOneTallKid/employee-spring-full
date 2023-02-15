@@ -14,21 +14,36 @@
     <div class="row">
         &nbsp;
     </div>
+    <div class="row">
+        <div class="col-12">
+            <form class="form-inline" id="last-run">
+                <div class="form-group col-sm-6 px-0">
+                    <label for="lastRun" class="col-form-label">Last Run - </label>
+                    <div class="col-sm-4" id="lastRun">2023-02-15 11:20:18</div>
+                    <button type="button" class="btn btn-primary ml-4" id="refresh-data">Refresh</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
     <!-- Top row with form-->
-    <h5>Date Filter</h5>
+    <div class="row">
+        &nbsp;
+    </div>
     <div class="row">
         <div class="col-12">
             <form class="form-inline" id="sales-form">
                 <div class="form-group">
                     <label for="inputSD" class="col-sm-2 col-form-label">From</label>
                     <div class="col-sm-10">
-                        <input type="date" id="inputSD" name="startDate" class="form-control" onchange="disableDate()">
+                        <input type="date" id="inputSD" name="startDate" class="form-control" >
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputED" class="col-sm-2 col-form-label">To</label>
                     <div class="col-sm-10">
-                        <input type="date" id="inputED" name="endDate" class="form-control" disabled>
+                        <input type="date" id="inputED" name="endDate" class="form-control" >
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="apply-filter">Apply</button>
@@ -40,29 +55,21 @@
         &nbsp;
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <form class="form-inline" id="last-run">
-                <div class="form-group">
-                    <label for="lastRun" class=" col-form-label">Last Run</label>
 
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" name="lastRun" id="lastRun" disabled    >
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary ml-4" id="refresh-data">Refresh</button>
-            </form>
-
-        </div>
-
-    </div>
 
 
     <!-- Blank Row -->
     <div class="row">
         &nbsp;
     </div>
-
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <div id="total-rows" class="d-flex justify-content-end">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
 
         <!-- Table -->

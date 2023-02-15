@@ -7,7 +7,7 @@ function getInventoryUrl() {
 
 function getInventoryReportUrl() {
   var baseUrl = $("meta[name=baseUrl]").attr("content");
-  return baseUrl + "/api/inventory/exportcsv";
+  return baseUrl + "/api/inventory/export-csv";
 }
 
 function resetForm() {
@@ -51,8 +51,6 @@ function addInventory(event) {
   var url = getInventoryUrl();
   wholeInventory.push(json);
   var jsonObj = arrayToJson();
-  console.log(wholeInventory);
-  console.log(url);
   $.ajax({
     url: url,
     type: "POST",
@@ -69,14 +67,14 @@ function addInventory(event) {
 
     },
     error: function (response) {
-      console.log(response);
+
       if (response.status == 403) {
         toastr.error("Error: 403 unauthorized");
       } else {
         var resp = JSON.parse(response.responseText);
         if (isJson(resp.message) == true) {
           var jsonObj = JSON.parse(resp.message);
-          console.log(jsonObj);
+
           toastr.error(jsonObj[0].message, "Error : ");
         } else {
           handleAjaxError(response);
@@ -145,7 +143,6 @@ var processCount = 0;
 
 function processData() {
   var file = $("#inventoryFile")[0].files[0];
-  console.log(file);
   if(file.name.split('.').pop() != "tsv"){
   	    toastr.error("file format is not tsv, Not Allowed");
   	}
@@ -157,7 +154,6 @@ function processData() {
 
 function readFileDataCallback(results) {
   fileData = results.data;
-  console.log(fileData);
   var filelen = fileData.length;
   if(filelen == 0){
     toastr.error("file is empty, Not Allowed");
@@ -177,12 +173,8 @@ function uploadRows() {
   $("#process-data").prop("disabled", true);
 
   var json = JSON.stringify(fileData);
-  console.log(json);
   var headers = ["barcode", "qty"];
   var jsonq = JSON.parse(json);
-    	console.log(jsonq[0]);
-    	console.log(Object.keys(jsonq).length);
-    	console.log(Object.keys(jsonq[0]));
     	if(Object.keys(jsonq[0]).length != headers.length){
     	    toastr.error("File column number do not match. Please check the file and try again");
             return;
@@ -205,7 +197,6 @@ function uploadRows() {
       "Content-Type": "application/json",
     },
     success: function (response) {
-      console.log(response);
       errorData = response;
       resetForm();
       toastr.success("Inventory.tsv uploaded Successfully" );
@@ -217,10 +208,8 @@ function uploadRows() {
       } else {
         var resp = JSON.parse(response.responseText);
         var jsonObj = JSON.parse(resp.message);
-        console.log(jsonObj);
         errorData = jsonObj;
         processCount = fileData.length;
-        console.log(response);
         toastr.error("Error in uploading Inventory.tsv, Download Error File");
         $("#download-errors").prop("disabled", false);
         resetForm();
@@ -236,11 +225,14 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayInventoryList(data){
+var texts = "<b>Total rows : "+ data.length +"</b>";
+   $('#total-rows').empty();
+    $('#total-rows').append(texts);
 	var $tbody = $('#inventory-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')" class="btn"><i class="fa-solid fa-pen"></i></button>'
+		var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')" class="btn" data-toggle="tooltip" data-placement="top" title="Edit Inventory"><i class="fa-solid fa-pen"></i></button>'
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.name + '</td>'
@@ -255,7 +247,6 @@ function displayInventoryList(data){
 
 function displayEditInventory(id) {
   var url = getInventoryUrl() + "/" + id;
-  console.log(url);
   $.ajax({
     url: url,
     type: "GET",
@@ -289,7 +280,6 @@ function updateFileName() {
 }
 
 function displayUploadData() {
-  console.log("hello");
   resetUploadDialog();
   $("#upload-inventory-modal").modal("toggle");
   $("#download-errors").prop("disabled", true);
